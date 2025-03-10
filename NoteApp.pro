@@ -5,15 +5,18 @@ TEMPLATE = app
 SOURCES += main.cpp \
            mainwindow.cpp \
            newnote.cpp \
-           notebook.cpp
+           notebook.cpp \
+           shownote.cpp
 
 HEADERS += mainwindow.h \
            newnote.h \
            notebook.h \
-           note.h
+           note.h \
+           shownote.h
 
 FORMS += mainwindow.ui \
-            newnote.ui
+            newnote.ui \
+            shownote.ui
 
 QT += core gui widgets
 

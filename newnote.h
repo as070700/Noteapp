@@ -17,10 +17,6 @@ public:
     QString getTitle() const;
     QString getContent() const;
 
-private slots:
-    void on_saveButton_clicked();
-    void on_cancelButton_clicked();
-
 private:
     Ui::NewNote *ui;
 };

@@ -11,79 +11,87 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>NoteApp</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>20</y>
-      <width>281</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Willkommen bei Noteapp!</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignmentFlag::AlignCenter</set>
-    </property>
-   </widget>
    <widget class="QPushButton" name="addNoteButton">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>170</y>
-      <width>181</width>
-      <height>51</height>
+      <x>40</x>
+      <y>70</y>
+      <width>151</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
-     <string>Neue Notiz hinzufügen</string>
+     <string>Notiz hinzufügen</string>
     </property>
    </widget>
    <widget class="QPushButton" name="displayNotesButton">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>250</y>
-      <width>181</width>
-      <height>51</height>
+      <x>40</x>
+      <y>150</y>
+      <width>151</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
-     <string>Notizen ansehen</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="deleteNoteButton">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>410</y>
-      <width>181</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Notizen löschen</string>
+     <string>Notizen anzeigen</string>
     </property>
    </widget>
    <widget class="QPushButton" name="editNoteButton">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>330</y>
-      <width>181</width>
-      <height>51</height>
+      <x>380</x>
+      <y>70</y>
+      <width>141</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
-     <string>Notizen bearbeiten</string>
+     <string>Notiz bearbeiten</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="deleteNoteButton">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>150</y>
+      <width>141</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Notiz löschen</string>
     </property>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>Datei</string>
+    </property>
+    <addaction name="actionNewNote"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <action name="actionNewNote">
+   <property name="text">
+    <string>Neue Notiz</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

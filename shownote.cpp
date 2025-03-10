@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
 
 shownote::shownote(QWidget *parent) :
     QWidget(parent),
@@ -13,20 +14,35 @@ shownote::shownote(QWidget *parent) :
     ui->setupUi(this);
 
     // Verzeichnis mit den Notizdateien
-    QDir directory("./temp/");
+    QString directoryPath = "./temp/";
+    QDir directory(directoryPath);
+    if (!directory.exists()) {
+        qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath;
+        if (!directory.mkpath(directoryPath)) {
+            qDebug() << "Fehler beim Erstellen des Verzeichnisses:" << directoryPath;
+            return;
+        }
+    }
+
     QStringList textFiles = directory.entryList(QStringList() << "*.txt", QDir::Files);
+    if (textFiles.isEmpty()) {
+        qDebug() << "Keine Textdateien im Verzeichnis" << directoryPath;
+    }
 
     // Schleife durch alle Textdateien und Hinzufügen der Notizen zur Liste
     foreach(QString filename, textFiles) {
         QFile file(directory.filePath(filename));
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QTextStream in(&file);
-            QString content = in.readAll();
-            QListWidgetItem *item = new QListWidgetItem(filename);
-            item->setData(Qt::UserRole, content);
-            ui->listview_shownote->addItem(item);
-            file.close();
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qDebug() << "Konnte Datei nicht öffnen:" << filename;
+            continue;
         }
+
+        QTextStream in(&file);
+        QString content = in.readAll();
+        QListWidgetItem *item = new QListWidgetItem(filename);
+        item->setData(Qt::UserRole, content);
+        ui->listview_shownote->addItem(item);
+        file.close();
     }
 
     // Verbindung des Signals itemClicked mit dem Slot showNoteContent

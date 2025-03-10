@@ -1,7 +1,12 @@
 #include "mainwindow.h"
+#include "newnote.h"
 #include "ui_mainwindow.h"
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QDir>
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,17 +23,59 @@ void MainWindow::on_addNoteButton_clicked() {
     NewNote newNoteDialog(this);
     if (newNoteDialog.exec() == QDialog::Accepted) {
         Note note;
-        note.title = newNoteDialog.getTitle().toStdString(); // Konvertiere QString zu std::string
-        note.content = newNoteDialog.getContent().toStdString(); // Konvertiere QString zu std::string
+        note.title = newNoteDialog.getTitle().toStdString();
+        note.content = newNoteDialog.getContent().toStdString();
         notebook.addNote(note);
+
+        QString directoryPath = "./temp/";
+        QDir directory(directoryPath);
+        if (!directory.exists()) {
+            qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath;
+            if (!directory.mkpath(directoryPath)) {
+                qDebug() << "Fehler beim Erstellen des Verzeichnisses:" << directoryPath;
+                return;
+            }
+        }
+
+        QString filename = directoryPath + QString::fromStdString(note.title) + ".txt";
+        QFile file(filename);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << QString::fromStdString(note.content);
+            file.close();
+        } else {
+            qDebug() << "Fehler beim Öffnen der Datei zum Schreiben:" << filename;
+        }
     }
 }
 
 void MainWindow::on_displayNotesButton_clicked() {
     QString notesText;
-    for (const auto& note : notebook.getNotes()) {
-        notesText += QString::fromStdString(note.title) + "\n" + QString::fromStdString(note.content) + "\n\n";
+    QString directoryPath = "./temp/";
+    QDir directory(directoryPath);
+    if (!directory.exists()) {
+        qDebug() << "Verzeichnis ./temp/ existiert nicht";
+        return;
     }
+
+    QStringList textFiles = directory.entryList(QStringList() << "*.txt", QDir::Files);
+    if (textFiles.isEmpty()) {
+        qDebug() << "Keine Textdateien im Verzeichnis" << directoryPath;
+    }
+
+    foreach(QString filename, textFiles) {
+        QFile file(directory.filePath(filename));
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qDebug() << "Konnte Datei nicht öffnen:" << filename;
+            continue;
+        }
+
+        QTextStream in(&file);
+        QString content = in.readAll();
+        notesText += filename + "\n" + content + "\n\n";
+        file.close();
+    }
+
     QMessageBox::information(this, tr("Notizen"), notesText);
 }
 
@@ -41,8 +88,8 @@ void MainWindow::on_editNoteButton_clicked() {
         if (ok) {
             QString content = QInputDialog::getText(this, tr("Neuer Inhalt"), tr("Inhalt:"), QLineEdit::Normal, QString::fromStdString(note.content), &ok);
             if (ok) {
-                note.title = title.toStdString(); // Konvertiere QString zu std::string
-                note.content = content.toStdString(); // Konvertiere QString zu std::string
+                note.title = title.toStdString();
+                note.content = content.toStdString();
                 if (notebook.editNote(index - 1, note)) {
                     QMessageBox::information(this, tr("Erfolg"), tr("Notiz bearbeitet."));
                 } else {
@@ -62,15 +109,5 @@ void MainWindow::on_deleteNoteButton_clicked() {
         } else {
             QMessageBox::warning(this, tr("Fehler"), tr("Fehler beim Löschen der Notiz."));
         }
-    }
-}
-
-void MainWindow::on_actionNewNote_triggered() {
-    NewNote newNoteDialog(this);
-    if (newNoteDialog.exec() == QDialog::Accepted) {
-        Note note;
-        note.title = newNoteDialog.getTitle().toStdString(); // Konvertiere QString zu std::string
-        note.content = newNoteDialog.getContent().toStdString(); // Konvertiere QString zu std::string
-        notebook.addNote(note);
     }
 }

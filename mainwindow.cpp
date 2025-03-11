@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "newnote.h"
+#include "shownote.h"
 #include "ui_mainwindow.h"
 #include <QInputDialog>
 #include <QMessageBox>
@@ -49,34 +50,50 @@ void MainWindow::on_addNoteButton_clicked() {
     }
 }
 
+// void MainWindow::on_displayNotesButton_clicked() {
+//     QString notesText;
+//     QString directoryPath = "./temp/";
+//     QDir directory(directoryPath);
+//     if (!directory.exists()) {
+//         qDebug() << "Verzeichnis ./temp/ existiert nicht";
+//         return;
+//     }
+
+//     QStringList textFiles = directory.entryList(QStringList() << "*.txt", QDir::Files);
+//     if (textFiles.isEmpty()) {
+//         qDebug() << "Keine Textdateien im Verzeichnis" << directoryPath;
+//     }
+
+//     foreach(QString filename, textFiles) {
+//         QFile file(directory.filePath(filename));
+//         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+//             qDebug() << "Konnte Datei nicht öffnen:" << filename;
+//             continue;
+//         }
+
+//         QTextStream in(&file);
+//         QString content = in.readAll();
+//         notesText += filename + "\n" + content + "\n\n";
+//         file.close();
+//     }
+
+//     QMessageBox::information(this, tr("Notizen"), notesText);
+// }
+
 void MainWindow::on_displayNotesButton_clicked() {
-    QString notesText;
-    QString directoryPath = "./temp/";
-    QDir directory(directoryPath);
-    if (!directory.exists()) {
-        qDebug() << "Verzeichnis ./temp/ existiert nicht";
-        return;
+    shownote *noteWidget = new shownote(this);
+    noteWidget->show();
+
+    // Beispiel für das Ausblenden eines Buttons
+    if (noteWidget->isVisible()) {
+        ui->addNoteButton->hide();
+        ui->displayNotesButton->hide();
+        ui->editNoteButton->hide();
+        ui->deleteNoteButton->hide();
+
+        // Debugging: Überprüfen, ob die Buttons ausgeblendet wurden
+        qDebug() << "Buttons ausgeblendet";
     }
-
-    QStringList textFiles = directory.entryList(QStringList() << "*.txt", QDir::Files);
-    if (textFiles.isEmpty()) {
-        qDebug() << "Keine Textdateien im Verzeichnis" << directoryPath;
-    }
-
-    foreach(QString filename, textFiles) {
-        QFile file(directory.filePath(filename));
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            qDebug() << "Konnte Datei nicht öffnen:" << filename;
-            continue;
-        }
-
-        QTextStream in(&file);
-        QString content = in.readAll();
-        notesText += filename + "\n" + content + "\n\n";
-        file.close();
-    }
-
-    QMessageBox::information(this, tr("Notizen"), notesText);
 }
 
 void MainWindow::on_editNoteButton_clicked() {

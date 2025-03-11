@@ -6,7 +6,6 @@
 struct Note {
     std::string title;
     std::string content;
-    std::string filename;
 };
 
 #endif // NOTE_H

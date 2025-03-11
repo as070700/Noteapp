@@ -1,12 +1,7 @@
 #include "notebook.h"
 #include <fstream>
 #include <sstream>
-#include <iomanip>
-#include <filesystem>
-#include <chrono>
-
-namespace fs = std::filesystem;
-namespace ch = std::chrono;
+#include <ctime>
 
 Notebook::Notebook() {
     loadNotes();
@@ -18,7 +13,7 @@ bool Notebook::addNote(const Note& note) {
 }
 
 bool Notebook::editNote(int index, const Note& note) {
-    if (index < 0 || static_cast<std::vector<Note>::size_type>(index) >= notes.size()) {
+    if (index < 0 || index >= notes.size()) {
         return false;
     }
     notes[index] = note;
@@ -26,14 +21,11 @@ bool Notebook::editNote(int index, const Note& note) {
 }
 
 bool Notebook::deleteNote(int index) {
-    if (index < 0 || static_cast<std::vector<Note>::size_type>(index) >= notes.size()) {
+    if (index < 0 || index >= notes.size()) {
         return false;
     }
-    Note& note = notes[index];
-    if (fs::exists(note.filename)) {
-        fs::remove(note.filename);
-    }
     notes.erase(notes.begin() + index);
+    // Optional: You might want to delete the corresponding file here.
     return true;
 }
 
@@ -42,52 +34,36 @@ std::vector<Note> Notebook::getNotes() const {
 }
 
 bool Notebook::loadNotes() {
-    bool success = true;
-    std::string path = "./temp/";
-    if (!fs::exists(path)) {
-        fs::create_directory(path);
+    std::ifstream file("./temp/notes.txt");
+    if (!file.is_open()) {
+        return false;
     }
-    for (const auto& entry : fs::directory_iterator(path)) {
-        if (entry.is_regular_file()) {
-            std::string filename = entry.path().filename().string();
-            if (filename.find("note_") == 0 && filename.find(".txt") != std::string::npos) {
-                std::ifstream infile(entry.path());
-                if (!infile.is_open()) {
-                    success = false;
-                    continue;
-                }
 
-                Note note;
-                std::getline(infile, note.title);
-                std::getline(infile, note.content);
-                note.filename = entry.path().string();
-                notes.push_back(note);
-                infile.close();
-            }
+    std::string line;
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        Note note;
+        if (std::getline(iss, note.title, '|') && std::getline(iss, note.content)) {
+            notes.push_back(note);
         }
     }
-    return success;
+    file.close();
+    return true;
 }
 
 bool Notebook::saveNoteToFile(const Note& note) {
-    std::string path = "./temp/";
-    if (!fs::exists(path)) {
-        fs::create_directory(path);
-    }
-    std::string filename = path + "note_" + getCurrentTimestamp() + ".txt";
-    std::ofstream outfile(filename);
-    if (!outfile.is_open()) {
+    std::ofstream file("./temp/notes.txt", std::ios::app);
+    if (!file.is_open()) {
         return false;
     }
-    outfile << note.title << "\n" << note.content << "\n";
-    outfile.close();
+    file << note.title << "|" << note.content << "\n";
+    file.close();
     return true;
 }
 
 std::string Notebook::getCurrentTimestamp() const {
-    auto now = ch::system_clock::now();
-    auto in_time_t = ch::system_clock::to_time_t(now);
-    std::stringstream ss;
-    ss << std::put_time(std::localtime(&in_time_t), "%Y%m%d%H%M%S");
-    return ss.str();
+    std::time_t now = std::time(nullptr);
+    char buf[20];
+    std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
+    return buf;
 }

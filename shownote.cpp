@@ -40,9 +40,15 @@ shownote::shownote(QWidget *parent) :
             continue;
         }
 
+        // Entfernen der .txt Erweiterung aus dem Dateinamen
+        QString displayName = filename;
+        if (displayName.endsWith(".txt")) {
+            displayName.chop(4); // Entfernt die letzten 4 Zeichen
+        }
+
         QTextStream in(&file);
         QString content = in.readAll();
-        QListWidgetItem *item = new QListWidgetItem(filename);
+        QListWidgetItem *item = new QListWidgetItem(displayName);
         item->setData(Qt::UserRole, content);
         ui->listview_shownote->addItem(item);
         file.close();

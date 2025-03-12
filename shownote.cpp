@@ -63,23 +63,16 @@ shownote::~shownote()
 //     QMessageBox::information(this, "Notizinhalt", content);
 // }
 
-
-void shownote::on_pushButtons_back_clicked() {
-    MainWindow *mainWidget = new MainWindow(this);
-    mainWidget->show();
-
-    // Ausblenden eines Buttons
-    if (mainWidget->isVisible()) {
-        mainWidget->getAddNoteButton()->show();
-        mainWidget->getDisplayNotesButton()->show();
-        mainWidget->getEditNoteButton()->show();
-        mainWidget->getDeleteNoteButton()->show();
-
-        // Debugging: Überprüfen, ob die Buttons angezeigt wurden
-        qDebug() << "Buttons angezeigt";
+void shownote::on_pushButton_back_clicked() {
+    MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
+    if (mainWindow) {
+        mainWindow->show();
+        mainWindow->getAddNoteButton()->show();
+        mainWindow->getDisplayNotesButton()->show();
+        mainWindow->getEditNoteButton()->show();
+        mainWindow->getDeleteNoteButton()->show();
     }
-
-
+    this->hide(); // Versteckt das aktuelle Widget
 }
 
 void shownote::on_pushButton_open_clicked() {

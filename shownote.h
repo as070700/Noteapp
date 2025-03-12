@@ -19,6 +19,8 @@ public:
 private slots:
     void showNoteContent(QListWidgetItem *item);
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::shownote *ui;
 };

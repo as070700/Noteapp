@@ -70,3 +70,5 @@ void shownote::showNoteContent(QListWidgetItem *item)
         QMessageBox::critical(this, "Fehler", "Ein Fehler ist aufgetreten: " + QString::fromStdString(e.what()));
     }
 }
+
+

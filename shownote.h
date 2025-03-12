@@ -1,3 +1,4 @@
+// shownote.h
 #ifndef SHOWNOTE_H
 #define SHOWNOTE_H
 
@@ -18,8 +19,8 @@ public:
 
 private slots:
     void showNoteContent(QListWidgetItem *item);
-
-    void on_pushButton_2_clicked();
+    void on_pushButtons_back_clicked(); // Hinzugefügt für Navigation zur MainWindow
+    void on_pushButton_open_clicked(); // Hinzugefügt für Öffnen des detailshownote Dialogs
 
 private:
     Ui::shownote *ui;

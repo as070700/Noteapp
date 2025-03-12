@@ -1,22 +1,25 @@
 #ifndef DETAILSHOWNOTE_H
 #define DETAILSHOWNOTE_H
 
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui {
-class detailShownote;
+class detailshownote;
 }
 
-class detailShownote : public QWidget
+class detailshownote : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit detailShownote(QWidget *parent = nullptr);
-    ~detailShownote();
+    explicit detailshownote(QWidget *parent = nullptr);
+    ~detailshownote();
+
+    void setNoteContent(const QString &title, const QString &content); // Methode zum Setzen des Inhalts
+    void on_pushButtons_back_clicked();
 
 private:
-    Ui::detailShownote *ui;
+    Ui::detailshownote *ui;
 };
 
 #endif // DETAILSHOWNOTE_H

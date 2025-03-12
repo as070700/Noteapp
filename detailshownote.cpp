@@ -1,14 +1,23 @@
 #include "detailshownote.h"
-#include "ui_detailshownote.h"
+#include "detailshownote.h"
 
-detailShownote::detailShownote(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::detailShownote)
+detailshownote::detailshownote(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::detailshownote)
 {
     ui->setupUi(this);
 }
 
-detailShownote::~detailShownote()
+detailshownote::~detailshownote()
 {
     delete ui;
+}
+
+void detailshownote::setNoteContent(const QString &title, const QString &content) {
+    ui->label_title->setText(title);
+    ui->textBrowser_content->setText(content);
+}
+
+void detailshownote::on_pushButtons_back_clicked() {
+    this->close(); // Schließt das aktuelle Fenster und kehrt zum Hauptfenster zurück
 }

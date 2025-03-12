@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPushButton>
 #include "notebook.h"
 
 QT_BEGIN_NAMESPACE
@@ -15,6 +16,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    // Getter-Methoden für die Buttons
+    QPushButton* getAddNoteButton() const;
+    QPushButton* getDisplayNotesButton() const;
+    QPushButton* getEditNoteButton() const;
+    QPushButton* getDeleteNoteButton() const;
 
 private slots:
     void on_addNoteButton_clicked();

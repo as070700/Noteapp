@@ -20,6 +20,23 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+// Getter-Methoden für die Buttons
+QPushButton* MainWindow::getAddNoteButton() const {
+    return ui->addNoteButton;
+}
+
+QPushButton* MainWindow::getDisplayNotesButton() const {
+    return ui->displayNotesButton;
+}
+
+QPushButton* MainWindow::getEditNoteButton() const {
+    return ui->editNoteButton;
+}
+
+QPushButton* MainWindow::getDeleteNoteButton() const {
+    return ui->deleteNoteButton;
+}
+
 void MainWindow::on_addNoteButton_clicked() {
     NewNote newNoteDialog(this);
     if (newNoteDialog.exec() == QDialog::Accepted) {
@@ -84,7 +101,7 @@ void MainWindow::on_displayNotesButton_clicked() {
     shownote *noteWidget = new shownote(this);
     noteWidget->show();
 
-    // Beispiel für das Ausblenden eines Buttons
+    // Ausblenden eines Buttons
     if (noteWidget->isVisible()) {
         ui->addNoteButton->hide();
         ui->displayNotesButton->hide();

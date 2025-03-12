@@ -1,8 +1,7 @@
-// shownote.cpp
 #include "shownote.h"
 #include "ui_shownote.h"
 #include "mainwindow.h"
-#include "detailshownote.h" // Importieren des detailshownote Dialogs
+#include "detailshownote.h"
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include <QDir>
@@ -50,7 +49,7 @@ shownote::shownote(QWidget *parent) :
     }
 
     // Verbindung des Signals itemClicked mit dem Slot showNoteContent
-    connect(ui->listview_shownote, &QListWidget::itemClicked, this, &shownote::showNoteContent);
+    // connect(ui->listview_shownote, &QListWidget::itemClicked, this, &shownote::showNoteContent);
 }
 
 shownote::~shownote()
@@ -58,14 +57,29 @@ shownote::~shownote()
     delete ui;
 }
 
-void shownote::showNoteContent(QListWidgetItem *item)
-{
-    QString content = item->data(Qt::UserRole).toString();
-    QMessageBox::information(this, "Notizinhalt", content);
-}
+// void shownote::showNoteContent(QListWidgetItem *item)
+// {
+//     QString content = item->data(Qt::UserRole).toString();
+//     QMessageBox::information(this, "Notizinhalt", content);
+// }
+
 
 void shownote::on_pushButtons_back_clicked() {
-    this->close(); // Schließt das aktuelle Fenster und kehrt zum Hauptfenster zurück
+    MainWindow *mainWidget = new MainWindow(this);
+    mainWidget->show();
+
+    // Ausblenden eines Buttons
+    if (mainWidget->isVisible()) {
+        mainWidget->getAddNoteButton()->show();
+        mainWidget->getDisplayNotesButton()->show();
+        mainWidget->getEditNoteButton()->show();
+        mainWidget->getDeleteNoteButton()->show();
+
+        // Debugging: Überprüfen, ob die Buttons angezeigt wurden
+        qDebug() << "Buttons angezeigt";
+    }
+
+
 }
 
 void shownote::on_pushButton_open_clicked() {
@@ -74,7 +88,7 @@ void shownote::on_pushButton_open_clicked() {
         QString title = currentItem->text();
         QString content = currentItem->data(Qt::UserRole).toString();
 
-        detailshownote *detailDialog = new detailshownote(this);
+        detailShownote *detailDialog = new detailShownote(this);
         detailDialog->setNoteContent(title, content); // Methode zum Setzen des Inhalts im Dialog
         detailDialog->exec(); // Öffnet den Dialog
     } else {

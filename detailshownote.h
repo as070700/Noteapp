@@ -4,22 +4,21 @@
 #include <QDialog>
 
 namespace Ui {
-class detailshownote;
+class detailShownote;
 }
 
-class detailshownote : public QDialog
+class detailShownote : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit detailshownote(QWidget *parent = nullptr);
-    ~detailshownote();
+    explicit detailShownote(QWidget *parent = nullptr);
+    ~detailShownote();
 
-    void setNoteContent(const QString &title, const QString &content); // Methode zum Setzen des Inhalts
-    void on_pushButtons_back_clicked();
+    void setNoteContent(const QString &title, const QString &content);
 
 private:
-    Ui::detailshownote *ui;
+    Ui::detailShownote *ui;
 };
 
 #endif // DETAILSHOWNOTE_H

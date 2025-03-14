@@ -16,7 +16,8 @@ public:
     ~searchnote();
 
 private slots:
-    void on_searchButton_clicked();
+    void on_searchButton_searchnote_clicked();
+    void on_backButton_searchnote_clicked();
 
 private:
     Ui::searchnote *ui;

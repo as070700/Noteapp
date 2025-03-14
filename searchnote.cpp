@@ -1,4 +1,5 @@
 #include "searchnote.h"
+#include "shownote.h"
 #include "ui_searchnote.h"
 #include <QDir>
 #include <QFile>
@@ -11,7 +12,7 @@ searchnote::searchnote(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->searchButton_searchnote, &QPushButton::clicked, this, &searchnote::on_searchButton_clicked);
+    connect(ui->searchButton_searchnote, &QPushButton::clicked, this, &searchnote::on_searchButton_searchnote_clicked);
 }
 
 searchnote::~searchnote()
@@ -19,7 +20,7 @@ searchnote::~searchnote()
     delete ui;
 }
 
-void searchnote::on_searchButton_clicked()
+void searchnote::on_searchButton_searchnote_clicked()
 {
     QString query = ui->searchLineEdit_searchnote->text();
     searchNotes(query);
@@ -59,4 +60,19 @@ void searchnote::searchNotes(const QString &query)
             ui->searchResultsListWidget_searchnote->addItem(item);
         }
     }
+}
+
+void searchnote::on_backButton_searchnote_clicked(){
+    shownote *showNote = qobject_cast<shownote*>(parentWidget());
+    if (showNote) {
+        showNote->show();
+        showNote->getLabelShownote()->show();
+        showNote->getScrollAreaShownote()->show();
+        showNote->getScrollAreaWidgetContentsShownote()->show();
+        showNote->getListviewShownote()->show();
+        showNote->getOpenButtonShownote()->show();
+        showNote->getBackButtonShownote()->show();
+        showNote->getSearchButtonShownote()->show();
+    }
+    this->hide(); // Versteckt das aktuelle Widget
 }

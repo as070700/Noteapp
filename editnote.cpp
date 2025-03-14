@@ -69,6 +69,7 @@ void editnote::on_pushButton_back_clicked() {
         mainWindow->getDisplayNotesButton()->show();
         mainWindow->getEditNoteButton()->show();
         mainWindow->getDeleteNoteButton()->show();
+        mainWindow->getExitButton()->show();
     }
     this->hide(); // Versteckt das aktuelle Widget
 }

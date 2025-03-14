@@ -34,7 +34,7 @@ std::vector<Note> Notebook::getNotes() const {
 }
 
 bool Notebook::loadNotes() {
-    std::ifstream file("./temp/notes.txt");
+    std::ifstream file("./sys/notes.txt");
     if (!file.is_open()) {
         return false;
     }
@@ -52,7 +52,7 @@ bool Notebook::loadNotes() {
 }
 
 bool Notebook::saveNoteToFile(const Note& note) {
-    std::ofstream file("./temp/notes.txt", std::ios::app);
+    std::ofstream file("./sys/notes.txt", std::ios::app);
     if (!file.is_open()) {
         return false;
     }

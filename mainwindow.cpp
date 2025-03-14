@@ -50,17 +50,27 @@ void MainWindow::on_addNoteButton_clicked() {
         note.content = newNoteDialog.getContent().toStdString();
         notebook.addNote(note);
 
-        QString directoryPath = "./temp/";
-        QDir directory(directoryPath);
-        if (!directory.exists()) {
-            qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath;
-            if (!directory.mkpath(directoryPath)) {
-                qDebug() << "Fehler beim Erstellen des Verzeichnisses:" << directoryPath;
+        QString directoryPath_temp = "./temp/";
+        QDir directory_temp(directoryPath_temp);
+        if (!directory_temp.exists()) {
+            qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath_temp;
+            if (!directory_temp.mkpath(directoryPath_temp)) {
+                qDebug() << "Fehler beim Erstellen des Verzeichnisses:" << directoryPath_temp;
                 return;
             }
         }
 
-        QString filename = directoryPath + QString::fromStdString(note.title) + ".txt";
+        QString directoryPath_sys = "./sys/";
+        QDir directory_sys(directoryPath_sys);
+        if (!directory_sys.exists()) {
+            qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath_sys;
+            if (!directory_sys.mkpath(directoryPath_sys)) {
+                qDebug() << "Fehler beim Erstellen des Verzeichnisses:" << directoryPath_sys;
+                return;
+            }
+        }
+
+        QString filename = directoryPath_temp + QString::fromStdString(note.title) + ".txt";
         QFile file(filename);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream out(&file);

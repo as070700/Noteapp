@@ -10,6 +10,7 @@ SOURCES += main.cpp \
            mainwindow.cpp \
            newnote.cpp \
            notebook.cpp \
+           searchnote.cpp \
            shownote.cpp
 
 HEADERS += mainwindow.h \
@@ -20,6 +21,7 @@ HEADERS += mainwindow.h \
            newnote.h \
            notebook.h \
            note.h \
+           searchnote.h \
            shownote.h
 
 FORMS += mainwindow.ui \
@@ -28,6 +30,7 @@ FORMS += mainwindow.ui \
             detailshownote.ui \
             editnote.ui \
             newnote.ui \
+            searchnote.ui \
             shownote.ui
 
 QT += core gui widgets

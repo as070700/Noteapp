@@ -2,11 +2,16 @@
 #include "ui_shownote.h"
 #include "mainwindow.h"
 #include "detailshownote.h"
+#include "searchnote.h"
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
+#include <QLabel>
+#include <QScrollArea>
+#include <QPushButton>
+#include <QListView>
 #include <QDebug>
 #include <exception>
 
@@ -60,6 +65,35 @@ shownote::~shownote()
     delete ui;
 }
 
+//Getter-Methoden für die Buttons & Felder
+QLabel* shownote::getLabelShownote() const {
+    return ui->label;
+}
+
+QScrollArea* shownote::getScrollAreaShownote() const {
+    return ui->scrollArea;
+}
+
+QWidget* shownote::getScrollAreaWidgetContentsShownote() const {
+    return ui->scrollAreaWidgetContents;
+}
+
+QListView* shownote::getListviewShownote() const {
+    return ui->listview_shownote;
+}
+
+QPushButton* shownote::getOpenButtonShownote() const {
+    return ui->openButton_shownote;
+}
+
+QPushButton* shownote::getBackButtonShownote() const {
+    return ui->backButton_shownote;
+}
+
+QPushButton* shownote::getSearchButtonShownote() const {
+    return ui->searchButton_shownote;
+}
+
 void shownote::on_backButton_shownote_clicked() {
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
     if (mainWindow) {
@@ -85,4 +119,20 @@ void shownote::on_openButton_shownote_clicked() {
     } else {
         QMessageBox::warning(this, "Warnung", "Bitte wählen Sie eine Notiz aus.");
     }
+}
+
+void shownote::on_searchButton_shownote_clicked() {
+    searchnote *noteWidget_searchnote = new searchnote(this);
+    noteWidget_searchnote->show();
+
+    if (noteWidget_searchnote->isVisible()) {
+        getLabelShownote()->hide();
+        getScrollAreaShownote()->hide();
+        getScrollAreaWidgetContentsShownote()->hide();
+        getListviewShownote()->hide();
+        getOpenButtonShownote()->hide();
+        getBackButtonShownote()->hide();
+        getSearchButtonShownote()->hide();
+    }
+
 }

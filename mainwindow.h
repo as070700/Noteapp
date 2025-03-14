@@ -22,6 +22,7 @@ public:
     QPushButton* getDisplayNotesButton() const;
     QPushButton* getEditNoteButton() const;
     QPushButton* getDeleteNoteButton() const;
+    QPushButton* getExitButton() const;
 
 private slots:
     void on_addNoteButton_clicked();

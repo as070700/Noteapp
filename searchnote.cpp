@@ -10,6 +10,8 @@ searchnote::searchnote(QWidget *parent)
     , ui(new Ui::searchnote)
 {
     ui->setupUi(this);
+
+    connect(ui->searchButton_searchnote, &QPushButton::clicked, this, &searchnote::on_searchButton_clicked);
 }
 
 searchnote::~searchnote()

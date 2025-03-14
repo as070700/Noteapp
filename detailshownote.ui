@@ -13,43 +13,17 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label_t_detailshownote">
+  <widget class="QLabel" name="label_title_detailshownote">
    <property name="geometry">
     <rect>
      <x>40</x>
      <y>50</y>
-     <width>58</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Titel:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_title_detailshownote">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>50</y>
-     <width>521</width>
-     <height>16</height>
+     <width>581</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_c_detailshownote">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>80</y>
-     <width>58</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Inhalt:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="backButton_detailshownote">

@@ -4,6 +4,8 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QDebug>
+#include <QTextCharFormat>
+#include <QColorDialog>
 
 detaileditnote::detaileditnote(QWidget *parent)
     : QDialog(parent)
@@ -12,7 +14,12 @@ detaileditnote::detaileditnote(QWidget *parent)
     ui->setupUi(this);
 
     connect(ui->backButton_detaileditnote, &QPushButton::clicked, this, &QDialog::reject);
-    connect(ui->saveButton_detaileditnote, &QPushButton::clicked, this, &detaileditnote::saveNote); // Verbindung zum Speichern
+    connect(ui->saveButton_detaileditnote, &QPushButton::clicked, this, &detaileditnote::saveNote_detaileditnote);
+    connect(ui->boldButton_detaileditnote, &QPushButton::clicked, this, &detaileditnote::setBold_detaileditnote);
+    connect(ui->italicButton_detaileditnote, &QPushButton::clicked, this, &detaileditnote::setItalic_detaileditnote);
+    connect(ui->underlineButton_detaileditnote, &QPushButton::clicked, this, &detaileditnote::setUnderline_detaileditnote);
+    connect(ui->colorButton_detaileditnote, &QPushButton::clicked, this, &detaileditnote::setColor_detaileditnote);
+    connect(ui->fontSizeComboBox_detaileditnote, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &detaileditnote::setFontSize_detaileditnote);
 }
 
 detaileditnote::~detaileditnote()
@@ -22,11 +29,11 @@ detaileditnote::~detaileditnote()
 
 void detaileditnote::setNoteContent_edit(const QString &title, const QString &content) {
     ui->title_textEdit_detaileditnote->setText(title);
-    ui->title_textEdit_detaileditnote->setProperty("oldTitle", title); // Speichere den alten Titel
+    ui->title_textEdit_detaileditnote->setProperty("oldTitle", title);
     ui->content_textEdit_detaileditnote->setText(content);
 }
 
-void detaileditnote::saveNote()
+void detaileditnote::saveNote_detaileditnote()
 {
     QString title = ui->title_textEdit_detaileditnote->toPlainText();
     QString content = ui->content_textEdit_detaileditnote->toPlainText();
@@ -48,12 +55,55 @@ void detaileditnote::saveNote()
     out << content;
     file.close();
 
-    // Überprüfe, ob es eine alte Datei mit einem anderen Namen gibt und lösche sie
     QString oldTitle = ui->title_textEdit_detaileditnote->property("oldTitle").toString();
     if (!oldTitle.isEmpty() && oldTitle != title) {
         QFile::remove("./temp/" + oldTitle + ".txt");
     }
 
     QMessageBox::information(this, "Erfolg", "Die Notiz wurde gespeichert.");
-    accept(); // Schließt den Dialog nach dem Speichern
+    accept();
+}
+
+void detaileditnote::setBold_detaileditnote() {
+    QTextCharFormat format;
+    format.setFontWeight(ui->content_textEdit_detaileditnote->fontWeight() == QFont::Bold ? QFont::Normal : QFont::Bold);
+    mergeFormatOnWordOrSelection(format);
+}
+
+void detaileditnote::setItalic_detaileditnote() {
+    QTextCharFormat format;
+    format.setFontItalic(!ui->content_textEdit_detaileditnote->fontItalic());
+    mergeFormatOnWordOrSelection(format);
+}
+
+void detaileditnote::setUnderline_detaileditnote() {
+    QTextCharFormat format;
+    format.setFontUnderline(!ui->content_textEdit_detaileditnote->fontUnderline());
+    mergeFormatOnWordOrSelection(format);
+}
+
+void detaileditnote::setColor_detaileditnote() {
+    QColor color = QColorDialog::getColor(ui->content_textEdit_detaileditnote->textColor(), this);
+    if (color.isValid()) {
+        QTextCharFormat format;
+        format.setForeground(color);
+        mergeFormatOnWordOrSelection(format);
+    }
+}
+
+void detaileditnote::setFontSize_detaileditnote(int index) {
+    int fontSize = ui->fontSizeComboBox_detaileditnote->itemText(index).toInt();
+    if (fontSize > 0) {
+        QTextCharFormat format;
+        format.setFontPointSize(fontSize);
+        mergeFormatOnWordOrSelection(format);
+    }
+}
+
+void detaileditnote::mergeFormatOnWordOrSelection(const QTextCharFormat &format) {
+    QTextCursor cursor = ui->content_textEdit_detaileditnote->textCursor();
+    if (!cursor.hasSelection())
+        cursor.select(QTextCursor::WordUnderCursor);
+    cursor.mergeCharFormat(format);
+    ui->content_textEdit_detaileditnote->mergeCurrentCharFormat(format);
 }

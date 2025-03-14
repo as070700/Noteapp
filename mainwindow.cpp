@@ -47,8 +47,8 @@ void MainWindow::on_addNoteButton_clicked() {
     NewNote newNoteDialog(this);
     if (newNoteDialog.exec() == QDialog::Accepted) {
         Note note;
-        note.title = newNoteDialog.getTitle().toStdString();
-        note.content = newNoteDialog.getContent().toStdString();
+        note.title = newNoteDialog.getTitle_newnote().toStdString();
+        note.content = newNoteDialog.getContent_newnote().toStdString();
         notebook.addNote(note);
 
         QString appDirPath = QCoreApplication::applicationDirPath();

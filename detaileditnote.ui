@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Detail Edit Note</string>
   </property>
+  <property name="layoutDirection">
+   <enum>Qt::LayoutDirection::RightToLeft</enum>
+  </property>
   <widget class="QTextEdit" name="title_textEdit_detaileditnote">
    <property name="geometry">
     <rect>
@@ -27,9 +30,9 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>120</y>
+     <y>160</y>
      <width>731</width>
-     <height>411</height>
+     <height>371</height>
     </rect>
    </property>
   </widget>
@@ -84,6 +87,85 @@
    <property name="text">
     <string>Inhalt:</string>
    </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>120</y>
+     <width>731</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="formatting_detaileditnote">
+    <item>
+     <widget class="QComboBox" name="fontSizeComboBox_detaileditnote">
+      <item>
+       <property name="text">
+        <string>8</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>10</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>12</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>14</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>16</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>18</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>20</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="colorButton_detaileditnote">
+      <property name="text">
+       <string>Farbe</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="underlineButton_detaileditnote">
+      <property name="text">
+       <string>Unterstrichen</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="italicButton_detaileditnote">
+      <property name="text">
+       <string>Kursiv</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="boldButton_detaileditnote">
+      <property name="text">
+       <string>Fett</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

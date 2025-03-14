@@ -13,11 +13,14 @@
   <property name="windowTitle">
    <string>Neue Notiz</string>
   </property>
-  <widget class="QLabel" name="label">
+  <property name="layoutDirection">
+   <enum>Qt::LayoutDirection::RightToLeft</enum>
+  </property>
+  <widget class="QLabel" name="label_newnote">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>40</y>
+     <y>10</y>
      <width>221</width>
      <height>31</height>
     </rect>
@@ -26,7 +29,7 @@
     <string>Neue Notiz erstellen:</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="content_lineEdit_newnote">
+  <widget class="QTextBrowser" name="content_lineEdit_newnote">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -43,7 +46,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
+     <y>40</y>
      <width>741</width>
      <height>31</height>
     </rect>
@@ -77,6 +80,85 @@
    <property name="text">
     <string>Zurück</string>
    </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>80</y>
+     <width>741</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="fomatting_newnote">
+    <item>
+     <widget class="QComboBox" name="fontSizeComboBox_newnote">
+      <item>
+       <property name="text">
+        <string>8</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>10</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>12</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>14</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>16</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>18</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>20</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="colorButton_newnote">
+      <property name="text">
+       <string>Farbe</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="underlineButton_newnote">
+      <property name="text">
+       <string>Unterstrichen</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="italicButton_newnote">
+      <property name="text">
+       <string>Kursiv</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="boldButton_newnote">
+      <property name="text">
+       <string>Fett</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

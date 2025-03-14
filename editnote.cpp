@@ -12,8 +12,8 @@
 
 
 editnote::editnote(QWidget *parent) :
-    QWidget(parent)
-    , ui(new Ui::editnote)
+    QWidget(parent),
+    ui(new Ui::editnote)
 {
     ui->setupUi(this);
 
@@ -80,7 +80,7 @@ void editnote::on_pushButton_open_clicked() {
         QString content = currentItem->data(Qt::UserRole).toString();
 
         detaileditnote *detaileditDialog = new detaileditnote(this);
-        detaileditDialog->setNoteContent(title, content); // Methode zum Setzen des Inhalts im Dialog
+        detaileditDialog->setNoteContent_edit(title, content); // Methode zum Setzen des Inhalts im Dialog
         detaileditDialog->exec(); // Öffnet den Dialog
     } else {
         QMessageBox::warning(this, "Warnung", "Bitte wählen Sie eine Notiz aus.");

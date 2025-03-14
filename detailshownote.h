@@ -15,7 +15,7 @@ public:
     explicit detailShownote(QWidget *parent = nullptr);
     ~detailShownote();
 
-    void setNoteContent(const QString &title, const QString &content);
+    void setNoteContent_show(const QString &title, const QString &content);
 
 private:
     Ui::detailShownote *ui;

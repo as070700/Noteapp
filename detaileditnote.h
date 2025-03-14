@@ -15,6 +15,8 @@ public:
     explicit detaileditnote(QWidget *parent = nullptr);
     ~detaileditnote();
 
+    void setNoteContent_edit(const QString &title, const QString &content);
+
 private:
     Ui::detaileditnote *ui;
 };

@@ -15,7 +15,7 @@ detailShownote::~detailShownote()
     delete ui;
 }
 
-void detailShownote::setNoteContent(const QString &title, const QString &content) {
+void detailShownote::setNoteContent_show(const QString &title, const QString &content) {
     ui->label_title->setText(title);
     ui->textBrowser_content->setText(content);
 }

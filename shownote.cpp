@@ -88,7 +88,7 @@ void shownote::on_pushButton_open_clicked() {
         QString content = currentItem->data(Qt::UserRole).toString();
 
         detailShownote *detailDialog = new detailShownote(this);
-        detailDialog->setNoteContent(title, content); // Methode zum Setzen des Inhalts im Dialog
+        detailDialog->setNoteContent_show(title, content); // Methode zum Setzen des Inhalts im Dialog
         detailDialog->exec(); // Öffnet den Dialog
     } else {
         QMessageBox::warning(this, "Warnung", "Bitte wählen Sie eine Notiz aus.");

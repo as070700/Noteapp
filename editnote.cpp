@@ -10,7 +10,6 @@
 #include <QDebug>
 #include <exception>
 
-
 editnote::editnote(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::editnote)
@@ -18,7 +17,8 @@ editnote::editnote(QWidget *parent) :
     ui->setupUi(this);
 
     // Verzeichnis mit den Notizdateien
-    QString directoryPath = "./temp/";
+    QString appDirPath = QCoreApplication::applicationDirPath();
+    QString directoryPath = appDirPath + "/temp/";
     QDir directory(directoryPath);
     if (!directory.exists()) {
         qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath;

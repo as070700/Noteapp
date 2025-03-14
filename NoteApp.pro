@@ -3,6 +3,7 @@ TARGET = NoteApp
 TEMPLATE = app
 
 SOURCES += main.cpp \
+           deletenote.cpp \
            detaileditnote.cpp \
            detailshownote.cpp \
            editnote.cpp \
@@ -12,6 +13,7 @@ SOURCES += main.cpp \
            shownote.cpp
 
 HEADERS += mainwindow.h \
+           deletenote.h \
            detaileditnote.h \
            detailshownote.h \
            editnote.h \
@@ -21,6 +23,7 @@ HEADERS += mainwindow.h \
            shownote.h
 
 FORMS += mainwindow.ui \
+            deletenote.ui \
             detaileditnote.ui \
             detailshownote.ui \
             editnote.ui \

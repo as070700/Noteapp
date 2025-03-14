@@ -50,7 +50,8 @@ void MainWindow::on_addNoteButton_clicked() {
         note.content = newNoteDialog.getContent().toStdString();
         notebook.addNote(note);
 
-        QString directoryPath_temp = "./temp/";
+        QString appDirPath = QCoreApplication::applicationDirPath();
+        QString directoryPath_temp = appDirPath + "/temp/";
         QDir directory_temp(directoryPath_temp);
         if (!directory_temp.exists()) {
             qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath_temp;
@@ -60,7 +61,7 @@ void MainWindow::on_addNoteButton_clicked() {
             }
         }
 
-        QString directoryPath_sys = "./sys/";
+        QString directoryPath_sys = appDirPath + "/sys/";
         QDir directory_sys(directoryPath_sys);
         if (!directory_sys.exists()) {
             qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath_sys;
@@ -78,6 +79,17 @@ void MainWindow::on_addNoteButton_clicked() {
             file.close();
         } else {
             qDebug() << "Fehler beim Öffnen der Datei zum Schreiben:" << filename;
+        }
+
+        // Zusammenfassung in notes.txt speichern
+        QString summaryFilePath = directoryPath_sys + "notes.txt";
+        QFile summaryFile(summaryFilePath);
+        if (summaryFile.open(QIODevice::Append | QIODevice::Text)) {
+            QTextStream out(&summaryFile);
+            out << QString::fromStdString(note.title) << ": " << QString::fromStdString(note.content) << "\n";
+            summaryFile.close();
+        } else {
+            qDebug() << "Fehler beim Öffnen der Datei zum Schreiben der Zusammenfassung:" << summaryFilePath;
         }
     }
 }
@@ -115,27 +127,6 @@ void MainWindow::on_editNoteButton_clicked() {
         qDebug() << "Buttons ausgeblendet";
     }
 }
-
-// void MainWindow::on_editNoteButton_clicked() {
-//     bool ok;
-//     int index = QInputDialog::getInt(this, tr("Notiz bearbeiten"), tr("Nummer der Notiz:"), 1, 1, notebook.getNotes().size(), 1, &ok);
-//     if (ok) {
-//         Note note = notebook.getNotes()[index - 1];
-//         QString title = QInputDialog::getText(this, tr("Neuer Titel"), tr("Titel:"), QLineEdit::Normal, QString::fromStdString(note.title), &ok);
-//         if (ok) {
-//             QString content = QInputDialog::getText(this, tr("Neuer Inhalt"), tr("Inhalt:"), QLineEdit::Normal, QString::fromStdString(note.content), &ok);
-//             if (ok) {
-//                 note.title = title.toStdString();
-//                 note.content = content.toStdString();
-//                 if (notebook.editNote(index - 1, note)) {
-//                     QMessageBox::information(this, tr("Erfolg"), tr("Notiz bearbeitet."));
-//                 } else {
-//                     QMessageBox::warning(this, tr("Fehler"), tr("Fehler beim Bearbeiten der Notiz."));
-//                 }
-//             }
-//         }
-//     }
-// }
 
 void MainWindow::on_deleteNoteButton_clicked() {
     bool ok;

@@ -62,7 +62,7 @@
     </widget>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_back">
+  <widget class="QPushButton" name="backButton_editnote">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -75,7 +75,7 @@
     <string>Zurück zum Hauptmenü</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_open">
+  <widget class="QPushButton" name="openButton_editnote">
    <property name="geometry">
     <rect>
      <x>630</x>

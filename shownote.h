@@ -17,9 +17,8 @@ public:
     ~shownote();
 
 private slots:
-    // void showNoteContent(QListWidgetItem *item);
-    void on_pushButton_back_clicked();
-    void on_pushButton_open_clicked();
+    void on_backButton_shownote_clicked();
+    void on_openButton_shownote_clicked();
 
 private:
     Ui::shownote *ui;

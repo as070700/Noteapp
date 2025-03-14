@@ -53,9 +53,6 @@ shownote::shownote(QWidget *parent) :
         ui->listview_shownote->addItem(item);
         file.close();
     }
-
-    // Verbindung des Signals itemClicked mit dem Slot showNoteContent
-    // connect(ui->listview_shownote, &QListWidget::itemClicked, this, &shownote::showNoteContent);
 }
 
 shownote::~shownote()
@@ -63,13 +60,7 @@ shownote::~shownote()
     delete ui;
 }
 
-// void shownote::showNoteContent(QListWidgetItem *item)
-// {
-//     QString content = item->data(Qt::UserRole).toString();
-//     QMessageBox::information(this, "Notizinhalt", content);
-// }
-
-void shownote::on_pushButton_back_clicked() {
+void shownote::on_backButton_shownote_clicked() {
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
     if (mainWindow) {
         mainWindow->show();
@@ -82,7 +73,7 @@ void shownote::on_pushButton_back_clicked() {
     this->hide(); // Versteckt das aktuelle Widget
 }
 
-void shownote::on_pushButton_open_clicked() {
+void shownote::on_openButton_shownote_clicked() {
     QListWidgetItem *currentItem = ui->listview_shownote->currentItem();
     if (currentItem) {
         QString title = currentItem->text();

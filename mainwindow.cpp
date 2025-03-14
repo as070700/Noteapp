@@ -2,6 +2,7 @@
 #include "newnote.h"
 #include "shownote.h"
 #include "editnote.h"
+#include "deletenote.h"
 #include "ui_mainwindow.h"
 #include <QInputDialog>
 #include <QMessageBox>
@@ -129,13 +130,18 @@ void MainWindow::on_editNoteButton_clicked() {
 }
 
 void MainWindow::on_deleteNoteButton_clicked() {
-    bool ok;
-    int index = QInputDialog::getInt(this, tr("Notiz löschen"), tr("Nummer der Notiz:"), 1, 1, notebook.getNotes().size(), 1, &ok);
-    if (ok) {
-        if (notebook.deleteNote(index - 1)) {
-            QMessageBox::information(this, tr("Erfolg"), tr("Notiz gelöscht."));
-        } else {
-            QMessageBox::warning(this, tr("Fehler"), tr("Fehler beim Löschen der Notiz."));
-        }
+    deletenote *noteWidget_delete = new deletenote(this);
+    noteWidget_delete->show();
+
+    // Das Ausblenden eines Buttons
+    if (noteWidget_delete->isVisible()) {
+        getAddNoteButton()->hide();
+        getDisplayNotesButton()->hide();
+        getEditNoteButton()->hide();
+        getDeleteNoteButton()->hide();
+        getExitButton()->hide();
+
+        // Debugging: Überprüfen, ob die Buttons ausgeblendet wurden
+        qDebug() << "Buttons ausgeblendet";
     }
 }

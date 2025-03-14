@@ -61,7 +61,7 @@ editnote::~editnote()
     delete ui;
 }
 
-void editnote::on_pushButton_back_clicked() {
+void editnote::on_backButton_editnote_clicked() {
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
     if (mainWindow) {
         mainWindow->show();
@@ -74,7 +74,7 @@ void editnote::on_pushButton_back_clicked() {
     this->hide(); // Versteckt das aktuelle Widget
 }
 
-void editnote::on_pushButton_open_clicked() {
+void editnote::on_openButton_editnote_clicked() {
     QListWidgetItem *currentItem = ui->listWidget_editnote->currentItem();
     if (currentItem) {
         QString title = currentItem->text();

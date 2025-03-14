@@ -7,7 +7,7 @@ detaileditnote::detaileditnote(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->pushButton_back, &QPushButton::clicked, this, &QDialog::reject);
+    connect(ui->backButton_detaileditnote, &QPushButton::clicked, this, &QDialog::reject);
 }
 
 detaileditnote::~detaileditnote()
@@ -16,6 +16,6 @@ detaileditnote::~detaileditnote()
 }
 
 void detaileditnote::setNoteContent_edit(const QString &title, const QString &content) {
-    ui->textEdit_title->setText(title);
-    ui->textEdit_content->setText(content);
+    ui->title_textEdit_detaileditnote->setText(title);
+    ui->content_textEdit_detaileditnote->setText(content);
 }

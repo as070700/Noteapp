@@ -6,8 +6,8 @@ NewNote::NewNote(QWidget *parent) :
     ui(new Ui::NewNote)
 {
     ui->setupUi(this);
-    connect(ui->pushButton_save, &QPushButton::clicked, this, &QDialog::accept);
-    connect(ui->pushButton_back, &QPushButton::clicked, this, &QDialog::reject);
+    connect(ui->saveButton_newnote, &QPushButton::clicked, this, &QDialog::accept);
+    connect(ui->backButton_newnote, &QPushButton::clicked, this, &QDialog::reject);
 }
 
 NewNote::~NewNote() {
@@ -15,9 +15,9 @@ NewNote::~NewNote() {
 }
 
 QString NewNote::getTitle() const {
-    return ui->lineEdit_title->text();
+    return ui->title_lineEdit_newnote->text();
 }
 
 QString NewNote::getContent() const {
-    return ui->textEdit_content->toPlainText();
+    return ui->content_lineEdit_newnote->toPlainText();
 }

@@ -7,7 +7,7 @@ detailShownote::detailShownote(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->pushButton_back, &QPushButton::clicked, this, &QDialog::reject);
+    connect(ui->backButton_detailshownote, &QPushButton::clicked, this, &QDialog::reject);
 }
 
 detailShownote::~detailShownote()
@@ -16,7 +16,7 @@ detailShownote::~detailShownote()
 }
 
 void detailShownote::setNoteContent_show(const QString &title, const QString &content) {
-    ui->label_title->setText(title);
-    ui->textBrowser_content->setText(content);
+    ui->label_title_detailshownote->setText(title);
+    ui->label_content_detailshownote->setText(content);
 }
 

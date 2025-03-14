@@ -17,8 +17,8 @@ public:
     ~editnote();
 
 private slots:
-    void on_pushButton_back_clicked();
-    void on_pushButton_open_clicked();
+    void on_backButton_editnote_clicked();
+    void on_openButton_editnote_clicked();
 
 private:
     Ui::editnote *ui;

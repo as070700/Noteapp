@@ -17,6 +17,9 @@ public:
 
     void setNoteContent_edit(const QString &title, const QString &content);
 
+private slots:
+    void saveNote();
+
 private:
     Ui::detaileditnote *ui;
 };

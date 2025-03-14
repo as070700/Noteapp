@@ -22,6 +22,7 @@ detaileditnote::~detaileditnote()
 
 void detaileditnote::setNoteContent_edit(const QString &title, const QString &content) {
     ui->title_textEdit_detaileditnote->setText(title);
+    ui->title_textEdit_detaileditnote->setProperty("oldTitle", title); // Speichere den alten Titel
     ui->content_textEdit_detaileditnote->setText(content);
 }
 
@@ -46,6 +47,12 @@ void detaileditnote::saveNote()
     QTextStream out(&file);
     out << content;
     file.close();
+
+    // Überprüfe, ob es eine alte Datei mit einem anderen Namen gibt und lösche sie
+    QString oldTitle = ui->title_textEdit_detaileditnote->property("oldTitle").toString();
+    if (!oldTitle.isEmpty() && oldTitle != title) {
+        QFile::remove("./temp/" + oldTitle + ".txt");
+    }
 
     QMessageBox::information(this, "Erfolg", "Die Notiz wurde gespeichert.");
     accept(); // Schließt den Dialog nach dem Speichern

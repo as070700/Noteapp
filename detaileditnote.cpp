@@ -27,7 +27,7 @@ detaileditnote::~detaileditnote()
     delete ui;
 }
 
-void detaileditnote::setNoteContent_edit(const QString &title, const QString &content) {
+void detaileditnote::setNoteContent_detaileditnote(const QString &title, const QString &content) {
     ui->title_textEdit_detaileditnote->setText(title);
     ui->title_textEdit_detaileditnote->setProperty("oldTitle", title);
     ui->content_textEdit_detaileditnote->setText(content);

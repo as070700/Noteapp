@@ -81,7 +81,7 @@ void editnote::on_openButton_editnote_clicked() {
         QString content = currentItem->data(Qt::UserRole).toString();
 
         detaileditnote *detaileditDialog = new detaileditnote(this);
-        detaileditDialog->setNoteContent_edit(title, content); // Methode zum Setzen des Inhalts im Dialog
+        detaileditDialog->setNoteContent_detaileditnote(title, content); // Methode zum Setzen des Inhalts im Dialog
         detaileditDialog->exec(); // Öffnet den Dialog
     } else {
         QMessageBox::warning(this, "Warnung", "Bitte wählen Sie eine Notiz aus.");

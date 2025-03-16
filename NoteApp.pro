@@ -11,6 +11,7 @@ SOURCES += main.cpp \
            newnote.cpp \
            notebook.cpp \
            searchnote.cpp \
+           setpassworddialog.cpp \
            shownote.cpp
 
 HEADERS += mainwindow.h \
@@ -22,6 +23,7 @@ HEADERS += mainwindow.h \
            notebook.h \
            note.h \
            searchnote.h \
+           setpassworddialog.h \
            shownote.h
 
 FORMS += mainwindow.ui \
@@ -31,6 +33,7 @@ FORMS += mainwindow.ui \
             editnote.ui \
             newnote.ui \
             searchnote.ui \
+            setpassworddialog.ui \
             shownote.ui
 
 QT += core gui widgets

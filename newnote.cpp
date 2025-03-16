@@ -1,18 +1,21 @@
 #include "newnote.h"
 #include "ui_newnote.h"
+#include "setpassworddialog.h"
 #include <QTextCharFormat>
 #include <QColorDialog>
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
-#include <QDir>  // Include QDir for directory operations
+#include <QDir>
+#include <QSettings>
+#include <QStandardPaths>
 
 NewNote::NewNote(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NewNote)
 {
     ui->setupUi(this);
-    connect(ui->saveButton_newnote, &QPushButton::clicked, this, &NewNote::saveNote_newnote); // Connect save button to saveNote_newnote slot
+    connect(ui->saveButton_newnote, &QPushButton::clicked, this, &NewNote::saveNote_newnote);
     connect(ui->backButton_newnote, &QPushButton::clicked, this, &QDialog::reject);
     connect(ui->boldButton_newnote, &QPushButton::clicked, this, &NewNote::setBold_newnote);
     connect(ui->italicButton_newnote, &QPushButton::clicked, this, &NewNote::setItalic_newnote);
@@ -29,12 +32,27 @@ QString NewNote::getTitle_newnote() const {
     return ui->title_lineEdit_newnote->text();
 }
 
-// Change this method to return HTML content
 QString NewNote::getContent_newnote() const {
     return ui->content_lineEdit_newnote->toHtml();
 }
 
 void NewNote::saveNote_newnote() {
+    // Load the password hash from settings
+    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+    QString correctHash = settings.value("passwordHash").toString();
+
+    SetPasswordDialog passwordDialog(this);
+    if (passwordDialog.exec() == QDialog::Accepted) {
+        QString passwordHash = passwordDialog.getPassword_setPasswordDialog();
+        if (passwordHash != correctHash) {
+            QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
+            return;
+        }
+    } else {
+        return;
+    }
+
     QString title = getTitle_newnote();
     QString content = getContent_newnote();
 
@@ -52,7 +70,7 @@ void NewNote::saveNote_newnote() {
         }
     }
 
-    QString filePath = dirPath + title + ".html"; // Change extension to .html
+    QString filePath = dirPath + title + ".html";
     QFile file(filePath);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {

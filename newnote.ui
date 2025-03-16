@@ -29,7 +29,7 @@
     <string>Neue Notiz erstellen:</string>
    </property>
   </widget>
-  <widget class="QTextBrowser" name="content_lineEdit_newnote">
+  <widget class="QTextEdit" name="content_lineEdit_newnote">
    <property name="geometry">
     <rect>
      <x>20</x>

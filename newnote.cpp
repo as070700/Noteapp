@@ -2,13 +2,17 @@
 #include "ui_newnote.h"
 #include <QTextCharFormat>
 #include <QColorDialog>
+#include <QFile>
+#include <QTextStream>
+#include <QMessageBox>
+#include <QDir>  // Include QDir for directory operations
 
 NewNote::NewNote(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NewNote)
 {
     ui->setupUi(this);
-    connect(ui->saveButton_newnote, &QPushButton::clicked, this, &QDialog::accept);
+    connect(ui->saveButton_newnote, &QPushButton::clicked, this, &NewNote::saveNote_newnote); // Connect save button to saveNote_newnote slot
     connect(ui->backButton_newnote, &QPushButton::clicked, this, &QDialog::reject);
     connect(ui->boldButton_newnote, &QPushButton::clicked, this, &NewNote::setBold_newnote);
     connect(ui->italicButton_newnote, &QPushButton::clicked, this, &NewNote::setItalic_newnote);
@@ -25,8 +29,43 @@ QString NewNote::getTitle_newnote() const {
     return ui->title_lineEdit_newnote->text();
 }
 
+// Change this method to return HTML content
 QString NewNote::getContent_newnote() const {
-    return ui->content_lineEdit_newnote->toPlainText();
+    return ui->content_lineEdit_newnote->toHtml();
+}
+
+void NewNote::saveNote_newnote() {
+    QString title = getTitle_newnote();
+    QString content = getContent_newnote();
+
+    if (title.isEmpty()) {
+        QMessageBox::warning(this, "Fehler", "Der Titel darf nicht leer sein.");
+        return;
+    }
+
+    QString dirPath = "./temp/";
+    QDir dir(dirPath);
+    if (!dir.exists()) {
+        if (!dir.mkpath(dirPath)) {
+            QMessageBox::warning(this, "Fehler", "Konnte das Verzeichnis nicht erstellen: " + dirPath);
+            return;
+        }
+    }
+
+    QString filePath = dirPath + title + ".html"; // Change extension to .html
+    QFile file(filePath);
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "Fehler", "Konnte Datei nicht öffnen: " + filePath);
+        return;
+    }
+
+    QTextStream out(&file);
+    out << content;
+    file.close();
+
+    QMessageBox::information(this, "Erfolg", "Die Notiz wurde gespeichert.");
+    accept();
 }
 
 void NewNote::setBold_newnote() {

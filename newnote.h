@@ -3,12 +3,14 @@
 
 #include <QDialog>
 #include <QTextCharFormat>
+#include <QColorDialog>
 
 namespace Ui {
 class NewNote;
 }
 
-class NewNote : public QDialog {
+class NewNote : public QDialog
+{
     Q_OBJECT
 
 public:
@@ -17,6 +19,7 @@ public:
 
     QString getTitle_newnote() const;
     QString getContent_newnote() const;
+    void saveNote_newnote(); // Add the declaration of saveNote_newnote
 
 private slots:
     void setBold_newnote();
@@ -26,8 +29,9 @@ private slots:
     void setFontSize_newnote(int index);
 
 private:
-    Ui::NewNote *ui;
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+
+    Ui::NewNote *ui;
 };
 
 #endif // NEWNOTE_H

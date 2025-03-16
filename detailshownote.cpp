@@ -8,6 +8,9 @@ detailShownote::detailShownote(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->backButton_detailshownote, &QPushButton::clicked, this, &QDialog::reject);
+
+    // Set the background of content_textEdit_detailshownote to transparent
+    ui->content_textEdit_detailshownote->setStyleSheet("background: transparent");
 }
 
 detailShownote::~detailShownote()
@@ -17,6 +20,6 @@ detailShownote::~detailShownote()
 
 void detailShownote::setNoteContent_show(const QString &title, const QString &content) {
     ui->label_title_detailshownote->setText(title);
-    ui->label_content_detailshownote->setText(content);
+    ui->content_textEdit_detailshownote->setHtml(content); // Load as HTML
 }
 

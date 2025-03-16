@@ -36,14 +36,14 @@ void detaileditnote::setNoteContent_detaileditnote(const QString &title, const Q
 void detaileditnote::saveNote_detaileditnote()
 {
     QString title = ui->title_textEdit_detaileditnote->toPlainText();
-    QString content = ui->content_textEdit_detaileditnote->toPlainText();
+    QString content = ui->content_textEdit_detaileditnote->toHtml(); // Save as HTML
 
     if (title.isEmpty()) {
         QMessageBox::warning(this, "Fehler", "Der Titel darf nicht leer sein.");
         return;
     }
 
-    QString filePath = "./temp/" + title + ".txt";
+    QString filePath = "./temp/" + title + ".html"; // Change extension to .html
     QFile file(filePath);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -57,7 +57,7 @@ void detaileditnote::saveNote_detaileditnote()
 
     QString oldTitle = ui->title_textEdit_detaileditnote->property("oldTitle").toString();
     if (!oldTitle.isEmpty() && oldTitle != title) {
-        QFile::remove("./temp/" + oldTitle + ".txt");
+        QFile::remove("./temp/" + oldTitle + ".html"); // Change extension to .html
     }
 
     QMessageBox::information(this, "Erfolg", "Die Notiz wurde gespeichert.");

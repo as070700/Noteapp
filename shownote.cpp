@@ -21,7 +21,6 @@ shownote::shownote(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // Verzeichnis mit den Notizdateien
     QString directoryPath = "./temp/";
     QDir directory(directoryPath);
     if (!directory.exists()) {
@@ -32,23 +31,21 @@ shownote::shownote(QWidget *parent) :
         }
     }
 
-    QStringList textFiles = directory.entryList(QStringList() << "*.txt", QDir::Files);
-    if (textFiles.isEmpty()) {
-        qDebug() << "Keine Textdateien im Verzeichnis" << directoryPath;
+    QStringList htmlFiles = directory.entryList(QStringList() << "*.html", QDir::Files); // Change to .html
+    if (htmlFiles.isEmpty()) {
+        qDebug() << "Keine HTML-Dateien im Verzeichnis" << directoryPath;
     }
 
-    // Schleife durch alle Textdateien und Hinzufügen der Notizen zur Liste
-    foreach(QString filename, textFiles) {
+    foreach(QString filename, htmlFiles) {
         QFile file(directory.filePath(filename));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             qDebug() << "Konnte Datei nicht öffnen:" << filename;
             continue;
         }
 
-        // Entfernen der .txt Erweiterung aus dem Dateinamen
         QString displayName = filename;
-        if (displayName.endsWith(".txt")) {
-            displayName.chop(4); // Entfernt die letzten 4 Zeichen
+        if (displayName.endsWith(".html")) {
+            displayName.chop(5); // Entfernt die letzten 5 Zeichen
         }
 
         QTextStream in(&file);

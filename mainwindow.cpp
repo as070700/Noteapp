@@ -75,9 +75,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Debugging: Überprüfen Sie, ob der Widget-Container korrekt initialisiert ist
     if (!ui->centralwidget) {
-        qDebug() << "centralWidget is not initialized";
+        qDebug() << "centralwidget is not initialized";
     } else {
-        qDebug() << "centralWidget initialized";
+        qDebug() << "centralwidget initialized";
     }
 }
 
@@ -105,6 +105,10 @@ QPushButton* MainWindow::getDeleteNoteButton() const {
 
 QPushButton* MainWindow::getExitButton() const {
     return ui->exitButton;
+}
+
+QAction* MainWindow::getSetPasswordAction() const {
+    return ui->setPasswordAction;
 }
 
 void MainWindow::on_addNoteButton_clicked() {

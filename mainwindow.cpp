@@ -21,24 +21,63 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     qDebug() << "MainWindow initialized";
 
-    // Setup QSettings
+    // Define the paths for the sys and temp directories
+    QString appDirPath = QCoreApplication::applicationDirPath();
     QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+    QString tempDirPath = appDirPath + "/temp/";
+
+    // Check and create sys directory if it does not exist
     if (!QDir(sysDirPath).exists()) {
-        QDir().mkpath(sysDirPath);
+        if (QDir().mkpath(sysDirPath)) {
+            qDebug() << "Created sys directory:" << sysDirPath;
+        } else {
+            qDebug() << "Failed to create sys directory:" << sysDirPath;
+        }
     }
+
+    // Check and create temp directory if it does not exist
+    if (!QDir(tempDirPath).exists()) {
+        if (QDir().mkpath(tempDirPath)) {
+            qDebug() << "Created temp directory:" << tempDirPath;
+        } else {
+            qDebug() << "Failed to create temp directory:" << tempDirPath;
+        }
+    }
+
+    // Setup QSettings
     QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
     qDebug() << "QSettings path: " << settings.fileName();
+
+    // Check if settings file is writable
+    QFile settingsFile(settings.fileName());
+    if (!settingsFile.open(QIODevice::ReadWrite)) {
+        qDebug() << "Failed to open settings file for writing:" << settings.fileName();
+    } else {
+        qDebug() << "Settings file is writable";
+        settingsFile.close();
+    }
 
     // Connect the password setting action
     connect(ui->setPasswordAction, &QAction::triggered, this, [&]() {
         qDebug() << "SetPasswordAction triggered";
-        SetPasswordDialog dialog(this);
-        if (dialog.exec() == QDialog::Accepted) {
-            QString passwordHash = dialog.getPassword_setPasswordDialog();
-            settings.setValue("passwordHash", passwordHash);
-            qDebug() << "Password set";
-        } else {
-            qDebug() << "Password dialog canceled";
+        try {
+            // Attempt to create and show the SetPasswordDialog
+            SetPasswordDialog dialog(this);
+            qDebug() << "SetPasswordDialog created";
+
+            if (dialog.exec() == QDialog::Accepted) {
+                QString passwordHash = dialog.getPassword_setPasswordDialog();
+                qDebug() << "Password hash obtained: " << passwordHash;
+
+                settings.setValue("passwordHash", passwordHash);
+                qDebug() << "Password set in QSettings";
+            } else {
+                qDebug() << "Password dialog canceled";
+            }
+        } catch (const std::exception &e) {
+            qDebug() << "Exception caught: " << e.what();
+        } catch (...) {
+            qDebug() << "Unknown exception caught";
         }
     });
 

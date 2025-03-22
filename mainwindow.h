@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QAction>
 #include <QSettings>
 #include "notebook.h"
 
@@ -17,6 +18,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    QAction* getSetPasswordAction() const;
 
     // Getter-Methoden für die Buttons
     QPushButton* getAddNoteButton() const;

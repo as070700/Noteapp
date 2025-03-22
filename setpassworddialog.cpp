@@ -12,8 +12,8 @@ SetPasswordDialog::SetPasswordDialog(QWidget *parent) :
     ui->confirmPasswordLineEdit_setPasswordDialog->setEchoMode(QLineEdit::Password);
 
     // Connect the buttons to their respective slots
-    connect(ui->okButton_setPasswordDialog, &QPushButton::clicked, this, &SetPasswordDialog::on_okButton_clicked);
-    connect(ui->cancelButton_setPasswordDialog, &QPushButton::clicked, this, &SetPasswordDialog::on_cancelButton_clicked);
+    connect(ui->okButton_setPasswordDialog, &QPushButton::clicked, this, &SetPasswordDialog::on_okButton_setPasswordDialog_clicked);
+    connect(ui->cancelButton_setPasswordDialog, &QPushButton::clicked, this, &SetPasswordDialog::on_cancelButton_setPasswordDialog_clicked);
 }
 
 SetPasswordDialog::~SetPasswordDialog()

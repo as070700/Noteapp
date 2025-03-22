@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QSettings>
 #include "notebook.h"
 
 QT_BEGIN_NAMESPACE

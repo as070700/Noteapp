@@ -1,9 +1,8 @@
 #include "setpassworddialog.h"
 #include "newnote.h"
+#include "mainwindow.h"
 #include <QApplication>
-#include <QMainWindow>
-#include <QMenuBar>
-#include <QAction>
+#include <QDebug>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QDir>
@@ -11,28 +10,22 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    qDebug() << "Application started";
 
     // Set up QSettings to use a file in the sys folder
     QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
     QDir sysDir(sysDirPath);
     if (!sysDir.exists()) {
         sysDir.mkpath(".");
+        qDebug() << "Created sys directory:" << sysDirPath;
     }
     QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+    qDebug() << "QSettings initialized";
 
-    QMainWindow mainWindow;
-
-    QMenu *menu = mainWindow.menuBar()->addMenu("Einstellungen");
-    QAction *setPasswordAction = menu->addAction("Passwort setzen");
-
-    QObject::connect(setPasswordAction, &QAction::triggered, [&]() {
-        SetPasswordDialog dialog(&mainWindow);
-        if (dialog.exec() == QDialog::Accepted) {
-            QString passwordHash = dialog.getPassword_setPasswordDialog();
-            settings.setValue("passwordHash", passwordHash);
-        }
-    });
+    MainWindow mainWindow;
+    qDebug() << "MainWindow created";
 
     mainWindow.show();
+    qDebug() << "MainWindow shown";
     return app.exec();
 }

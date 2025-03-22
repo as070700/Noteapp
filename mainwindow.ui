@@ -95,7 +95,14 @@
     </property>
     <addaction name="actionNewNote"/>
    </widget>
+   <widget class="QMenu" name="menuSetting">
+    <property name="title">
+     <string>Einstellung</string>
+    </property>
+    <addaction name="setPasswordAction"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuSetting"/>
   </widget>
   <action name="actionNewNote">
    <property name="text">
@@ -103,6 +110,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="setPasswordAction">
+   <property name="text">
+    <string>Passwort setzen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>

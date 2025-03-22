@@ -3,6 +3,7 @@
 #include "shownote.h"
 #include "editnote.h"
 #include "deletenote.h"
+#include "setpassworddialog.h"
 #include "ui_mainwindow.h"
 #include <QInputDialog>
 #include <QMessageBox>
@@ -10,15 +11,78 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include <QStandardPaths>
+#include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    qDebug() << "MainWindow initialized";
+
+    // Setup QSettings
+    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+    if (!QDir(sysDirPath).exists()) {
+        QDir().mkpath(sysDirPath);
+    }
+    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+    qDebug() << "QSettings path: " << settings.fileName();
+
+    // Connect the password setting action
+    connect(ui->setPasswordAction, &QAction::triggered, this, [&]() {
+        qDebug() << "SetPasswordAction triggered";
+        SetPasswordDialog dialog(this);
+        if (dialog.exec() == QDialog::Accepted) {
+            QString passwordHash = dialog.getPassword_setPasswordDialog();
+            settings.setValue("passwordHash", passwordHash);
+            qDebug() << "Password set";
+        } else {
+            qDebug() << "Password dialog canceled";
+        }
+    });
+
+    // Debugging: Überprüfen Sie, ob die Widgets korrekt initialisiert sind
+    if (!ui->addNoteButton) {
+        qDebug() << "addNoteButton is not initialized";
+    } else {
+        qDebug() << "addNoteButton initialized";
+    }
+
+    if (!ui->displayNotesButton) {
+        qDebug() << "displayNotesButton is not initialized";
+    } else {
+        qDebug() << "displayNotesButton initialized";
+    }
+
+    if (!ui->editNoteButton) {
+        qDebug() << "editNoteButton is not initialized";
+    } else {
+        qDebug() << "editNoteButton initialized";
+    }
+
+    if (!ui->deleteNoteButton) {
+        qDebug() << "deleteNoteButton is not initialized";
+    } else {
+        qDebug() << "deleteNoteButton initialized";
+    }
+
+    if (!ui->exitButton) {
+        qDebug() << "exitButton is not initialized";
+    } else {
+        qDebug() << "exitButton initialized";
+    }
+
+    // Debugging: Überprüfen Sie, ob der Widget-Container korrekt initialisiert ist
+    if (!ui->centralwidget) {
+        qDebug() << "centralWidget is not initialized";
+    } else {
+        qDebug() << "centralWidget initialized";
+    }
 }
 
 MainWindow::~MainWindow() {
+    qDebug() << "MainWindow destroyed";
     delete ui;
 }
 
@@ -44,6 +108,7 @@ QPushButton* MainWindow::getExitButton() const {
 }
 
 void MainWindow::on_addNoteButton_clicked() {
+    qDebug() << "Add Note Button clicked";
     NewNote newNoteDialog(this);
     if (newNoteDialog.exec() == QDialog::Accepted) {
         Note note;
@@ -96,6 +161,7 @@ void MainWindow::on_addNoteButton_clicked() {
 }
 
 void MainWindow::on_displayNotesButton_clicked() {
+    qDebug() << "Display Notes Button clicked";
     shownote *noteWidget_show = new shownote(this);
     noteWidget_show->show();
 
@@ -113,6 +179,7 @@ void MainWindow::on_displayNotesButton_clicked() {
 }
 
 void MainWindow::on_editNoteButton_clicked() {
+    qDebug() << "Edit Note Button clicked";
     editnote *noteWidget_edit = new editnote(this);
     noteWidget_edit->show();
 
@@ -130,6 +197,7 @@ void MainWindow::on_editNoteButton_clicked() {
 }
 
 void MainWindow::on_deleteNoteButton_clicked() {
+    qDebug() << "Delete Note Button clicked";
     deletenote *noteWidget_delete = new deletenote(this);
     noteWidget_delete->show();
 

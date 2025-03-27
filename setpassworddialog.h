@@ -14,11 +14,12 @@ class SetPasswordDialog : public QDialog
 public:
     explicit SetPasswordDialog(QWidget *parent = nullptr);
     ~SetPasswordDialog();
+
     QString getPassword_setPasswordDialog() const;
 
 private slots:
-    void on_okButton_setPasswordDialog_clicked();
-    void on_cancelButton_setPasswordDialog_clicked();
+    void on_okButton_setPasswordDialog_clicked(); // Ensure this is declared
+    void on_cancelButton_setPasswordDialog_clicked(); // Ensure this is declared
 
 private:
     Ui::SetPasswordDialog *ui;

@@ -116,6 +116,9 @@
    <property name="text">
     <string>Passwort setzen</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
   </action>
  </widget>
  <resources/>

@@ -12,7 +12,8 @@ SOURCES += main.cpp \
            notebook.cpp \
            searchnote.cpp \
            setpassworddialog.cpp \
-           shownote.cpp
+           shownote.cpp \
+           getpassworddialog.cpp
 
 HEADERS += mainwindow.h \
            deletenote.h \
@@ -24,20 +25,20 @@ HEADERS += mainwindow.h \
            note.h \
            searchnote.h \
            setpassworddialog.h \
-           shownote.h
+           shownote.h \
+           getpassworddialog.h
 
 FORMS += mainwindow.ui \
-            deletenote.ui \
-            detaileditnote.ui \
-            detailshownote.ui \
-            editnote.ui \
-            newnote.ui \
-            searchnote.ui \
-            setpassworddialog.ui \
-            shownote.ui
+         deletenote.ui \
+         detaileditnote.ui \
+         detailshownote.ui \
+         editnote.ui \
+         newnote.ui \
+         searchnote.ui \
+         setpassworddialog.ui \
+         shownote.ui \
+         getpassworddialog.ui
 
 QT += core gui widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-# Additional configurations can be added here as needed.

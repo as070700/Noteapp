@@ -1,11 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QPushButton>
 #include <QAction>
-#include <QSettings>
-#include "notebook.h"
+#include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,24 +17,23 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QAction* getSetPasswordAction() const;
-
-    // Getter-Methoden für die Buttons
     QPushButton* getAddNoteButton() const;
     QPushButton* getDisplayNotesButton() const;
     QPushButton* getEditNoteButton() const;
     QPushButton* getDeleteNoteButton() const;
     QPushButton* getExitButton() const;
+    QAction* getSetPasswordAction() const;
 
 private slots:
     void on_addNoteButton_clicked();
     void on_displayNotesButton_clicked();
     void on_editNoteButton_clicked();
     void on_deleteNoteButton_clicked();
+    void setPassword(); // Neue Methode für die Passwortaktion
 
 private:
+    void showMainMenu();
     Ui::MainWindow *ui;
-    Notebook notebook;
 };
 
 #endif // MAINWINDOW_H

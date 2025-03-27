@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 16.0.0, 2025-03-23T18:24:47. -->
+<!-- Written by QtCreator 16.0.0, 2025-03-27T19:03:34. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -85,6 +85,9 @@
     <valuelist type="QVariantList" key="ClangTools.SelectedFiles"/>
     <valuelist type="QVariantList" key="ClangTools.SuppressedDiagnostics"/>
     <value type="bool" key="ClangTools.UseGlobalSettings">true</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="CppEditor.QuickFix">
+    <value type="bool" key="UseGlobalSettings">true</value>
    </valuemap>
    <valuemap type="QVariantMap" key="CppcheckManual"/>
   </valuemap>
@@ -248,7 +251,9 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/Users/angy/GitHub_Link/Noteapp/NoteApp.pro</value>
-    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">true</value>
+    <value type="bool" key="RunConfiguration.Arguments.multi">true</value>
+    <value type="QString" key="RunConfiguration.OverrideDebuggerStartup">-fsanitize=address -g</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>

@@ -2,6 +2,7 @@
 #include "ui_setpassworddialog.h"
 #include <QCryptographicHash>
 #include <QMessageBox>
+#include <QDebug>
 
 SetPasswordDialog::SetPasswordDialog(QWidget *parent) :
     QDialog(parent),
@@ -28,6 +29,8 @@ QString SetPasswordDialog::getPassword_setPasswordDialog() const
 
 void SetPasswordDialog::on_okButton_setPasswordDialog_clicked()
 {
+    qDebug() << "on_okButton_setPasswordDialog_clicked called";
+
     QString password = ui->passwordLineEdit_setPasswordDialog->text();
     QString confirmPassword = ui->confirmPasswordLineEdit_setPasswordDialog->text();
 
@@ -38,10 +41,12 @@ void SetPasswordDialog::on_okButton_setPasswordDialog_clicked()
 
     QByteArray passwordBytes = password.toUtf8();
     passwordHash = QString(QCryptographicHash::hash(passwordBytes, QCryptographicHash::Sha256).toHex());
-    accept();
+    emit passwordSet(); // Signal emitten
+    close(); // Dialog schließen
 }
 
 void SetPasswordDialog::on_cancelButton_setPasswordDialog_clicked()
 {
-    reject();
+    qDebug() << "on_cancelButton_setPasswordDialog_clicked called";
+    close(); // Dialog schließen
 }

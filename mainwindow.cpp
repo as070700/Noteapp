@@ -5,6 +5,8 @@
 #include "deletenote.h"
 #include "setpassworddialog.h"
 #include "ui_mainwindow.h"
+#include "note.h" // Inkludieren der Header-Datei für Note
+#include "notebook.h" // Inkludieren der Header-Datei für Notebook
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QDir>
@@ -13,6 +15,9 @@
 #include <QDebug>
 #include <QStandardPaths>
 #include <QSettings>
+
+// Instanz von Notebook deklarieren
+Notebook notebook;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -58,28 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     // Connect the password setting action
-    connect(ui->setPasswordAction, &QAction::triggered, this, [&]() {
-        qDebug() << "SetPasswordAction triggered";
-        try {
-            // Attempt to create and show the SetPasswordDialog
-            SetPasswordDialog dialog(this);
-            qDebug() << "SetPasswordDialog created";
-
-            if (dialog.exec() == QDialog::Accepted) {
-                QString passwordHash = dialog.getPassword_setPasswordDialog();
-                qDebug() << "Password hash obtained: " << passwordHash;
-
-                settings.setValue("passwordHash", passwordHash);
-                qDebug() << "Password set in QSettings";
-            } else {
-                qDebug() << "Password dialog canceled";
-            }
-        } catch (const std::exception &e) {
-            qDebug() << "Exception caught: " << e.what();
-        } catch (...) {
-            qDebug() << "Unknown exception caught";
-        }
-    });
+    connect(ui->setPasswordAction, &QAction::triggered, this, &MainWindow::setPassword);
 
     // Debugging: Überprüfen Sie, ob die Widgets korrekt initialisiert sind
     if (!ui->addNoteButton) {
@@ -123,6 +107,21 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {
     qDebug() << "MainWindow destroyed";
     delete ui;
+}
+
+// Setter-Methoden für das Passwort
+void MainWindow::setPassword() {
+    qDebug() << "SetPasswordAction triggered";
+    SetPasswordDialog passwordDialog(this);
+    if (passwordDialog.exec() == QDialog::Accepted) {
+        QString passwordHash = passwordDialog.getPassword_setPasswordDialog();
+        qDebug() << "Password hash obtained: " << passwordHash;
+        QSettings settings(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys/settings.ini", QSettings::IniFormat);
+        settings.setValue("passwordHash", passwordHash);
+        qDebug() << "Password set in QSettings";
+    } else {
+        qDebug() << "Password dialog canceled";
+    }
 }
 
 // Getter-Methoden für die Buttons
@@ -255,4 +254,13 @@ void MainWindow::on_deleteNoteButton_clicked() {
         // Debugging: Überprüfen, ob die Buttons ausgeblendet wurden
         qDebug() << "Buttons ausgeblendet";
     }
+}
+
+void MainWindow::showMainMenu() {
+    this->show();
+    getAddNoteButton()->show();
+    getDisplayNotesButton()->show();
+    getEditNoteButton()->show();
+    getDeleteNoteButton()->show();
+    getExitButton()->show();
 }

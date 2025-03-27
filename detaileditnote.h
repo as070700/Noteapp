@@ -20,6 +20,7 @@ public:
 
 private slots:
     void saveNote_detaileditnote();
+    void saveNoteContent(); // Methode deklarieren
     void setBold_detaileditnote();
     void setItalic_detaileditnote();
     void setUnderline_detaileditnote();

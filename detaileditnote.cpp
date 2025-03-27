@@ -1,6 +1,6 @@
-#include "getpassworddialog.h"
 #include "detaileditnote.h"
 #include "ui_detaileditnote.h"
+#include "getpassworddialog.h"
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
@@ -38,22 +38,13 @@ void detaileditnote::setNoteContent_detaileditnote(const QString &title, const Q
 
 void detaileditnote::saveNote_detaileditnote()
 {
-    // Passwortabfrage durchführen
-    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
-    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
-    QString correctHash = settings.value("passwordHash").toString();
-
     getPasswordDialog passwordDialog(this);
-    if (passwordDialog.exec() == QDialog::Accepted) {
-        QString passwordHash = passwordDialog.getPassword_getPasswordDialog();
-        if (passwordHash != correctHash) {
-            QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
-            return;
-        }
-    } else {
-        return;
-    }
+    connect(&passwordDialog, &getPasswordDialog::passwordCorrect, this, &detaileditnote::saveNoteContent); // Verbindung herstellen
+    passwordDialog.exec();
+}
 
+void detaileditnote::saveNoteContent()
+{
     QString title = ui->title_textEdit_detaileditnote->toPlainText();
     QString content = ui->content_textEdit_detaileditnote->toHtml(); // Save as HTML
 

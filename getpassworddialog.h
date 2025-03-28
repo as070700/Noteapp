@@ -21,8 +21,8 @@ signals:
     void passwordCorrect(); // Signal hinzufügen
 
 private slots:
-    void on_okButton_getpassworddialog_clicked();
-    void on_cancelButton_getpassworddialog_clicked();
+    void on_okButton_getpassworddialog_clicked(); // Slot deklarieren
+    void on_cancelButton_getpassworddialog_clicked(); // Slot deklarieren
 
 private:
     Ui::getPasswordDialog *ui;

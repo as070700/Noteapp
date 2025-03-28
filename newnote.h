@@ -19,7 +19,7 @@ public:
 
     QString getTitle_newnote() const;
     QString getContent_newnote() const;
-    void saveNote_newnote(); // Add the declaration of saveNote_newnote
+    void saveNote_newnote();
 
 private slots:
     void setBold_newnote();

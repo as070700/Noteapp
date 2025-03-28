@@ -9,6 +9,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QCryptographicHash>
 
 NewNote::NewNote(QWidget *parent) :
     QDialog(parent),
@@ -36,6 +37,10 @@ QString NewNote::getContent_newnote() const {
     return ui->content_lineEdit_newnote->toHtml();
 }
 
+QString hashPassword(const QString &password) {
+    return QString(QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex());
+}
+
 void NewNote::saveNote_newnote() {
     // Load the password hash from settings
     QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
@@ -44,8 +49,9 @@ void NewNote::saveNote_newnote() {
 
     SetPasswordDialog passwordDialog(this);
     if (passwordDialog.exec() == QDialog::Accepted) {
-        QString passwordHash = passwordDialog.getPassword_setPasswordDialog();
-        if (passwordHash != correctHash) {
+        QString enteredPassword = passwordDialog.getPassword_setPasswordDialog();
+        QString enteredHash = hashPassword(enteredPassword);
+        if (enteredHash != correctHash) {
             QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
             return;
         }

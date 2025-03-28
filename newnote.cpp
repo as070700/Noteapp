@@ -46,22 +46,22 @@ void NewNote::saveNote_password_NewNote()
 }
 
 void NewNote::saveNote_newnote() {
-    // // Load the password hash from settings
-    // QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
-    // QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
-    // QString correctHash = settings.value("passwordHash").toString();
+    // Load the password hash from settings
+    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+    QString correctHash = settings.value("passwordHash").toString();
 
-    // SetPasswordDialog passwordDialog(this);
-    // if (passwordDialog.exec() == QDialog::Accepted) {
-    //     QString enteredPassword = passwordDialog.getPassword_setPasswordDialog();
-    //     QString enteredHash = hashPassword(enteredPassword);  // Nutzung der Funktion aus utils.h
-    //     if (enteredHash != correctHash) {
-    //         QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
-    //         return;
-    //     }
-    // } else {
-    //     return;
-    // }
+    SetPasswordDialog passwordDialog(this);
+    if (passwordDialog.exec() == QDialog::Accepted) {
+        QString enteredPassword = passwordDialog.getPassword_setPasswordDialog();
+        QString enteredHash = hashPassword(enteredPassword);  // Nutzung der Funktion aus utils.h
+        if (enteredHash != correctHash) {
+            QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
+            return;
+        }
+    } else {
+        return;
+    }
 
     QString title = getTitle_newnote();
     QString content = getContent_newnote();

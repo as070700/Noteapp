@@ -20,7 +20,7 @@ getPasswordDialog::~getPasswordDialog()
     delete ui;
 }
 
-QString getPasswordDialog::getPassword_getPasswordDialog() const
+QString getPasswordDialog::getPassword_getpassworddialog() const
 {
     return ui->password_lineEdit_getpassworddialog->text();
 }
@@ -31,18 +31,19 @@ void getPasswordDialog::on_okButton_getpassworddialog_clicked()
     QSettings settings(sysDirPath_getpassworddialog + "/settings.ini", QSettings::IniFormat);
     QString correctHash_getpassworddialog = settings.value("passwordHash").toString();
 
-    QString enteredPassword_getpassworddialog = getPassword_getPasswordDialog();
+    QString enteredPassword_getpassworddialog = getPassword_getpassworddialog();
     QString enteredHash_getpassworddialog = hashPassword(enteredPassword_getpassworddialog);  // Nutzung der Funktion aus utils.h
 
     if (enteredHash_getpassworddialog == correctHash_getpassworddialog) {
         emit passwordCorrect_getpassworddialog(); // Signal emitten
-        close(); // Dialog schließen
+        accept();  // Schließt den Dialog korrekt
     } else {
-        QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
+        emit passwortIncorrect_getpassworddialog(); // Neues Signal für Fehler
     }
 }
 
+
 void getPasswordDialog::on_cancelButton_getpassworddialog_clicked()
 {
-    close();
+    reject();
 }

@@ -11,13 +11,17 @@
 #include <QDir>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QDebug>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QPushButton>
 
 NewNote::NewNote(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NewNote)
 {
     ui->setupUi(this);
-    connect(ui->saveButton_newnote, &QPushButton::clicked, this, &NewNote::saveNote_newnote);
+    connect(ui->saveButton_newnote, &QPushButton::clicked, this, &NewNote::saveNote_password_NewNote);
     connect(ui->backButton_newnote, &QPushButton::clicked, this, &QDialog::reject);
     connect(ui->boldButton_newnote, &QPushButton::clicked, this, &NewNote::setBold_newnote);
     connect(ui->italicButton_newnote, &QPushButton::clicked, this, &NewNote::setItalic_newnote);
@@ -40,60 +44,102 @@ QString NewNote::getContent_newnote() const {
 
 void NewNote::saveNote_password_NewNote()
 {
-    getPasswordDialog passwordDialog(this);
-    connect(&passwordDialog, &getPasswordDialog::passwordCorrect_getpassworddialog, this, &NewNote::saveNote_newnote); // Verbindung herstellen
-    passwordDialog.exec();
+    qDebug() << "Entering saveNote_password_NewNote";
+    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+    QString correctHash = settings.value("passwordHash").toString();
+    qDebug() << "Loaded password hash from settings:" << correctHash;
+
+    if (correctHash.isEmpty()) {
+        qDebug() << "No password hash found, prompting to set a new password";
+        SetPasswordDialog passwordDialog(this);
+        if (passwordDialog.exec() == QDialog::Accepted) {
+            QString newPassword = passwordDialog.getPassword_setPasswordDialog();
+            QString newHash = hashPassword(newPassword);
+            settings.setValue("passwordHash", newHash);
+            qDebug() << "New password hash set:" << newHash;
+        } else {
+            qDebug() << "Password setting canceled";
+            return;
+        }
+    } else {
+        qDebug() << "Password hash found, prompting for password";
+
+        getPasswordDialog *passwordDialog = new getPasswordDialog(this);  // Dynamische Erstellung
+
+        connect(passwordDialog, &getPasswordDialog::passwordCorrect_getpassworddialog, this, [this, passwordDialog]() {
+            passwordDialog->deleteLater();  // Dialog sicher löschen
+            saveNote_newnote();  // Speichern der Notiz
+        });
+
+        connect(passwordDialog, &getPasswordDialog::passwortIncorrect_getpassworddialog, this, [passwordDialog]() {
+            QMessageBox::warning(passwordDialog, "Fehler", "Falsches Passwort.");
+        });
+
+        passwordDialog->exec();  // Startet den Dialog
+    }
+    qDebug() << "Exiting saveNote_password_NewNote";
 }
 
+
 void NewNote::saveNote_newnote() {
-    // // Load the password hash from settings
-    // QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
-    // QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
-    // QString correctHash = settings.value("passwordHash").toString();
-
-    // SetPasswordDialog passwordDialog(this);
-    // if (passwordDialog.exec() == QDialog::Accepted) {
-    //     QString enteredPassword = passwordDialog.getPassword_setPasswordDialog();
-    //     QString enteredHash = hashPassword(enteredPassword);  // Nutzung der Funktion aus utils.h
-    //     if (enteredHash != correctHash) {
-    //         QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
-    //         return;
-    //     }
-    // } else {
-    //     return;
-    // }
-
+    qDebug() << "Entering saveNote_newnote";
     QString title = getTitle_newnote();
     QString content = getContent_newnote();
+    qDebug() << "Title:" << title;
+    qDebug() << "Content:" << content;
 
     if (title.isEmpty()) {
         QMessageBox::warning(this, "Fehler", "Der Titel darf nicht leer sein.");
+        qDebug() << "Title is empty, exiting saveNote_newnote";
         return;
     }
 
     QString dirPath = "./temp/";
     QDir dir(dirPath);
+    qDebug() << "Directory path:" << dirPath;
+
     if (!dir.exists()) {
+        qDebug() << "Directory does not exist, creating directory";
         if (!dir.mkpath(dirPath)) {
             QMessageBox::warning(this, "Fehler", "Konnte das Verzeichnis nicht erstellen: " + dirPath);
+            qDebug() << "Failed to create directory:" << dirPath;
             return;
         }
     }
 
     QString filePath = dirPath + title + ".html";
     QFile file(filePath);
+    qDebug() << "File path:" << filePath;
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QMessageBox::warning(this, "Fehler", "Konnte Datei nicht öffnen: " + filePath);
+        qDebug() << "Failed to open file:" << filePath;
         return;
     }
 
     QTextStream out(&file);
     out << content;
     file.close();
+    qDebug() << "File written and closed successfully";
 
-    QMessageBox::information(this, "Erfolg", "Die Notiz wurde gespeichert.");
+    qDebug() << "Before alternative notification";
+    QDialog* successDialog = new QDialog(this);
+    successDialog->setWindowTitle("Erfolg");
+    QVBoxLayout* layout = new QVBoxLayout(successDialog);
+    QLabel* successLabel = new QLabel("Die Notiz wurde gespeichert.");
+    layout->addWidget(successLabel);
+    QPushButton* okButton = new QPushButton("OK");
+    layout->addWidget(okButton);
+    connect(okButton, &QPushButton::clicked, successDialog, &QDialog::accept);
+    connect(successDialog, &QDialog::accepted, successDialog, &QDialog::deleteLater);
+    successDialog->setLayout(layout);
+    successDialog->exec(); // Modal anzeigen
+    qDebug() << "After alternative notification";
+
+    qDebug() << "Before accept()";
     accept();
+    qDebug() << "After accept()";
 }
 
 void NewNote::setBold_newnote() {

@@ -15,10 +15,11 @@ public:
     explicit getPasswordDialog(QWidget *parent = nullptr);
     ~getPasswordDialog();
 
-    QString getPassword_getPasswordDialog() const;
+    QString getPassword_getpassworddialog() const;
 
 signals:
-    void passwordCorrect_getpassworddialog(); // Signal hinzufügen
+    void passwordCorrect_getpassworddialog();
+    void passwortIncorrect_getpassworddialog();
 
 private slots:
     void on_okButton_getpassworddialog_clicked();

@@ -124,7 +124,7 @@ void MainWindow::setPassword() {
         qDebug() << "Password already set. Requesting current password.";
         getPasswordDialog passwordDialog(this);
         if (passwordDialog.exec() == QDialog::Accepted) {
-            QString enteredPasswordHash = passwordDialog.getPassword_getPasswordDialog();
+            QString enteredPasswordHash = passwordDialog.getPassword_getpassworddialog();
             QString correctPasswordHash = settings.value("passwordHash").toString();
             if (enteredPasswordHash != correctPasswordHash) {
                 QMessageBox::warning(this, "Fehler", "Falsches Passwort.");

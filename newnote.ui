@@ -161,6 +161,17 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>title_lineEdit_newnote</tabstop>
+  <tabstop>content_lineEdit_newnote</tabstop>
+  <tabstop>saveButton_newnote</tabstop>
+  <tabstop>boldButton_newnote</tabstop>
+  <tabstop>italicButton_newnote</tabstop>
+  <tabstop>underlineButton_newnote</tabstop>
+  <tabstop>colorButton_newnote</tabstop>
+  <tabstop>fontSizeComboBox_newnote</tabstop>
+  <tabstop>backButton_newnote</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

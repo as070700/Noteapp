@@ -39,7 +39,7 @@ void detaileditnote::setNoteContent_detaileditnote(const QString &title, const Q
 void detaileditnote::saveNote_detaileditnote()
 {
     getPasswordDialog passwordDialog(this);
-    connect(&passwordDialog, &getPasswordDialog::passwordCorrect, this, &detaileditnote::saveNoteContent); // Verbindung herstellen
+    connect(&passwordDialog, &getPasswordDialog::passwordCorrect_getpassworddialog, this, &detaileditnote::saveNoteContent); // Verbindung herstellen
     passwordDialog.exec();
 }
 

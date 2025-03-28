@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SetPasswordDialog</class>
- <widget class="QDialog" name="SetPasswordDialog">
+ <class>SecurityQuestionDialog</class>
+ <widget class="QDialog" name="SecurityQuestionDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Passwort setzen</string>
   </property>
-  <widget class="QLineEdit" name="passwordLineEdit_setPasswordDialog">
+  <widget class="QLineEdit" name="passwordLineEdit_securityquestiondialog">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -26,7 +26,7 @@
     <enum>QLineEdit::EchoMode::Password</enum>
    </property>
   </widget>
-  <widget class="QLineEdit" name="confirmPasswordLineEdit_setPasswordDialog">
+  <widget class="QLineEdit" name="confirmPasswordLineEdit_securityquestiondialog">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -39,7 +39,7 @@
     <enum>QLineEdit::EchoMode::Password</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="securityQuestionLabel_setPasswordDialog">
+  <widget class="QLabel" name="securityQuestionLabel_securityquestiondialog">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -52,7 +52,7 @@
     <string>Was ist der Name Ihres ersten Haustiers?</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="securityAnswerLineEdit_setPasswordDialog">
+  <widget class="QLineEdit" name="securityAnswerLineEdit_securityquestiondialog">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -62,7 +62,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="okButton_setPasswordDialog">
+  <widget class="QPushButton" name="okButton_securityquestiondialog">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -75,7 +75,7 @@
     <string>Ok</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="cancelButton_setPasswordDialog">
+  <widget class="QPushButton" name="cancelButton_securityquestiondialog">
    <property name="geometry">
     <rect>
      <x>200</x>
@@ -92,10 +92,10 @@
  <resources/>
  <connections>
   <connection>
-   <sender>okButton_setPasswordDialog</sender>
+   <sender>okButton_securityquestiondialog</sender>
    <signal>clicked()</signal>
-   <receiver>SetPasswordDialog</receiver>
-   <slot>on_okButton_setPasswordDialog_clicked()</slot>
+   <receiver>SecurityQuestionDialog</receiver>
+   <slot>on_okButton_securityquestiondialog_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>20</x>
@@ -108,10 +108,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>cancelButton_setPasswordDialog</sender>
+   <sender>cancelButton_securityquestiondialog</sender>
    <signal>clicked()</signal>
-   <receiver>SetPasswordDialog</receiver>
-   <slot>on_cancelButton_setPasswordDialog_clicked()</slot>
+   <receiver>SecurityQuestionDialog</receiver>
+   <slot>on_cancelButton_securityquestiondialog_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>20</x>
@@ -127,5 +127,7 @@
  <slots>
   <slot>on_okButton_setPasswordDialog_clicked()</slot>
   <slot>on_cancelButton_setPasswordDialog_clicked()</slot>
+  <slot>on_okButton_securityquestiondialog_clicked()</slot>
+  <slot>on_cancelButton_securityquestiondialog_clicked()</slot>
  </slots>
 </ui>

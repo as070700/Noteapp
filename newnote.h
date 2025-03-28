@@ -22,6 +22,7 @@ public:
     void saveNote_newnote();
 
 private slots:
+    void saveNote_password_NewNote();
     void setBold_newnote();
     void setItalic_newnote();
     void setUnderline_newnote();
@@ -30,7 +31,6 @@ private slots:
 
 private:
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
-
     Ui::NewNote *ui;
 };
 

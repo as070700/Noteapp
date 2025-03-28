@@ -30,6 +30,7 @@ private slots:
     void on_editNoteButton_clicked();
     void on_deleteNoteButton_clicked();
     void setPassword(); // Neue Methode für die Passwortaktion
+    void resetPassword(); // Neue Methode für das Zurücksetzen des Passworts
 
 private:
     void showMainMenu();

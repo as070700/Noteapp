@@ -1,8 +1,11 @@
 #include "setpassworddialog.h"
 #include "ui_setpassworddialog.h"
+#include "utils.h"
 #include <QCryptographicHash>
 #include <QMessageBox>
 #include <QDebug>
+#include <QSettings>
+#include <QStandardPaths>
 
 SetPasswordDialog::SetPasswordDialog(QWidget *parent) :
     QDialog(parent),
@@ -24,24 +27,33 @@ SetPasswordDialog::~SetPasswordDialog()
 
 QString SetPasswordDialog::getPassword_setPasswordDialog() const
 {
-    return passwordHash;
+    return passwordHash_setPasswordDialog;
 }
 
 void SetPasswordDialog::on_okButton_setPasswordDialog_clicked()
 {
     qDebug() << "on_okButton_setPasswordDialog_clicked called";
 
-    QString password = ui->passwordLineEdit_setPasswordDialog->text();
-    QString confirmPassword = ui->confirmPasswordLineEdit_setPasswordDialog->text();
+    QString password_setPasswordDialog = ui->passwordLineEdit_setPasswordDialog->text();
+    QString confirmPassword_setPasswordDialog = ui->confirmPasswordLineEdit_setPasswordDialog->text();
 
-    if (password != confirmPassword) {
+    if (password_setPasswordDialog != confirmPassword_setPasswordDialog) {
         QMessageBox::warning(this, "Fehler", "Die Passwörter stimmen nicht überein.");
         return;
     }
 
-    QByteArray passwordBytes = password.toUtf8();
-    passwordHash = QString(QCryptographicHash::hash(passwordBytes, QCryptographicHash::Sha256).toHex());
-    emit passwordSet(); // Signal emitten
+    passwordHash_setPasswordDialog = hashPassword(password_setPasswordDialog);
+
+    qDebug() << "Neues Passwort erstellt und gespeichert: " << passwordHash_setPasswordDialog;
+
+    // Speichern des Passwort-Hashes und der Sicherheitsfrage/-antwort in den Einstellungen
+    QString sysDirPath_setPasswordDialog = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+    QSettings settings(sysDirPath_setPasswordDialog + "/settings.ini", QSettings::IniFormat);
+    settings.setValue("passwordHash", passwordHash_setPasswordDialog);
+    settings.setValue("securityAnswer", ui->securityAnswerLineEdit_setPasswordDialog->text());
+    settings.sync();  // Sicherstellen, dass die Einstellungen geschrieben werden
+
+    emit passwordSet_setPasswordDialog(); // Signal emitten
     close(); // Dialog schließen
 }
 

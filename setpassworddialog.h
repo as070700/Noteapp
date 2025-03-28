@@ -18,15 +18,15 @@ public:
     QString getPassword_setPasswordDialog() const;
 
 signals:
-    void passwordSet(); // Signal deklarieren
+    void passwordSet_setPasswordDialog(); // Signal deklarieren
 
 private slots:
-    void on_okButton_setPasswordDialog_clicked();
-    void on_cancelButton_setPasswordDialog_clicked();
+    void on_okButton_setPasswordDialog_clicked(); // Methode deklarieren
+    void on_cancelButton_setPasswordDialog_clicked(); // Methode deklarieren
 
 private:
     Ui::SetPasswordDialog *ui;
-    QString passwordHash;
+    QString passwordHash_setPasswordDialog;
 };
 
 #endif // SETPASSWORDDIALOG_H

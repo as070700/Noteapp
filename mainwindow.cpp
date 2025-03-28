@@ -4,6 +4,8 @@
 #include "editnote.h"
 #include "deletenote.h"
 #include "setpassworddialog.h"
+#include "getpassworddialog.h"
+#include "securityquestiondialog.h" // Hinzufügen dieser Zeile
 #include "ui_mainwindow.h"
 #include "note.h" // Inkludieren der Header-Datei für Note
 #include "notebook.h" // Inkludieren der Header-Datei für Notebook
@@ -65,6 +67,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect the password setting action
     connect(ui->setPasswordAction, &QAction::triggered, this, &MainWindow::setPassword);
 
+    // Connect the password reset action
+    connect(ui->resetPasswordAction, &QAction::triggered, this, &MainWindow::resetPassword);
+
     // Debugging: Überprüfen Sie, ob die Widgets korrekt initialisiert sind
     if (!ui->addNoteButton) {
         qDebug() << "addNoteButton is not initialized";
@@ -112,15 +117,57 @@ MainWindow::~MainWindow() {
 // Setter-Methoden für das Passwort
 void MainWindow::setPassword() {
     qDebug() << "SetPasswordAction triggered";
-    SetPasswordDialog passwordDialog(this);
-    if (passwordDialog.exec() == QDialog::Accepted) {
-        QString passwordHash = passwordDialog.getPassword_setPasswordDialog();
-        qDebug() << "Password hash obtained: " << passwordHash;
-        QSettings settings(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys/settings.ini", QSettings::IniFormat);
-        settings.setValue("passwordHash", passwordHash);
-        qDebug() << "Password set in QSettings";
+    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+
+    if (settings.contains("passwordHash")) {
+        qDebug() << "Password already set. Requesting current password.";
+        getPasswordDialog passwordDialog(this);
+        if (passwordDialog.exec() == QDialog::Accepted) {
+            QString enteredPasswordHash = passwordDialog.getPassword_getPasswordDialog();
+            QString correctPasswordHash = settings.value("passwordHash").toString();
+            if (enteredPasswordHash != correctPasswordHash) {
+                QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
+                return;
+            }
+        } else {
+            qDebug() << "Password dialog canceled.";
+            return;
+        }
+    }
+
+    SetPasswordDialog setPasswordDialog(this);
+    if (setPasswordDialog.exec() == QDialog::Accepted) {
+        QString newPasswordHash = setPasswordDialog.getPassword_setPasswordDialog();
+        qDebug() << "New password hash obtained: " << newPasswordHash;
+        settings.setValue("passwordHash", newPasswordHash);
+        settings.sync();  // Sicherstellen, dass die Einstellungen geschrieben werden
+        qDebug() << "New password set in QSettings.";
     } else {
-        qDebug() << "Password dialog canceled";
+        qDebug() << "Set password dialog canceled.";
+    }
+}
+
+// Methode zum Zurücksetzen des Passworts
+void MainWindow::resetPassword() {
+    qDebug() << "ResetPasswordAction triggered";
+    SecurityQuestionDialog securityDialog(this);
+    if (securityDialog.exec() == QDialog::Accepted) {
+        qDebug() << "Security question answered correctly. Setting new password.";
+        SetPasswordDialog setPasswordDialog(this);
+        if (setPasswordDialog.exec() == QDialog::Accepted) {
+            QString newPasswordHash = setPasswordDialog.getPassword_setPasswordDialog();
+            qDebug() << "New password hash obtained: " << newPasswordHash;
+            QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+            QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+            settings.setValue("passwordHash", newPasswordHash);
+            settings.sync();  // Sicherstellen, dass die Einstellungen geschrieben werden
+            qDebug() << "New password set in QSettings.";
+        } else {
+            qDebug() << "Set password dialog canceled.";
+        }
+    } else {
+        qDebug() << "Security question dialog canceled.";
     }
 }
 

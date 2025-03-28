@@ -1,12 +1,10 @@
 #include "getpassworddialog.h"
-#include "setpassworddialog.h"
 #include "ui_getpassworddialog.h"
+#include "utils.h"  // Hinzufügen dieser Zeile
 #include <QSettings>
 #include <QStandardPaths>
 #include <QMessageBox>
-#include <QInputDialog>
 #include <QDebug>
-#include <QCryptographicHash>
 
 getPasswordDialog::getPasswordDialog(QWidget *parent) :
     QDialog(parent),
@@ -27,41 +25,18 @@ QString getPasswordDialog::getPassword_getPasswordDialog() const
     return ui->password_lineEdit_getpassworddialog->text();
 }
 
-QString hashPassword(const QString &password) {
-    return QString(QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex());
-}
-
 void getPasswordDialog::on_okButton_getpassworddialog_clicked()
 {
-    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
-    qDebug() << "System Directory Path: " << sysDirPath;
+    QString sysDirPath_getpassworddialog = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+    QSettings settings(sysDirPath_getpassworddialog + "/settings.ini", QSettings::IniFormat);
+    QString correctHash_getpassworddialog = settings.value("passwordHash").toString();
 
-    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
-    if (!settings.contains("passwordHash")) {
-        SetPasswordDialog setPasswordDialog(this);
-        if (setPasswordDialog.exec() == QDialog::Accepted) {
-            QString hashedPassword = setPasswordDialog.getPassword_setPasswordDialog();
-            settings.setValue("passwordHash", hashedPassword);
-            qDebug() << "Neues Passwort erstellt und gespeichert: " << hashedPassword;
-            QMessageBox::information(this, "Erfolg", "Neues Passwort wurde erstellt und gespeichert.");
-            emit passwordCorrect(); // Signal emitten
-            accept(); // Dialog schließen
-        } else {
-            QMessageBox::warning(this, "Fehler", "Kein Passwort eingegeben. Vorgang abgebrochen.");
-        }
-        return;
-    }
+    QString enteredPassword_getpassworddialog = getPassword_getPasswordDialog();
+    QString enteredHash_getpassworddialog = hashPassword(enteredPassword_getpassworddialog);  // Nutzung der Funktion aus utils.h
 
-    QString correctHash = settings.value("passwordHash").toString();
-    qDebug() << "Correct Hash: " << correctHash;
-
-    QString enteredPassword = getPassword_getPasswordDialog();
-    QString enteredHash = hashPassword(enteredPassword);
-    qDebug() << "Entered Password Hash: " << enteredHash;
-
-    if (enteredHash == correctHash) {
-        emit passwordCorrect(); // Signal emitten
-        accept(); // Dialog schließen
+    if (enteredHash_getpassworddialog == correctHash_getpassworddialog) {
+        emit passwordCorrect_getpassworddialog(); // Signal emitten
+        close(); // Dialog schließen
     } else {
         QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
     }
@@ -69,5 +44,5 @@ void getPasswordDialog::on_okButton_getpassworddialog_clicked()
 
 void getPasswordDialog::on_cancelButton_getpassworddialog_clicked()
 {
-    reject();
+    close();
 }

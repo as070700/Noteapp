@@ -18,11 +18,11 @@ public:
     QString getPassword_getPasswordDialog() const;
 
 signals:
-    void passwordCorrect(); // Signal hinzufügen
+    void passwordCorrect_getpassworddialog(); // Signal hinzufügen
 
 private slots:
-    void on_okButton_getpassworddialog_clicked(); // Slot deklarieren
-    void on_cancelButton_getpassworddialog_clicked(); // Slot deklarieren
+    void on_okButton_getpassworddialog_clicked();
+    void on_cancelButton_getpassworddialog_clicked();
 
 private:
     Ui::getPasswordDialog *ui;

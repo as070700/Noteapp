@@ -1,6 +1,8 @@
 #include "newnote.h"
 #include "ui_newnote.h"
 #include "setpassworddialog.h"
+#include "getpassworddialog.h"
+#include "utils.h"  // Hinzufügen dieser Zeile
 #include <QTextCharFormat>
 #include <QColorDialog>
 #include <QFile>
@@ -9,7 +11,6 @@
 #include <QDir>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QCryptographicHash>
 
 NewNote::NewNote(QWidget *parent) :
     QDialog(parent),
@@ -37,27 +38,30 @@ QString NewNote::getContent_newnote() const {
     return ui->content_lineEdit_newnote->toHtml();
 }
 
-QString hashPassword(const QString &password) {
-    return QString(QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex());
+void NewNote::saveNote_password_NewNote()
+{
+    getPasswordDialog passwordDialog(this);
+    connect(&passwordDialog, &getPasswordDialog::passwordCorrect_getpassworddialog, this, &NewNote::saveNote_newnote); // Verbindung herstellen
+    passwordDialog.exec();
 }
 
 void NewNote::saveNote_newnote() {
-    // Load the password hash from settings
-    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
-    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
-    QString correctHash = settings.value("passwordHash").toString();
+    // // Load the password hash from settings
+    // QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+    // QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+    // QString correctHash = settings.value("passwordHash").toString();
 
-    SetPasswordDialog passwordDialog(this);
-    if (passwordDialog.exec() == QDialog::Accepted) {
-        QString enteredPassword = passwordDialog.getPassword_setPasswordDialog();
-        QString enteredHash = hashPassword(enteredPassword);
-        if (enteredHash != correctHash) {
-            QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
-            return;
-        }
-    } else {
-        return;
-    }
+    // SetPasswordDialog passwordDialog(this);
+    // if (passwordDialog.exec() == QDialog::Accepted) {
+    //     QString enteredPassword = passwordDialog.getPassword_setPasswordDialog();
+    //     QString enteredHash = hashPassword(enteredPassword);  // Nutzung der Funktion aus utils.h
+    //     if (enteredHash != correctHash) {
+    //         QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
+    //         return;
+    //     }
+    // } else {
+    //     return;
+    // }
 
     QString title = getTitle_newnote();
     QString content = getContent_newnote();

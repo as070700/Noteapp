@@ -12,20 +12,20 @@ class SecurityQuestionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit SecurityQuestionDialog(QWidget *parent = nullptr);
-    ~SecurityQuestionDialog();
+    explicit SecurityQuestionDialog(QWidget *parent = nullptr); // Konstruktor
+    ~SecurityQuestionDialog(); // Destruktor
 
-    QString getAnswer_securityquestiondialog() const;
+    QString getAnswer_securityquestiondialog() const; // Gibt die eingegebene Antwort zurück
 
 signals:
-    void answerCorrect_securityquestiondialog(); // Signal hinzufügen
+    void answerCorrect_securityquestiondialog(); // Signal, das bei korrekter Antwort ausgelöst wird
 
 private slots:
-    void on_okButton_securityquestiondialog_clicked();
-    void on_cancelButton_securityquestiondialog_clicked();
+    void on_okButton_securityquestiondialog_clicked(); // Slot für den OK-Button
+    void on_cancelButton_securityquestiondialog_clicked(); // Slot für den Abbrechen-Button
 
 private:
-    Ui::SecurityQuestionDialog *ui;
+    Ui::SecurityQuestionDialog *ui; // Benutzeroberfläche
 };
 
 #endif // SECURITYQUESTIONDIALOG_H

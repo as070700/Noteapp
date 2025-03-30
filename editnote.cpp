@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <exception>
 
+// Konstruktor: Initialisiert die Benutzeroberfläche und lädt die Notizen
 editnote::editnote(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::editnote)
@@ -20,6 +21,8 @@ editnote::editnote(QWidget *parent) :
     QString appDirPath = QCoreApplication::applicationDirPath();
     QString directoryPath = appDirPath + "/temp/";
     QDir directory(directoryPath);
+
+    // Überprüfen, ob das Verzeichnis existiert, und ggf. erstellen
     if (!directory.exists()) {
         qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath;
         if (!directory.mkpath(directoryPath)) {
@@ -28,12 +31,13 @@ editnote::editnote(QWidget *parent) :
         }
     }
 
+    // Liste aller .html-Dateien im Verzeichnis abrufen
     QStringList textFiles = directory.entryList(QStringList() << "*.html", QDir::Files);
     if (textFiles.isEmpty()) {
-        qDebug() << "Keine Textdateien im Verzeichnis" << directoryPath;
+        qDebug() << "Keine HTML-Dateien im Verzeichnis" << directoryPath;
     }
 
-    // Schleife durch alle Textdateien und Hinzufügen der Notizen zur Liste
+    // Schleife durch alle HTML-Dateien und Hinzufügen der Notizen zur Liste
     foreach(QString filename, textFiles) {
         QFile file(directory.filePath(filename));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -41,31 +45,34 @@ editnote::editnote(QWidget *parent) :
             continue;
         }
 
-        // Entfernen der .txt Erweiterung aus dem Dateinamen
+        // Entfernen der .html-Erweiterung aus dem Dateinamen
         QString displayName = filename;
         if (displayName.endsWith(".html")) {
-            displayName.chop(5); // Entfernt die letzten 4 Zeichen
+            displayName.chop(5); // Entfernt die letzten 5 Zeichen
         }
 
+        // Dateiinhalt lesen und als Daten im Listeneintrag speichern
         QTextStream in(&file);
         QString content = in.readAll();
-        QListWidgetItem *item = new QListWidgetItem(displayName);
-        item->setData(Qt::UserRole, content);
-        ui->listWidget_editnote->addItem(item);
-        file.close();
+        QListWidgetItem *item = new QListWidgetItem(displayName); // Listeneintrag erstellen
+        item->setData(Qt::UserRole, content); // Dateiinhalt als zusätzliche Daten speichern
+        ui->listWidget_editnote->addItem(item); // Eintrag zur Liste hinzufügen
+        file.close(); // Datei schließen
     }
 }
 
+// Destruktor: Gibt den Speicher der Benutzeroberfläche frei
 editnote::~editnote()
 {
     delete ui;
 }
 
+// Slot: Zurück-Button - Zurück zur Hauptansicht
 void editnote::on_backButton_editnote_clicked() {
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
     if (mainWindow) {
-        mainWindow->show();
-        mainWindow->getAddNoteButton()->show();
+        mainWindow->show(); // Hauptfenster anzeigen
+        mainWindow->getAddNoteButton()->show(); // Buttons im Hauptfenster anzeigen
         mainWindow->getDisplayNotesButton()->show();
         mainWindow->getEditNoteButton()->show();
         mainWindow->getDeleteNoteButton()->show();
@@ -74,16 +81,19 @@ void editnote::on_backButton_editnote_clicked() {
     this->hide(); // Versteckt das aktuelle Widget
 }
 
+// Slot: Öffnen-Button - Öffnet die ausgewählte Notiz im Bearbeitungsdialog
 void editnote::on_openButton_editnote_clicked() {
-    QListWidgetItem *currentItem = ui->listWidget_editnote->currentItem();
+    QListWidgetItem *currentItem = ui->listWidget_editnote->currentItem(); // Aktuell ausgewählter Eintrag
     if (currentItem) {
-        QString title = currentItem->text();
-        QString content = currentItem->data(Qt::UserRole).toString();
+        QString title = currentItem->text(); // Titel der Notiz
+        QString content = currentItem->data(Qt::UserRole).toString(); // Inhalt der Notiz
 
+        // Öffnet den Bearbeitungsdialog für die Notiz
         detaileditnote *detaileditDialog = new detaileditnote(this);
-        detaileditDialog->setNoteContent_detaileditnote(title, content); // Methode zum Setzen des Inhalts im Dialog
-        detaileditDialog->exec(); // Öffnet den Dialog
+        detaileditDialog->setNoteContent_detaileditnote(title, content); // Setzt den Titel und Inhalt im Dialog
+        detaileditDialog->exec(); // Zeigt den Dialog an
     } else {
+        // Warnung, wenn keine Notiz ausgewählt wurde
         QMessageBox::warning(this, "Warnung", "Bitte wählen Sie eine Notiz aus.");
     }
 }

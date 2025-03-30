@@ -7,25 +7,29 @@
 #include <QTextStream>
 #include <QDebug>
 
+// Konstruktor der Klasse deletenote
 deletenote::deletenote(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::deletenote)
 {
-    ui->setupUi(this);
-    loadNotes();
+    ui->setupUi(this); // Initialisiert die Benutzeroberfläche
+    loadNotes(); // Lädt die Notizen aus dem Verzeichnis
     ui->listWidget_deleteNote->setSelectionMode(QAbstractItemView::MultiSelection); // Ermöglicht Mehrfachauswahl
 }
 
+// Destruktor der Klasse deletenote
 deletenote::~deletenote()
 {
-    delete ui;
+    delete ui; // Gibt den Speicher der Benutzeroberfläche frei
 }
 
+// Lädt die Notizen aus dem Verzeichnis und fügt sie zur Liste hinzu
 void deletenote::loadNotes()
 {
-    // Verzeichnis mit den Notizdateien
-    QString directoryPath = "./temp/";
+    QString directoryPath = "./temp/"; // Verzeichnis mit den Notizdateien
     QDir directory(directoryPath);
+
+    // Überprüfen, ob das Verzeichnis existiert, und ggf. erstellen
     if (!directory.exists()) {
         qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath;
         if (!directory.mkpath(directoryPath)) {
@@ -34,7 +38,8 @@ void deletenote::loadNotes()
         }
     }
 
-    QStringList textFiles = directory.entryList(QStringList() << "*.txt", QDir::Files);
+    // Liste aller .txt-Dateien im Verzeichnis abrufen
+    QStringList textFiles = directory.entryList(QStringList() << "*.html", QDir::Files);
     if (textFiles.isEmpty()) {
         qDebug() << "Keine Textdateien im Verzeichnis" << directoryPath;
     }
@@ -47,56 +52,65 @@ void deletenote::loadNotes()
             continue;
         }
 
-        // Entfernen der .txt Erweiterung aus dem Dateinamen
+        // Entfernen der .txt-Erweiterung aus dem Dateinamen
         QString displayName = filename;
-        if (displayName.endsWith(".txt")) {
-            displayName.chop(4); // Entfernt die letzten 4 Zeichen
+        if (displayName.endsWith(".html")) {
+            displayName.chop(5); // Entfernt die letzten 4 Zeichen
         }
 
+        // Dateiinhalt lesen und als Daten im Listeneintrag speichern
         QTextStream in(&file);
         QString content = in.readAll();
-        QListWidgetItem *item = new QListWidgetItem(displayName);
-        item->setData(Qt::UserRole, content);
-        ui->listWidget_deleteNote->addItem(item);
-        file.close();
+        QListWidgetItem *item = new QListWidgetItem(displayName); // Listeneintrag erstellen
+        item->setData(Qt::UserRole, content); // Dateiinhalt als zusätzliche Daten speichern
+        ui->listWidget_deleteNote->addItem(item); // Eintrag zur Liste hinzufügen
+        file.close(); // Datei schließen
     }
 }
 
+// Löscht die ausgewählten Notizen
 void deletenote::on_deleteButton_deleteNote_clicked()
 {
-    QList<QListWidgetItem *> selectedItems = ui->listWidget_deleteNote->selectedItems();
+    QList<QListWidgetItem *> selectedItems = ui->listWidget_deleteNote->selectedItems(); // Ausgewählte Einträge abrufen
     if (!selectedItems.isEmpty()) {
-        bool allDeleted = true;
-        foreach(QListWidgetItem *item, selectedItems) {
-            QString displayName = item->text();
-            QString filePath = "./temp/" + displayName + ".txt";
+        bool allDeleted = true; // Flag, um zu prüfen, ob alle Dateien gelöscht wurden
 
+        // Schleife durch alle ausgewählten Einträge
+        foreach(QListWidgetItem *item, selectedItems) {
+            QString displayName = item->text(); // Name des Eintrags
+            QString filePath = "./temp/" + displayName + ".html"; // Dateipfad erstellen
+
+            // Datei löschen
             if (QFile::remove(filePath)) {
-                delete item;  // Entfernt das selektierte Item
+                delete item; // Eintrag aus der Liste entfernen
             } else {
-                allDeleted = false;
+                allDeleted = false; // Fehler beim Löschen
             }
         }
 
+        // Rückmeldung an den Benutzer
         if (allDeleted) {
             QMessageBox::information(this, "Notizen gelöscht", "Alle ausgewählten Notizen wurden gelöscht.");
         } else {
             QMessageBox::warning(this, "Fehler", "Einige Notizdateien konnten nicht gelöscht werden.");
         }
     } else {
+        // Warnung, wenn keine Notiz ausgewählt wurde
         QMessageBox::warning(this, "Keine Auswahl", "Bitte wählen Sie mindestens eine Notiz aus, die gelöscht werden soll.");
     }
 }
 
-void deletenote::on_backButton_deleteNote_clicked() {
-    MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
+// Zurück zur Hauptansicht
+void deletenote::on_backButton_deleteNote_clicked()
+{
+    MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget()); // Hauptfenster abrufen
     if (mainWindow) {
-        mainWindow->show();
-        mainWindow->getAddNoteButton()->show();
+        mainWindow->show(); // Hauptfenster anzeigen
+        mainWindow->getAddNoteButton()->show(); // Buttons im Hauptfenster anzeigen
         mainWindow->getDisplayNotesButton()->show();
         mainWindow->getEditNoteButton()->show();
         mainWindow->getDeleteNoteButton()->show();
         mainWindow->getExitButton()->show();
     }
-    this->hide(); // Versteckt das aktuelle Widget
+    this->hide(); // Aktuelles Widget ausblenden
 }

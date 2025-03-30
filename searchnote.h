@@ -12,16 +12,16 @@ class searchnote : public QWidget
     Q_OBJECT
 
 public:
-    explicit searchnote(QWidget *parent = nullptr);
-    ~searchnote();
+    explicit searchnote(QWidget *parent = nullptr); // Konstruktor
+    ~searchnote(); // Destruktor
 
 private slots:
-    void on_searchButton_searchnote_clicked();
-    void on_backButton_searchnote_clicked();
+    void on_searchButton_searchnote_clicked(); // Slot für den Such-Button
+    void on_backButton_searchnote_clicked(); // Slot für den Zurück-Button
 
 private:
-    Ui::searchnote *ui;
-    void searchNotes(const QString &query);
+    Ui::searchnote *ui; // Benutzeroberfläche
+    void searchNotes(const QString &query); // Funktion zum Suchen von Notizen
 };
 
 #endif // SEARCHNOTE_H

@@ -5,10 +5,10 @@
 #include "deletenote.h"
 #include "setpassworddialog.h"
 #include "getpassworddialog.h"
-#include "securityquestiondialog.h" // Hinzufügen dieser Zeile
+#include "securityquestiondialog.h"
 #include "ui_mainwindow.h"
-#include "note.h" // Inkludieren der Header-Datei für Note
-#include "notebook.h" // Inkludieren der Header-Datei für Notebook
+#include "note.h"
+#include "notebook.h"
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QDir>
@@ -21,107 +21,69 @@
 // Instanz von Notebook deklarieren
 Notebook notebook;
 
+// Konstruktor: Initialisiert die Benutzeroberfläche und prüft/verarbeitet Verzeichnisse und Einstellungen
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    qDebug() << "MainWindow initialized";
+    qDebug() << "MainWindow initialisiert";
 
-    // Define the paths for the sys and temp directories
+    // Verzeichnisse für Einstellungen und temporäre Dateien
     QString appDirPath = QCoreApplication::applicationDirPath();
     QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
     QString tempDirPath = appDirPath + "/temp/";
 
-    // Check and create sys directory if it does not exist
+    // Überprüfen und Erstellen des sys-Verzeichnisses
     if (!QDir(sysDirPath).exists()) {
         if (QDir().mkpath(sysDirPath)) {
-            qDebug() << "Created sys directory:" << sysDirPath;
+            qDebug() << "Verzeichnis 'sys' erstellt:" << sysDirPath;
         } else {
-            qDebug() << "Failed to create sys directory:" << sysDirPath;
+            qDebug() << "Fehler beim Erstellen des Verzeichnisses 'sys':" << sysDirPath;
         }
     }
 
-    // Check and create temp directory if it does not exist
+    // Überprüfen und Erstellen des temp-Verzeichnisses
     if (!QDir(tempDirPath).exists()) {
         if (QDir().mkpath(tempDirPath)) {
-            qDebug() << "Created temp directory:" << tempDirPath;
+            qDebug() << "Verzeichnis 'temp' erstellt:" << tempDirPath;
         } else {
-            qDebug() << "Failed to create temp directory:" << tempDirPath;
+            qDebug() << "Fehler beim Erstellen des Verzeichnisses 'temp':" << tempDirPath;
         }
     }
 
-    // Setup QSettings
+    // Initialisieren von QSettings
     QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
-    qDebug() << "QSettings path: " << settings.fileName();
+    qDebug() << "QSettings Pfad: " << settings.fileName();
 
-    // Check if settings file is writable
+    // Überprüfen, ob die Einstellungsdatei beschreibbar ist
     QFile settingsFile(settings.fileName());
     if (!settingsFile.open(QIODevice::ReadWrite)) {
-        qDebug() << "Failed to open settings file for writing:" << settings.fileName();
+        qDebug() << "Fehler beim Öffnen der Einstellungsdatei zum Schreiben:" << settings.fileName();
     } else {
-        qDebug() << "Settings file is writable";
+        qDebug() << "Einstellungsdatei ist beschreibbar";
         settingsFile.close();
     }
 
-    // Connect the password setting action
+    // Verbindungen für Passwortaktionen
     connect(ui->setPasswordAction, &QAction::triggered, this, &MainWindow::setPassword);
-
-    // Connect the password reset action
     connect(ui->resetPasswordAction, &QAction::triggered, this, &MainWindow::resetPassword);
-
-    // Debugging: Überprüfen Sie, ob die Widgets korrekt initialisiert sind
-    if (!ui->addNoteButton) {
-        qDebug() << "addNoteButton is not initialized";
-    } else {
-        qDebug() << "addNoteButton initialized";
-    }
-
-    if (!ui->displayNotesButton) {
-        qDebug() << "displayNotesButton is not initialized";
-    } else {
-        qDebug() << "displayNotesButton initialized";
-    }
-
-    if (!ui->editNoteButton) {
-        qDebug() << "editNoteButton is not initialized";
-    } else {
-        qDebug() << "editNoteButton initialized";
-    }
-
-    if (!ui->deleteNoteButton) {
-        qDebug() << "deleteNoteButton is not initialized";
-    } else {
-        qDebug() << "deleteNoteButton initialized";
-    }
-
-    if (!ui->exitButton) {
-        qDebug() << "exitButton is not initialized";
-    } else {
-        qDebug() << "exitButton initialized";
-    }
-
-    // Debugging: Überprüfen Sie, ob der Widget-Container korrekt initialisiert ist
-    if (!ui->centralwidget) {
-        qDebug() << "centralwidget is not initialized";
-    } else {
-        qDebug() << "centralwidget initialized";
-    }
 }
 
+// Destruktor: Gibt den Speicher der Benutzeroberfläche frei
 MainWindow::~MainWindow() {
-    qDebug() << "MainWindow destroyed";
+    qDebug() << "MainWindow zerstört";
     delete ui;
 }
 
-// Setter-Methoden für das Passwort
+// Methode zum Setzen eines Passworts
 void MainWindow::setPassword() {
-    qDebug() << "SetPasswordAction triggered";
+    qDebug() << "SetPasswordAction ausgelöst";
     QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
     QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
 
+    // Überprüfen, ob ein Passwort bereits gesetzt ist
     if (settings.contains("passwordHash")) {
-        qDebug() << "Password already set. Requesting current password.";
         getPasswordDialog passwordDialog(this);
         if (passwordDialog.exec() == QDialog::Accepted) {
             QString enteredPasswordHash = passwordDialog.getPassword_getPasswordDialog();
@@ -131,73 +93,47 @@ void MainWindow::setPassword() {
                 return;
             }
         } else {
-            qDebug() << "Password dialog canceled.";
             return;
         }
     }
 
+    // Neues Passwort setzen
     SetPasswordDialog setPasswordDialog(this);
     if (setPasswordDialog.exec() == QDialog::Accepted) {
         QString newPasswordHash = setPasswordDialog.getPassword_setPasswordDialog();
-        qDebug() << "New password hash obtained: " << newPasswordHash;
         settings.setValue("passwordHash", newPasswordHash);
-        settings.sync();  // Sicherstellen, dass die Einstellungen geschrieben werden
-        qDebug() << "New password set in QSettings.";
-    } else {
-        qDebug() << "Set password dialog canceled.";
+        settings.sync();
+        qDebug() << "Neues Passwort gesetzt.";
     }
 }
 
 // Methode zum Zurücksetzen des Passworts
 void MainWindow::resetPassword() {
-    qDebug() << "ResetPasswordAction triggered";
+    qDebug() << "ResetPasswordAction ausgelöst";
     SecurityQuestionDialog securityDialog(this);
     if (securityDialog.exec() == QDialog::Accepted) {
-        qDebug() << "Security question answered correctly. Setting new password.";
         SetPasswordDialog setPasswordDialog(this);
         if (setPasswordDialog.exec() == QDialog::Accepted) {
             QString newPasswordHash = setPasswordDialog.getPassword_setPasswordDialog();
-            qDebug() << "New password hash obtained: " << newPasswordHash;
             QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
             QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
             settings.setValue("passwordHash", newPasswordHash);
-            settings.sync();  // Sicherstellen, dass die Einstellungen geschrieben werden
-            qDebug() << "New password set in QSettings.";
-        } else {
-            qDebug() << "Set password dialog canceled.";
+            settings.sync();
+            qDebug() << "Passwort zurückgesetzt.";
         }
-    } else {
-        qDebug() << "Security question dialog canceled.";
     }
 }
 
 // Getter-Methoden für die Buttons
-QPushButton* MainWindow::getAddNoteButton() const {
-    return ui->addNoteButton;
-}
+QPushButton* MainWindow::getAddNoteButton() const { return ui->addNoteButton; }
+QPushButton* MainWindow::getDisplayNotesButton() const { return ui->displayNotesButton; }
+QPushButton* MainWindow::getEditNoteButton() const { return ui->editNoteButton; }
+QPushButton* MainWindow::getDeleteNoteButton() const { return ui->deleteNoteButton; }
+QPushButton* MainWindow::getExitButton() const { return ui->exitButton; }
+QAction* MainWindow::getSetPasswordAction() const { return ui->setPasswordAction; }
 
-QPushButton* MainWindow::getDisplayNotesButton() const {
-    return ui->displayNotesButton;
-}
-
-QPushButton* MainWindow::getEditNoteButton() const {
-    return ui->editNoteButton;
-}
-
-QPushButton* MainWindow::getDeleteNoteButton() const {
-    return ui->deleteNoteButton;
-}
-
-QPushButton* MainWindow::getExitButton() const {
-    return ui->exitButton;
-}
-
-QAction* MainWindow::getSetPasswordAction() const {
-    return ui->setPasswordAction;
-}
-
+// Slot: "Notiz hinzufügen"-Button
 void MainWindow::on_addNoteButton_clicked() {
-    qDebug() << "Add Note Button clicked";
     NewNote newNoteDialog(this);
     if (newNoteDialog.exec() == QDialog::Accepted) {
         Note note;
@@ -205,105 +141,52 @@ void MainWindow::on_addNoteButton_clicked() {
         note.content = newNoteDialog.getContent_newnote().toStdString();
         notebook.addNote(note);
 
-        QString appDirPath = QCoreApplication::applicationDirPath();
-        QString directoryPath_temp = appDirPath + "/temp/";
-        QDir directory_temp(directoryPath_temp);
-        if (!directory_temp.exists()) {
-            qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath_temp;
-            if (!directory_temp.mkpath(directoryPath_temp)) {
-                qDebug() << "Fehler beim Erstellen des Verzeichnisses:" << directoryPath_temp;
-                return;
-            }
-        }
-
         // Speichern der Notiz als HTML-Datei
-        QString filename = directoryPath_temp + QString::fromStdString(note.title) + ".html";
+        QString appDirPath = QCoreApplication::applicationDirPath();
+        QString filename = appDirPath + "/temp/" + QString::fromStdString(note.title) + ".html";
         QFile file(filename);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream out(&file);
             out << QString::fromStdString(note.content);
             file.close();
-        } else {
-            qDebug() << "Fehler beim Öffnen der Datei zum Schreiben:" << filename;
-        }
-
-        // Optional: Zusammenfassung in notes.txt speichern
-        QString directoryPath_sys = appDirPath + "/sys/";
-        QDir directory_sys(directoryPath_sys);
-        if (!directory_sys.exists()) {
-            qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath_sys;
-            if (!directory_sys.mkpath(directoryPath_sys)) {
-                qDebug() << "Fehler beim Erstellen des Verzeichnisses:" << directoryPath_sys;
-                return;
-            }
-        }
-
-        QString summaryFilePath = directoryPath_sys + "notes.txt";
-        QFile summaryFile(summaryFilePath);
-        if (summaryFile.open(QIODevice::Append | QIODevice::Text)) {
-            QTextStream out(&summaryFile);
-            out << QString::fromStdString(note.title) << ": " << QString::fromStdString(note.content) << "\n";
-            summaryFile.close();
-        } else {
-            qDebug() << "Fehler beim Öffnen der Datei zum Schreiben der Zusammenfassung:" << summaryFilePath;
         }
     }
 }
 
+// Slot: "Notizen anzeigen"-Button
 void MainWindow::on_displayNotesButton_clicked() {
-    qDebug() << "Display Notes Button clicked";
     shownote *noteWidget_show = new shownote(this);
     noteWidget_show->show();
-
-    // Das Ausblenden eines Buttons
-    if (noteWidget_show->isVisible()) {
-        getAddNoteButton()->hide();
-        getDisplayNotesButton()->hide();
-        getEditNoteButton()->hide();
-        getDeleteNoteButton()->hide();
-        getExitButton()->hide();
-
-        // Debugging: Überprüfen, ob die Buttons ausgeblendet wurden
-        qDebug() << "Buttons ausgeblendet";
-    }
+    getAddNoteButton()->hide();
+    getDisplayNotesButton()->hide();
+    getEditNoteButton()->hide();
+    getDeleteNoteButton()->hide();
+    getExitButton()->hide();
 }
 
+// Slot: "Notiz bearbeiten"-Button
 void MainWindow::on_editNoteButton_clicked() {
-    qDebug() << "Edit Note Button clicked";
     editnote *noteWidget_edit = new editnote(this);
     noteWidget_edit->show();
-
-    // Das Ausblenden eines Buttons
-    if (noteWidget_edit->isVisible()) {
-        getAddNoteButton()->hide();
-        getDisplayNotesButton()->hide();
-        getEditNoteButton()->hide();
-        getDeleteNoteButton()->hide();
-        getExitButton()->hide();
-
-        // Debugging: Überprüfen, ob die Buttons ausgeblendet wurden
-        qDebug() << "Buttons ausgeblendet";
-    }
+    getAddNoteButton()->hide();
+    getDisplayNotesButton()->hide();
+    getEditNoteButton()->hide();
+    getDeleteNoteButton()->hide();
+    getExitButton()->hide();
 }
 
+// Slot: "Notiz löschen"-Button
 void MainWindow::on_deleteNoteButton_clicked() {
-    qDebug() << "Delete Note Button clicked";
     deletenote *noteWidget_delete = new deletenote(this);
     noteWidget_delete->show();
-
-    // Das Ausblenden eines Buttons
-    if (noteWidget_delete->isVisible()) {
-        getAddNoteButton()->hide();
-        getDisplayNotesButton()->hide();
-        getEditNoteButton()->hide();
-        getDeleteNoteButton()->hide();
-        getExitButton()->hide();
-
-        // Debugging: Überprüfen, ob die Buttons ausgeblendet wurden
-        qDebug() << "Buttons ausgeblendet";
-    }
+    getAddNoteButton()->hide();
+    getDisplayNotesButton()->hide();
+    getEditNoteButton()->hide();
+    getDeleteNoteButton()->hide();
+    getExitButton()->hide();
 }
 
+// Zeigt das Hauptmenü an
 void MainWindow::showMainMenu() {
     this->show();
     getAddNoteButton()->show();

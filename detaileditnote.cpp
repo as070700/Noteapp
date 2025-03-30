@@ -12,12 +12,14 @@
 #include <QStandardPaths>
 #include <QRegularExpression>
 
+// Konstruktor: Initialisiert die Benutzeroberfläche und verbindet die Buttons mit den entsprechenden Slots
 detaileditnote::detaileditnote(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::detaileditnote)
 {
     ui->setupUi(this);
 
+    // Verbindungen zwischen Buttons und Funktionen herstellen
     connect(ui->saveButton_detaileditnote, &QPushButton::clicked, this, &detaileditnote::on_saveButton_detaileditnote_clicked);
     connect(ui->backButton_detaileditnote, &QPushButton::clicked, this, &detaileditnote::on_backButton_detaileditnote_clicked);
     connect(ui->boldButton_detaileditnote, &QPushButton::clicked, this, &detaileditnote::setBold_detaileditnote);
@@ -27,11 +29,13 @@ detaileditnote::detaileditnote(QWidget *parent)
     connect(ui->fontSizeComboBox_detaileditnote, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &detaileditnote::setFontSize_detaileditnote);
 }
 
+// Destruktor: Gibt den Speicher der Benutzeroberfläche frei
 detaileditnote::~detaileditnote()
 {
     delete ui;
 }
 
+// Setzt den Titel und den Inhalt der Notiz
 void detaileditnote::setNoteContent_detaileditnote(const QString &title, const QString &content) {
     ui->title_textEdit_detaileditnote->setText(title);
     ui->title_textEdit_detaileditnote->setProperty("oldTitle", title);
@@ -50,6 +54,7 @@ void detaileditnote::setNoteContent_detaileditnote(const QString &title, const Q
     ui->content_textEdit_detaileditnote->setHtml(cleanedContent);
 }
 
+// Lädt und überprüft das Passwort
 bool detaileditnote::loadNotePassword_detaileditnote() {
     QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
     QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
@@ -88,6 +93,7 @@ bool detaileditnote::loadNotePassword_detaileditnote() {
     return true; // Passwort korrekt
 }
 
+// Speichert den Titel und den Inhalt der Notiz
 void detaileditnote::saveNoteContent_detaileditnote() {
     QString title = ui->title_textEdit_detaileditnote->toPlainText();
     QString content = ui->content_textEdit_detaileditnote->toHtml();
@@ -97,7 +103,7 @@ void detaileditnote::saveNoteContent_detaileditnote() {
         return;
     }
 
-    QString filePath = "./temp/" + title + ".html"; // Nur HTML-Datei speichern
+    QString filePath = "./temp/" + title + ".html"; // Speichern als HTML-Datei
     QFile file(filePath);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -118,24 +124,28 @@ void detaileditnote::saveNoteContent_detaileditnote() {
     QMessageBox::information(this, "Erfolg", "Die Notiz wurde gespeichert.");
 }
 
+// Setzt den Text fett
 void detaileditnote::setBold_detaileditnote() {
     QTextCharFormat format;
     format.setFontWeight(ui->content_textEdit_detaileditnote->fontWeight() == QFont::Bold ? QFont::Normal : QFont::Bold);
     mergeFormatOnWordOrSelection(format);
 }
 
+// Setzt den Text kursiv
 void detaileditnote::setItalic_detaileditnote() {
     QTextCharFormat format;
     format.setFontItalic(!ui->content_textEdit_detaileditnote->fontItalic());
     mergeFormatOnWordOrSelection(format);
 }
 
+// Unterstreicht den Text
 void detaileditnote::setUnderline_detaileditnote() {
     QTextCharFormat format;
     format.setFontUnderline(!ui->content_textEdit_detaileditnote->fontUnderline());
     mergeFormatOnWordOrSelection(format);
 }
 
+// Ändert die Textfarbe
 void detaileditnote::setColor_detaileditnote() {
     QColor color = QColorDialog::getColor(ui->content_textEdit_detaileditnote->textColor(), this);
     if (color.isValid()) {
@@ -145,6 +155,7 @@ void detaileditnote::setColor_detaileditnote() {
     }
 }
 
+// Ändert die Schriftgröße
 void detaileditnote::setFontSize_detaileditnote(int index) {
     int fontSize = ui->fontSizeComboBox_detaileditnote->itemText(index).toInt();
     if (fontSize > 0) {
@@ -154,6 +165,7 @@ void detaileditnote::setFontSize_detaileditnote(int index) {
     }
 }
 
+// Wendet Formatierungen auf das aktuelle Wort oder die Auswahl an
 void detaileditnote::mergeFormatOnWordOrSelection(const QTextCharFormat &format) {
     QTextCursor cursor = ui->content_textEdit_detaileditnote->textCursor();
     if (!cursor.hasSelection())
@@ -162,18 +174,17 @@ void detaileditnote::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
     ui->content_textEdit_detaileditnote->mergeCurrentCharFormat(format);
 }
 
+// Schließt den Dialog
 void detaileditnote::on_backButton_detaileditnote_clicked() {
-    this->reject(); // Schließt den Dialog
+    this->reject();
 }
 
+// Speichert die Notiz (inkl. Passwortabfrage, falls aktiviert)
 void detaileditnote::on_saveButton_detaileditnote_clicked() {
-    // Passwortabfrage nur bei aktivierter Checkbox
     if (ui->passwordProtectionCheckBox_detaileditnote->isChecked()) {
-        if (!loadNotePassword_detaileditnote()) { // Führt die Passwortabfrage aus
-            return; // Abbrechen, wenn das Passwort falsch ist
+        if (!loadNotePassword_detaileditnote()) {
+            return;
         }
     }
-
-    // Speichern der Notiz
     saveNoteContent_detaileditnote();
 }

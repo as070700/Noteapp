@@ -17,12 +17,12 @@ class shownote : public QWidget
     Q_OBJECT
 
 public:
-    explicit shownote(QWidget *parent = nullptr);
-    ~shownote();
+    explicit shownote(QWidget *parent = nullptr); // Konstruktor
+    ~shownote(); // Destruktor
 
-    void loadNotePassword_shownote();
+    void loadNotePassword_shownote(); // Lädt und überprüft das Passwort
 
-    // Getter-Methoden für die Buttons
+    // Getter-Methoden für die Buttons und Widgets
     QLabel* getLabelShownote() const;
     QScrollArea* getScrollAreaShownote() const;
     QWidget* getScrollAreaWidgetContentsShownote() const;
@@ -32,12 +32,12 @@ public:
     QPushButton* getSearchButtonShownote() const;
 
 private slots:
-    void on_backButton_shownote_clicked();
-    void on_openButton_shownote_clicked();
-    void on_searchButton_shownote_clicked();
+    void on_backButton_shownote_clicked(); // Slot für den Zurück-Button
+    void on_openButton_shownote_clicked(); // Slot für den Öffnen-Button
+    void on_searchButton_shownote_clicked(); // Slot für den Such-Button
 
 private:
-    Ui::shownote *ui;
+    Ui::shownote *ui; // Benutzeroberfläche
 };
 
 #endif // SHOWNOTE_H

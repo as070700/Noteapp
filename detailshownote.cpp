@@ -1,7 +1,6 @@
 #include "detailshownote.h"
 #include "getpassworddialog.h"
 #include "ui_detailshownote.h"
-#include "getpassworddialog.h"
 #include <QSettings>
 #include <QStandardPaths>
 #include <QMessageBox>
@@ -9,25 +8,29 @@
 #include <QFile>
 #include <QTextStream>
 
+// Konstruktor: Initialisiert die Benutzeroberfläche und verbindet den Zurück-Button mit der Schließen-Funktion
 detailShownote::detailShownote(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::detailShownote)
 {
     ui->setupUi(this);
 
+    // Verbindung des Zurück-Buttons mit der Schließen-Funktion
     connect(ui->backButton_detailshownote, &QPushButton::clicked, this, &QDialog::reject);
 
-    // Set the background of content_textEdit_detailshownote to transparent
+    // Setzt den Hintergrund des Textfelds auf transparent
     ui->content_textEdit_detailshownote->setStyleSheet("background: transparent");
 }
 
+// Destruktor: Gibt den Speicher der Benutzeroberfläche frei
 detailShownote::~detailShownote()
 {
     delete ui;
 }
 
+// Setzt den Titel und den Inhalt der Notiz
 void detailShownote::setNoteContent_show(const QString &title, const QString &content) {
-    ui->label_title_detailshownote->setText(title);
+    ui->label_title_detailshownote->setText(title); // Setzt den Titel der Notiz
 
     // Überprüfen, ob die Notiz passwortgeschützt ist
     QRegularExpression protectedRegex("<!--\\s*protected:\\s*true\\s*-->");
@@ -37,19 +40,21 @@ void detailShownote::setNoteContent_show(const QString &title, const QString &co
     qDebug() << "HTML-Inhalt:" << content;
     qDebug() << "Passwortschutz erkannt:" << isProtected;
 
-    // Entfernen des Passwortschutz-Kommentars aus dem angezeigten Inhalt
+    // Entfernt den Passwortschutz-Kommentar aus dem angezeigten Inhalt
     QString cleanedContent = content;
     cleanedContent.remove(protectedRegex);
     ui->content_textEdit_detailshownote->setHtml(cleanedContent);
 
-    // Checkbox deaktivieren, damit der Benutzer sie nicht ändern kann
+    // Deaktiviert die Checkbox, damit der Benutzer sie nicht ändern kann
     ui->passwordProtectionCheckBox_detailshownote->setEnabled(false);
 }
 
+// Lädt den Inhalt der Notiz aus einer Datei
 void detailShownote::loadNoteContent_detailshownote(const QString &noteTitle, const QString &noteContent) {
-    QString filePath = "./temp/" + noteTitle + ".html"; // Nur HTML-Datei laden
+    QString filePath = "./temp/" + noteTitle + ".html"; // Pfad zur HTML-Datei
     QFile file(filePath);
 
+    // Überprüfen, ob die Datei geöffnet werden kann
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::warning(this, "Fehler", "Konnte Datei nicht öffnen: " + filePath);
         return;
@@ -65,10 +70,11 @@ void detailShownote::loadNoteContent_detailshownote(const QString &noteTitle, co
     ui->passwordProtectionCheckBox_detailshownote->setChecked(isProtected);
 
     if (isProtected) {
+        // Passwortabfrage, wenn die Notiz geschützt ist
         getPasswordDialog passwordDialog(this);
         if (passwordDialog.exec() == QDialog::Accepted) {
             QString enteredPasswordHash = passwordDialog.getPassword_getPasswordDialog();
-            QString correctPasswordHash = "hashed_password"; // Ersetzen Sie dies durch die tatsächliche Logik
+            QString correctPasswordHash = "hashed_password"; // Hier sollte die tatsächliche Logik implementiert werden
 
             if (enteredPasswordHash != correctPasswordHash) {
                 QMessageBox::warning(this, "Falsches Passwort", "Das eingegebene Passwort ist falsch.");
@@ -79,14 +85,13 @@ void detailShownote::loadNoteContent_detailshownote(const QString &noteTitle, co
         }
     }
 
-    // Notizinhalt laden
+    // Setzt den Titel und den Inhalt der Notiz
     setNoteContent_show(noteTitle, content);
 }
 
+// Überprüft, ob die Notiz passwortgeschützt ist
 bool detailShownote::isNotePasswordProtected_detailshownote(const QString &noteTitle) {
-    // Hier können Sie die Logik implementieren, um zu überprüfen, ob die Notiz passwortgeschützt ist.
-    // Zum Beispiel könnten Sie eine spezielle Datei oder Metadaten verwenden, um dies zu speichern.
-    // Für dieses Beispiel nehmen wir an, dass passwortgeschützte Notizen ein bestimmtes Präfix haben.
+    // Beispielhafte Logik: Passwortgeschützte Notizen haben ein bestimmtes Präfix
     return noteTitle.startsWith("[Protected]");
 }
 

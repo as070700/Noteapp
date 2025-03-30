@@ -46,23 +46,6 @@ void NewNote::saveNote_password_NewNote()
 }
 
 void NewNote::saveNote_newnote() {
-    // Load the password hash from settings
-    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
-    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
-    QString correctHash = settings.value("passwordHash").toString();
-
-    SetPasswordDialog passwordDialog(this);
-    if (passwordDialog.exec() == QDialog::Accepted) {
-        QString enteredPassword = passwordDialog.getPassword_setPasswordDialog();
-        QString enteredHash = hashPassword(enteredPassword);  // Nutzung der Funktion aus utils.h
-        if (enteredHash != correctHash) {
-            QMessageBox::warning(this, "Fehler", "Falsches Passwort.");
-            return;
-        }
-    } else {
-        return;
-    }
-
     QString title = getTitle_newnote();
     QString content = getContent_newnote();
 
@@ -80,7 +63,7 @@ void NewNote::saveNote_newnote() {
         }
     }
 
-    QString filePath = dirPath + title + ".html";
+    QString filePath = dirPath + title + ".html"; // Nur HTML-Datei speichern
     QFile file(filePath);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -89,7 +72,17 @@ void NewNote::saveNote_newnote() {
     }
 
     QTextStream out(&file);
+
+    // Speichern der Passwortschutz-Information als Kommentar im <head>-Tag
+    bool isProtected = ui->passwordProtectionCheckBox_newnote->isChecked();
+    qDebug() << "isProtected: " << isProtected;
+
+    // Fügen Sie den Kommentar direkt nach dem <head>-Tag ein
+    QString protectedComment = QString("<!-- protected: %1 -->\n").arg(isProtected ? "true" : "false");
+    content.replace("<head>", QString("<head>\n%1").arg(protectedComment));
+
     out << content;
+    qDebug() << "content: " << content;
     file.close();
 
     QMessageBox::information(this, "Erfolg", "Die Notiz wurde gespeichert.");

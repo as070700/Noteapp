@@ -21,7 +21,7 @@
     <rect>
      <x>30</x>
      <y>50</y>
-     <width>731</width>
+     <width>581</width>
      <height>31</height>
     </rect>
    </property>
@@ -167,7 +167,53 @@
     </item>
    </layout>
   </widget>
+  <widget class="QCheckBox" name="passwordProtectionCheckBox_detaileditnote">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>50</y>
+     <width>171</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Notiz schützen?</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>saveButton_detaileditnote</sender>
+   <signal>clicked()</signal>
+   <receiver>detaileditnote</receiver>
+   <slot>on_saveButton_detaileditnote_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>719</x>
+     <y>565</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>backButton_detaileditnote</sender>
+   <signal>clicked()</signal>
+   <receiver>detaileditnote</receiver>
+   <slot>on_backButton_detaileditnote_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>95</x>
+     <y>565</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

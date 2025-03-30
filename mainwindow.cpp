@@ -216,6 +216,18 @@ void MainWindow::on_addNoteButton_clicked() {
             }
         }
 
+        // Speichern der Notiz als HTML-Datei
+        QString filename = directoryPath_temp + QString::fromStdString(note.title) + ".html";
+        QFile file(filename);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << QString::fromStdString(note.content);
+            file.close();
+        } else {
+            qDebug() << "Fehler beim Öffnen der Datei zum Schreiben:" << filename;
+        }
+
+        // Optional: Zusammenfassung in notes.txt speichern
         QString directoryPath_sys = appDirPath + "/sys/";
         QDir directory_sys(directoryPath_sys);
         if (!directory_sys.exists()) {
@@ -226,17 +238,6 @@ void MainWindow::on_addNoteButton_clicked() {
             }
         }
 
-        QString filename = directoryPath_temp + QString::fromStdString(note.title) + ".txt";
-        QFile file(filename);
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QTextStream out(&file);
-            out << QString::fromStdString(note.content);
-            file.close();
-        } else {
-            qDebug() << "Fehler beim Öffnen der Datei zum Schreiben:" << filename;
-        }
-
-        // Zusammenfassung in notes.txt speichern
         QString summaryFilePath = directoryPath_sys + "notes.txt";
         QFile summaryFile(summaryFilePath);
         if (summaryFile.open(QIODevice::Append | QIODevice::Text)) {

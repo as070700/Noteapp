@@ -1,10 +1,8 @@
 #include "getpassworddialog.h"
 #include "ui_getpassworddialog.h"
-#include "utils.h"  // Hinzufügen dieser Zeile
 #include <QSettings>
 #include <QStandardPaths>
 #include <QMessageBox>
-#include <QDebug>
 
 getPasswordDialog::getPasswordDialog(QWidget *parent) :
     QDialog(parent),
@@ -27,14 +25,12 @@ QString getPasswordDialog::getPassword_getPasswordDialog() const
 
 void getPasswordDialog::on_okButton_getpassworddialog_clicked()
 {
-    QString sysDirPath_getpassworddialog = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
-    QSettings settings(sysDirPath_getpassworddialog + "/settings.ini", QSettings::IniFormat);
-    QString correctHash_getpassworddialog = settings.value("passwordHash").toString();
+    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+    QString correctHash = settings.value("passwordHash").toString();
 
-    QString enteredPassword_getpassworddialog = getPassword_getPasswordDialog();
-    QString enteredHash_getpassworddialog = hashPassword(enteredPassword_getpassworddialog);  // Nutzung der Funktion aus utils.h
-
-    if (enteredHash_getpassworddialog == correctHash_getpassworddialog) {
+    QString passwordHash = getPassword_getPasswordDialog();
+    if (passwordHash == correctHash) {
         emit passwordCorrect_getpassworddialog(); // Signal emitten
         close(); // Dialog schließen
     } else {

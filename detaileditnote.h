@@ -17,10 +17,12 @@ public:
     ~detaileditnote();
 
     void setNoteContent_detaileditnote(const QString &title, const QString &content);
+    bool loadNotePassword_detaileditnote(); // Rückgabetyp von void zu bool geändert
+    void saveNoteContent_detaileditnote();
 
 private slots:
-    void saveNote_detaileditnote();
-    void saveNoteContent(); // Methode deklarieren
+    void on_backButton_detaileditnote_clicked();
+    void on_saveButton_detaileditnote_clicked();
     void setBold_detaileditnote();
     void setItalic_detaileditnote();
     void setUnderline_detaileditnote();

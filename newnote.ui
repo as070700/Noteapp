@@ -47,7 +47,7 @@
     <rect>
      <x>20</x>
      <y>40</y>
-     <width>741</width>
+     <width>591</width>
      <height>31</height>
     </rect>
    </property>
@@ -159,6 +159,19 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QCheckBox" name="passwordProtectionCheckBox_newnote">
+   <property name="geometry">
+    <rect>
+     <x>586</x>
+     <y>40</y>
+     <width>171</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Notiz schützen?</string>
+   </property>
   </widget>
  </widget>
  <resources/>

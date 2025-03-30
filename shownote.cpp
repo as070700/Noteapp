@@ -1,4 +1,6 @@
 #include "shownote.h"
+#include "setpassworddialog.h"
+#include "getpassworddialog.h"
 #include "ui_shownote.h"
 #include "mainwindow.h"
 #include "detailshownote.h"
@@ -12,8 +14,9 @@
 #include <QScrollArea>
 #include <QPushButton>
 #include <QListView>
+#include <QSettings>
+#include <QStandardPaths>
 #include <QDebug>
-#include <exception>
 
 shownote::shownote(QWidget *parent) :
     QWidget(parent),
@@ -91,6 +94,41 @@ QPushButton* shownote::getSearchButtonShownote() const {
     return ui->searchButton_shownote;
 }
 
+void shownote::loadNotePassword_shownote() {
+        QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+        QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+    
+        // Überprüfen, ob ein Passwort existiert
+        if (!settings.contains("passwordHash") || settings.value("passwordHash").toString().isEmpty()) {
+            QMessageBox::information(this, "Passwort setzen", "Es wurde noch kein Passwort gesetzt. Bitte setzen Sie ein neues Passwort.");
+    
+            SetPasswordDialog setPasswordDialog(this);
+            if (setPasswordDialog.exec() == QDialog::Accepted) {
+                QString newPasswordHash = setPasswordDialog.getPassword_setPasswordDialog();
+                settings.setValue("passwordHash", newPasswordHash);
+                settings.sync(); // Speichern der Einstellungen
+                QMessageBox::information(this, "Passwort gesetzt", "Das Passwort wurde erfolgreich gesetzt.");
+            } else {
+                QMessageBox::warning(this, "Abgebrochen", "Das Setzen eines Passworts wurde abgebrochen.");
+                return;
+            }
+        } else {
+            // Passwortabfrage
+            getPasswordDialog passwordDialog(this);
+            if (passwordDialog.exec() == QDialog::Accepted) {
+                QString enteredPasswordHash = passwordDialog.getPassword_getPasswordDialog();
+                QString correctPasswordHash = settings.value("passwordHash").toString();
+    
+                if (enteredPasswordHash != correctPasswordHash) {
+                    QMessageBox::warning(this, "Falsches Passwort", "Das eingegebene Passwort ist falsch.");
+                    return;
+                }
+            } else {
+                return; // Abbrechen, wenn der Benutzer den Dialog schließt
+            }
+        }
+    }
+
 void shownote::on_backButton_shownote_clicked() {
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
     if (mainWindow) {
@@ -111,7 +149,7 @@ void shownote::on_openButton_shownote_clicked() {
         QString content = currentItem->data(Qt::UserRole).toString();
 
         detailShownote *detailDialog = new detailShownote(this);
-        detailDialog->setNoteContent_show(title, content); // Methode zum Setzen des Inhalts im Dialog
+        detailDialog->loadNoteContent_detailshownote(title, content); // Methode zum Laden der Notiz mit Passwortprüfung
         detailDialog->exec(); // Öffnet den Dialog
     } else {
         QMessageBox::warning(this, "Warnung", "Bitte wählen Sie eine Notiz aus.");

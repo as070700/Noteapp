@@ -20,6 +20,8 @@ public:
     explicit shownote(QWidget *parent = nullptr);
     ~shownote();
 
+    void loadNotePassword_shownote();
+
     // Getter-Methoden für die Buttons
     QLabel* getLabelShownote() const;
     QScrollArea* getScrollAreaShownote() const;

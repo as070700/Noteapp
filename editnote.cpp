@@ -28,7 +28,7 @@ editnote::editnote(QWidget *parent) :
         }
     }
 
-    QStringList textFiles = directory.entryList(QStringList() << "*.txt", QDir::Files);
+    QStringList textFiles = directory.entryList(QStringList() << "*.html", QDir::Files);
     if (textFiles.isEmpty()) {
         qDebug() << "Keine Textdateien im Verzeichnis" << directoryPath;
     }
@@ -43,8 +43,8 @@ editnote::editnote(QWidget *parent) :
 
         // Entfernen der .txt Erweiterung aus dem Dateinamen
         QString displayName = filename;
-        if (displayName.endsWith(".txt")) {
-            displayName.chop(4); // Entfernt die letzten 4 Zeichen
+        if (displayName.endsWith(".html")) {
+            displayName.chop(5); // Entfernt die letzten 4 Zeichen
         }
 
         QTextStream in(&file);

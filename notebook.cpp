@@ -9,7 +9,8 @@ Notebook::Notebook() {
 
 bool Notebook::addNote(const Note& note) {
     notes.push_back(note);
-    return saveNoteToFile(note);
+    // return saveNoteToFile(note); // Auskommentiert: Speichern in notes.txt
+    return true; // Nur im Speicher speichern
 }
 
 bool Notebook::editNote(int index, const Note& note) {
@@ -17,7 +18,8 @@ bool Notebook::editNote(int index, const Note& note) {
         return false;
     }
     notes[index] = note;
-    return saveNoteToFile(note);
+    // return saveNoteToFile(note); // Auskommentiert: Speichern in notes.txt
+    return true; // Nur im Speicher speichern
 }
 
 bool Notebook::deleteNote(int index) {
@@ -26,6 +28,7 @@ bool Notebook::deleteNote(int index) {
     }
     notes.erase(notes.begin() + index);
     // Optional: You might want to delete the corresponding file here.
+    // Auskommentiert: Kein Löschen aus notes.txt
     return true;
 }
 
@@ -34,31 +37,31 @@ std::vector<Note> Notebook::getNotes() const {
 }
 
 bool Notebook::loadNotes() {
-    std::ifstream file("./sys/notes.txt");
-    if (!file.is_open()) {
-        return false;
-    }
+    // std::ifstream file("./sys/notes.txt"); // Auskommentiert: Laden aus notes.txt
+    // if (!file.is_open()) {
+    //     return false;
+    // }
 
-    std::string line;
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        Note note;
-        if (std::getline(iss, note.title, '|') && std::getline(iss, note.content)) {
-            notes.push_back(note);
-        }
-    }
-    file.close();
-    return true;
+    // std::string line;
+    // while (std::getline(file, line)) {
+    //     std::istringstream iss(line);
+    //     Note note;
+    //     if (std::getline(iss, note.title, '|') && std::getline(iss, note.content)) {
+    //         notes.push_back(note);
+    //     }
+    // }
+    // file.close();
+    return true; // Keine Notizen aus notes.txt laden
 }
 
 bool Notebook::saveNoteToFile(const Note& note) {
-    std::ofstream file("./sys/notes.txt", std::ios::app);
-    if (!file.is_open()) {
-        return false;
-    }
-    file << note.title << "|" << note.content << "\n";
-    file.close();
-    return true;
+    // std::ofstream file("./sys/notes.txt", std::ios::app); // Auskommentiert: Speichern in notes.txt
+    // if (!file.is_open()) {
+    //     return false;
+    // }
+    // file << note.title << "|" << note.content << "\n";
+    // file.close();
+    return true; // Kein Speichern in notes.txt
 }
 
 std::string Notebook::getCurrentTimestamp() const {

@@ -59,18 +59,17 @@ void NewNote::saveNote_newnote() {
 
     // Überprüfen, ob der Titel leer ist
     if (title.isEmpty()) {
-        QMessageBox::warning(this, "Fehler", "Der Titel darf nicht leer sein.");
+        ui->errorLabel_newnote->setText("Fehler: Der Titel darf nicht leer sein.");
+        ui->errorLabel_newnote->setStyleSheet("color: red;");
         return;
     }
 
     // Verzeichnis für die Notizen
     QString dirPath = "./temp/";
     QDir dir(dirPath);
-    if (!dir.exists()) {
-        if (!dir.mkpath(dirPath)) {
-            QMessageBox::warning(this, "Fehler", "Konnte das Verzeichnis nicht erstellen: " + dirPath);
-            return;
-        }
+    if (!dir.exists() && !dir.mkpath(dirPath)) {
+        ui->errorLabel_newnote->setText("Fehler: Konnte das Verzeichnis nicht erstellen: " + dirPath);
+        return;
     }
 
     // Datei für die Notiz erstellen
@@ -78,7 +77,7 @@ void NewNote::saveNote_newnote() {
     QFile file(filePath);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Fehler", "Konnte Datei nicht öffnen: " + filePath);
+        ui->errorLabel_newnote->setText("Fehler: Konnte Datei nicht öffnen: " + filePath);
         return;
     }
 
@@ -97,8 +96,9 @@ void NewNote::saveNote_newnote() {
     qDebug() << "content: " << content;
     file.close();
 
-    QMessageBox::information(this, "Erfolg", "Die Notiz wurde gespeichert.");
-    accept(); // Dialog schließen
+    ui->errorLabel_newnote->setText("Erfolg: Die Notiz wurde gespeichert.");
+    ui->errorLabel_newnote->setStyleSheet("color: green;");
+    accept();
 }
 
 // Setzt den Text fett

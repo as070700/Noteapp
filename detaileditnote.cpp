@@ -3,6 +3,7 @@
 #include "ui_detaileditnote.h"
 #include "getpassworddialog.h"
 #include <QFile>
+#include <QPushButton>
 #include <QTextStream>
 #include <QMessageBox>
 #include <QDebug>
@@ -99,7 +100,8 @@ void detaileditnote::saveNoteContent_detaileditnote() {
     QString content = ui->content_textEdit_detaileditnote->toHtml();
 
     if (title.isEmpty()) {
-        QMessageBox::warning(this, "Fehler", "Der Titel darf nicht leer sein.");
+        ui->errorLabel_detaileditnote->setText("Fehler: Der Titel darf nicht leer sein.");
+        ui->errorLabel_detaileditnote->setStyleSheet("color: red;");
         return;
     }
 
@@ -107,7 +109,7 @@ void detaileditnote::saveNoteContent_detaileditnote() {
     QFile file(filePath);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Fehler", "Konnte Datei nicht öffnen: " + filePath);
+        ui->errorLabel_detaileditnote->setText("Fehler: Konnte Datei nicht öffnen: " + filePath);
         return;
     }
 
@@ -115,13 +117,15 @@ void detaileditnote::saveNoteContent_detaileditnote() {
 
     // Speichern der Passwortschutz-Information basierend auf der Checkbox
     bool isProtected = ui->passwordProtectionCheckBox_detaileditnote->isChecked();
-    if (isProtected) {
-        out << "<!-- protected: true -->\n";
-    }
+    QString protectedComment = QString("<!-- protected: %1 -->\n").arg(isProtected ? "true" : "false");
+
+    // Füge den Kommentar an den Anfang des Inhalts hinzu
+    content = protectedComment + content;
     out << content;
     file.close();
 
-    QMessageBox::information(this, "Erfolg", "Die Notiz wurde gespeichert.");
+    ui->errorLabel_detaileditnote->setText("Erfolg: Die Notiz wurde gespeichert.");
+    ui->errorLabel_detaileditnote->setStyleSheet("color: green;");
 }
 
 // Setzt den Text fett

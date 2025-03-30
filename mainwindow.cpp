@@ -139,7 +139,7 @@ void MainWindow::on_addNoteButton_clicked() {
         Note note;
         note.title = newNoteDialog.getTitle_newnote().toStdString();
         note.content = newNoteDialog.getContent_newnote().toStdString();
-        notebook.addNote(note);
+        //notebook.addNote(note);
 
         // Speichern der Notiz als HTML-Datei
         QString appDirPath = QCoreApplication::applicationDirPath();

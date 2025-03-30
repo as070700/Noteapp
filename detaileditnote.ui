@@ -32,7 +32,7 @@
      <x>30</x>
      <y>160</y>
      <width>731</width>
-     <height>371</height>
+     <height>351</height>
     </rect>
    </property>
   </widget>
@@ -180,20 +180,57 @@
     <string>Notiz schützen?</string>
    </property>
   </widget>
+  <widget class="QLabel" name="errorLabel_detaileditnote">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>510</y>
+     <width>341</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources/>
-<connections>
+ <connections>
   <connection>
    <sender>saveButton_detaileditnote</sender>
    <signal>clicked()</signal>
    <receiver>detaileditnote</receiver>
    <slot>on_saveButton_detaileditnote_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>712</x>
+     <y>559</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>backButton_detaileditnote</sender>
    <signal>clicked()</signal>
    <receiver>detaileditnote</receiver>
    <slot>on_backButton_detaileditnote_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>155</x>
+     <y>564</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>221</x>
+     <y>413</y>
+    </hint>
+   </hints>
   </connection>
-</connections>
+ </connections>
+ <slots>
+  <slot>on_saveButton_detaileditnote_clicked()</slot>
+  <slot>on_backButton_detaileditnote_clicked()</slot>
+ </slots>
 </ui>

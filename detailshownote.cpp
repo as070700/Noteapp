@@ -33,8 +33,9 @@ void detailShownote::setNoteContent_show(const QString &title, const QString &co
     ui->label_title_detailshownote->setText(title); // Setzt den Titel der Notiz
 
     // Überprüfen, ob die Notiz passwortgeschützt ist
-    QRegularExpression protectedRegex("<!--\\s*protected:\\s*true\\s*-->");
-    bool isProtected = protectedRegex.match(content).hasMatch();
+    QRegularExpression protectedRegex("<!--\\s*protected:\\s*(true|false)\\s*-->");
+    QRegularExpressionMatch match = protectedRegex.match(content);
+    bool isProtected = match.hasMatch() && match.captured(1) == "true";
     ui->passwordProtectionCheckBox_detailshownote->setChecked(isProtected);
 
     qDebug() << "HTML-Inhalt:" << content;
@@ -54,9 +55,9 @@ void detailShownote::loadNoteContent_detailshownote(const QString &noteTitle, co
     QString filePath = "./temp/" + noteTitle + ".html"; // Pfad zur HTML-Datei
     QFile file(filePath);
 
-    // Überprüfen, ob die Datei geöffnet werden kann
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Fehler", "Konnte Datei nicht öffnen: " + filePath);
+        ui->errorLabel_detailshownote->setText("Fehler: Konnte Datei nicht öffnen: " + filePath);
+        ui->errorLabel_detailshownote->setStyleSheet("color: red;"); // Fehler in Rot anzeigen
         return;
     }
 
@@ -67,25 +68,29 @@ void detailShownote::loadNoteContent_detailshownote(const QString &noteTitle, co
     // Überprüfen, ob die Notiz passwortgeschützt ist
     QRegularExpression protectedRegex("<!--\\s*protected:\\s*true\\s*-->");
     bool isProtected = protectedRegex.match(content).hasMatch();
-    ui->passwordProtectionCheckBox_detailshownote->setChecked(isProtected);
 
     if (isProtected) {
         // Passwortabfrage, wenn die Notiz geschützt ist
+        QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
+        QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
+
+        // Passwortabfrage-Dialog
         getPasswordDialog passwordDialog(this);
         if (passwordDialog.exec() == QDialog::Accepted) {
             QString enteredPasswordHash = passwordDialog.getPassword_getPasswordDialog();
-            QString correctPasswordHash = "hashed_password"; // Hier sollte die tatsächliche Logik implementiert werden
+            QString correctPasswordHash = settings.value("passwordHash").toString();
 
             if (enteredPasswordHash != correctPasswordHash) {
-                QMessageBox::warning(this, "Falsches Passwort", "Das eingegebene Passwort ist falsch.");
-                return;
+                ui->errorLabel_detailshownote->setText("Fehler: Falsches Passwort.");
+                return; // Abbrechen, wenn der Benutzer den Dialog schließt
             }
         } else {
+            ui->errorLabel_detailshownote->setText("Fehler: Passwortabfrage abgebrochen.");
             return; // Abbrechen, wenn der Benutzer den Dialog schließt
         }
     }
 
-    // Setzt den Titel und den Inhalt der Notiz
+// Setzt den Titel und den Inhalt der Notiz
     setNoteContent_show(noteTitle, content);
 }
 

@@ -131,7 +131,7 @@ void detaileditnote::saveNoteContent_detaileditnote() {
     // Füge den Kommentar an den Anfang des Inhalts hinzu
     content = protectedComment + content;
     */
-    out << content;
+    //out << content;
     file.close();
 }
 

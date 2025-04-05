@@ -55,7 +55,7 @@ void deletenote::loadNotes()
         // Entfernen der .txt-Erweiterung aus dem Dateinamen
         QString displayName = filename;
         if (displayName.endsWith(".html")) {
-            displayName.chop(5); // Entfernt die letzten 4 Zeichen
+            displayName.chop(5); // Entfernt die letzten 5 Zeichen
         }
 
         // Dateiinhalt lesen und als Daten im Listeneintrag speichern

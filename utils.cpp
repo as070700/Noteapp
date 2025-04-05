@@ -1,3 +1,4 @@
+/*
 #include "utils.h"
 #include <QCryptographicHash>
 
@@ -8,3 +9,4 @@ QString hashPassword(const QString &password) {
     // Konvertiert das Passwort in UTF-8 und hasht es mit SHA-256
     return QString(QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex());
 }
+*/

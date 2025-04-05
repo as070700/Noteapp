@@ -8,7 +8,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
-#include <exception>
 
 // Konstruktor: Initialisiert die Benutzeroberfläche und lädt die Notizen
 editnote::editnote(QWidget *parent) :
@@ -69,6 +68,7 @@ editnote::~editnote()
 
 // Slot: Zurück-Button - Zurück zur Hauptansicht
 void editnote::on_backButton_editnote_clicked() {
+    ui->errorLabel_editnote->clear(); // Fehlerlabel leeren
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
     if (mainWindow) {
         mainWindow->show(); // Hauptfenster anzeigen
@@ -83,6 +83,7 @@ void editnote::on_backButton_editnote_clicked() {
 
 // Slot: Öffnen-Button - Öffnet die ausgewählte Notiz im Bearbeitungsdialog
 void editnote::on_openButton_editnote_clicked() {
+    ui->errorLabel_editnote->clear(); // Fehlerlabel leeren
     QListWidgetItem *currentItem = ui->listWidget_editnote->currentItem(); // Aktuell ausgewählter Eintrag
     if (currentItem) {
         QString title = currentItem->text(); // Titel der Notiz
@@ -90,10 +91,17 @@ void editnote::on_openButton_editnote_clicked() {
 
         // Öffnet den Bearbeitungsdialog für die Notiz
         detaileditnote *detaileditDialog = new detaileditnote(this);
-        detaileditDialog->setNoteContent_detaileditnote(title, content); // Setzt den Titel und Inhalt im Dialog
-        detaileditDialog->exec(); // Zeigt den Dialog an
+
+        // Verbindung herstellen: Wenn die Notiz gespeichert wird, setze den Text im Label
+        connect(detaileditDialog, &detaileditnote::noteSaved, this, [this]() {
+            ui->errorLabel_editnote->setText("Notiz erfolgreich gespeichert.");
+            ui->errorLabel_editnote->setStyleSheet("color: green;");
+        });
+
+        detaileditDialog->setNoteContent_detaileditnote(title, content);
+        detaileditDialog->exec(); // Dialog öffnen
     } else {
-        // Warnung, wenn keine Notiz ausgewählt wurde
-        QMessageBox::warning(this, "Warnung", "Bitte wählen Sie eine Notiz aus.");
+        ui->errorLabel_editnote->setText("Warnung: Bitte wählen Sie eine Notiz aus.");
+        ui->errorLabel_editnote->setStyleSheet("color: orange;");
     }
 }

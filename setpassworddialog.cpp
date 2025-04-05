@@ -1,4 +1,4 @@
-#include "setpassworddialog.h"
+/* #include "setpassworddialog.h"
 #include "ui_setpassworddialog.h"
 #include "utils.h" // Hilfsfunktionen wie hashPassword
 #include <QCryptographicHash>
@@ -73,3 +73,4 @@ void SetPasswordDialog::on_cancelButton_setPasswordDialog_clicked()
     qDebug() << "on_cancelButton_setPasswordDialog_clicked aufgerufen";
     close(); // Dialog schließen
 }
+ */

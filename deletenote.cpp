@@ -82,21 +82,25 @@ void deletenote::on_deleteButton_deleteNote_clicked()
 
             // Datei löschen
             if (QFile::remove(filePath)) {
-                delete item; // Eintrag aus der Liste entfernen
+                // Entfernen des Eintrags aus der Liste
+                delete ui->listWidget_deleteNote->takeItem(ui->listWidget_deleteNote->row(item));
             } else {
                 allDeleted = false; // Fehler beim Löschen
             }
         }
 
-        // Rückmeldung an den Benutzer
+        // Rückmeldung an den Benutzer über das Label
         if (allDeleted) {
-            QMessageBox::information(this, "Notizen gelöscht", "Alle ausgewählten Notizen wurden gelöscht.");
+            ui->errorLabel_deletnote->setText("Alle ausgewählten Notizen wurden gelöscht.");
+            ui->errorLabel_deletnote->setStyleSheet("color: green;"); // Erfolgsnachricht in Grün
         } else {
-            QMessageBox::warning(this, "Fehler", "Einige Notizdateien konnten nicht gelöscht werden.");
+            ui->errorLabel_deletnote->setText("Fehler: Einige Notizdateien konnten nicht gelöscht werden.");
+            ui->errorLabel_deletnote->setStyleSheet("color: red;"); // Fehlermeldung in Rot
         }
     } else {
         // Warnung, wenn keine Notiz ausgewählt wurde
-        QMessageBox::warning(this, "Keine Auswahl", "Bitte wählen Sie mindestens eine Notiz aus, die gelöscht werden soll.");
+        ui->errorLabel_deletnote->setText("Warnung: Bitte wählen Sie mindestens eine Notiz aus, die gelöscht werden soll.");
+        ui->errorLabel_deletnote->setStyleSheet("color: orange;"); // Warnung in Orange
     }
 }
 

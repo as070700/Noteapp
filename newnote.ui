@@ -38,6 +38,9 @@
      <height>371</height>
     </rect>
    </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>IBeamCursor</cursorShape>
+   </property>
    <property name="placeholderText">
     <string>Neue Notiz...</string>
    </property>
@@ -47,7 +50,7 @@
     <rect>
      <x>20</x>
      <y>40</y>
-     <width>591</width>
+     <width>741</width>
      <height>31</height>
     </rect>
    </property>
@@ -67,6 +70,9 @@
    <property name="text">
     <string>Speichern</string>
    </property>
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
+   </property>
   </widget>
   <widget class="QPushButton" name="backButton_newnote">
    <property name="geometry">
@@ -79,6 +85,9 @@
    </property>
    <property name="text">
     <string>Zurück</string>
+   </property>
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::GoHome"/>
    </property>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget">
@@ -140,21 +149,30 @@
     <item>
      <widget class="QPushButton" name="underlineButton_newnote">
       <property name="text">
-       <string>Unterstrichen</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset theme="QIcon::ThemeIcon::FormatTextUnderline"/>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="italicButton_newnote">
       <property name="text">
-       <string>Kursiv</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset theme="QIcon::ThemeIcon::FormatTextItalic"/>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="boldButton_newnote">
       <property name="text">
-       <string>Fett</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset theme="QIcon::ThemeIcon::FormatTextBold"/>
       </property>
      </widget>
     </item>

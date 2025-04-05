@@ -1,6 +1,6 @@
 #include "shownote.h"
-#include "setpassworddialog.h"
-#include "getpassworddialog.h"
+// #include "setpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
+// #include "getpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
 #include "ui_shownote.h"
 #include "mainwindow.h"
 #include "detailshownote.h"
@@ -100,7 +100,7 @@ QPushButton* shownote::getSearchButtonShownote() const {
     return ui->searchButton_shownote;
 }
 
-// Lädt und überprüft das Passwort
+/* // Lädt und überprüft das Passwort
 void shownote::loadNotePassword_shownote() {
     QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
     QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
@@ -134,7 +134,7 @@ void shownote::loadNotePassword_shownote() {
             return; // Abbrechen, wenn der Benutzer den Dialog schließt
         }
     }
-}
+} */
 
 // Slot: Zurück-Button - Zurück zur Hauptansicht
 void shownote::on_backButton_shownote_clicked() {
@@ -158,7 +158,7 @@ void shownote::on_openButton_shownote_clicked() {
         QString content = currentItem->data(Qt::UserRole).toString();
 
         detailShownote *detailDialog = new detailShownote(this);
-        detailDialog->loadNoteContent_detailshownote(title, content); // Methode zum Laden der Notiz mit Passwortprüfung
+        detailDialog->loadNoteContent_detailshownote(title, content); // Methode zum Laden der Notiz
         detailDialog->exec(); // Öffnet den Dialog
     } else {
         QMessageBox::warning(this, "Warnung", "Bitte wählen Sie eine Notiz aus.");

@@ -1,4 +1,4 @@
-#include "securityquestiondialog.h"
+/* #include "securityquestiondialog.h"
 #include "ui_securityquestiondialog.h"
 #include "utils.h"
 #include <QMessageBox>
@@ -62,3 +62,4 @@ void SecurityQuestionDialog::on_cancelButton_securityquestiondialog_clicked()
 {
     close(); // Dialog schließen
 }
+ */

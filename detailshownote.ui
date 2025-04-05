@@ -22,6 +22,9 @@
      <height>451</height>
     </rect>
    </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="styleSheet">
     <string notr="true">background: transparent</string>
    </property>
@@ -41,13 +44,22 @@
    <property name="text">
     <string>Zurück</string>
    </property>
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MailReplied"/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>16</height>
+    </size>
+   </property>
   </widget>
   <widget class="QLabel" name="label_title_detailshownote">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>20</y>
-     <width>604</width>
+     <width>741</width>
      <height>20</height>
     </rect>
    </property>

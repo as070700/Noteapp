@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QListWidgetItem>
+#include <QLabel>
 
 namespace Ui {
 class editnote;
@@ -13,15 +14,17 @@ class editnote : public QWidget
     Q_OBJECT
 
 public:
-    explicit editnote(QWidget *parent = nullptr); // Konstruktor // Konstruktor
-    ~editnote(); // Destruktor // Destruktor
+    explicit editnote(QWidget *parent = nullptr); // Konstruktor
+    ~editnote(); // Destruktor
+
+    QLabel* errorLabel_editnote; // Fehlerlabel
 
 private slots:
-    void on_backButton_editnote_clicked(); // Slot für den Zurück-Button // Slot für den Zurück-Button
-    void on_openButton_editnote_clicked(); // Slot für den Öffnen-Button // Slot für den Öffnen-Button
+    void on_backButton_editnote_clicked(); // Slot für den Zurück-Button
+    void on_openButton_editnote_clicked(); // Slot für den Öffnen-Button
 
 private:
-    Ui::editnote *ui; // Benutzeroberfläche // Benutzeroberfläche
+    Ui::editnote *ui; // Benutzeroberfläche
 };
 
 #endif // EDITNOTE_H

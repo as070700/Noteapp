@@ -21,8 +21,10 @@ public:
     QString getContent_newnote() const; // Gibt den Inhalt der Notiz zurück
     void saveNote_newnote(); // Speichert die Notiz
 
+signals:
+    void noteSaved(); // Signal, das ausgelöst wird, wenn die Notiz gespeichert wurde
+
 private slots:
-    void saveNote_password_NewNote(); // Speichert die Notiz mit Passwortschutz
     void setBold_newnote(); // Setzt den Text fett
     void setItalic_newnote(); // Setzt den Text kursiv
     void setUnderline_newnote(); // Unterstreicht den Text

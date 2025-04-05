@@ -1,4 +1,4 @@
-#ifndef SECURITYQUESTIONDIALOG_H
+/* #ifndef SECURITYQUESTIONDIALOG_H
 #define SECURITYQUESTIONDIALOG_H
 
 #include <QDialog>
@@ -28,4 +28,4 @@ private:
     Ui::SecurityQuestionDialog *ui; // Benutzeroberfläche
 };
 
-#endif // SECURITYQUESTIONDIALOG_H
+#endif // SECURITYQUESTIONDIALOG_H */

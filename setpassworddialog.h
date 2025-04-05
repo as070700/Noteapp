@@ -1,4 +1,4 @@
-#ifndef SETPASSWORDDIALOG_H
+/* #ifndef SETPASSWORDDIALOG_H
 #define SETPASSWORDDIALOG_H
 
 #include <QDialog>
@@ -30,3 +30,4 @@ private:
 };
 
 #endif // SETPASSWORDDIALOG_H
+ */

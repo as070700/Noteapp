@@ -1,4 +1,4 @@
-#include "setpassworddialog.h"
+// #include "setpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
 #include "newnote.h"
 #include "mainwindow.h"
 #include <QApplication>
@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     qDebug() << "Application gestartet";
 
     // Pfad zum Verzeichnis für Systemeinstellungen (z. B. Passwortspeicherung)
+    /*
     QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
     QDir sysDir(sysDirPath);
 
@@ -30,6 +31,7 @@ int main(int argc, char *argv[])
     // Initialisiert QSettings, um Einstellungen in einer INI-Datei zu speichern
     QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
     qDebug() << "QSettings initialisiert";
+    */
 
     // Erstellt das Hauptfenster der Anwendung
     MainWindow mainWindow;

@@ -17,8 +17,10 @@ public:
     ~detaileditnote(); // Destruktor
 
     void setNoteContent_detaileditnote(const QString &title, const QString &content); // Setzt Titel und Inhalt der Notiz
-    bool loadNotePassword_detaileditnote(); // Lädt und überprüft das Passwort (Rückgabetyp von void zu bool geändert)
-    void saveNoteContent_detaileditnote(); // Speichert den Inhalt der Notiz
+    // bool loadNotePassword_detaileditnote(); // Auskommentiert: Lädt und überprüft das Passwort
+
+signals:
+    void noteSaved(); // Signal, das ausgelöst wird, wenn die Notiz gespeichert wurde
 
 private slots:
     void on_backButton_detaileditnote_clicked(); // Slot für den Zurück-Button
@@ -31,6 +33,7 @@ private slots:
 
 private:
     Ui::detaileditnote *ui; // Benutzeroberfläche
+    void saveNoteContent_detaileditnote(); // Speichert den Inhalt der Notiz
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format); // Wendet Formatierungen auf das aktuelle Wort oder die Auswahl an
 };
 

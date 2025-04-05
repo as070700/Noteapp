@@ -1,3 +1,4 @@
+/*
 #ifndef GETPASSWORDDIALOG_H
 #define GETPASSWORDDIALOG_H
 
@@ -29,3 +30,4 @@ private:
 };
 
 #endif // GETPASSWORDDIALOG_H
+*/

@@ -3,9 +3,9 @@
 #include "shownote.h"
 #include "editnote.h"
 #include "deletenote.h"
-#include "setpassworddialog.h"
-#include "getpassworddialog.h"
-#include "securityquestiondialog.h"
+// #include "setpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
+// #include "getpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
+// #include "securityquestiondialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
 #include "ui_mainwindow.h"
 #include "note.h"
 #include "notebook.h"
@@ -66,8 +66,10 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     // Verbindungen für Passwortaktionen
+    /*
     connect(ui->setPasswordAction, &QAction::triggered, this, &MainWindow::setPassword);
     connect(ui->resetPasswordAction, &QAction::triggered, this, &MainWindow::resetPassword);
+    */
 }
 
 // Destruktor: Gibt den Speicher der Benutzeroberfläche frei
@@ -77,6 +79,7 @@ MainWindow::~MainWindow() {
 }
 
 // Methode zum Setzen eines Passworts
+/*
 void MainWindow::setPassword() {
     qDebug() << "SetPasswordAction ausgelöst";
     QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
@@ -106,8 +109,10 @@ void MainWindow::setPassword() {
         qDebug() << "Neues Passwort gesetzt.";
     }
 }
+*/
 
 // Methode zum Zurücksetzen des Passworts
+/*
 void MainWindow::resetPassword() {
     qDebug() << "ResetPasswordAction ausgelöst";
     SecurityQuestionDialog securityDialog(this);
@@ -123,6 +128,7 @@ void MainWindow::resetPassword() {
         }
     }
 }
+*/
 
 // Getter-Methoden für die Buttons
 QPushButton* MainWindow::getAddNoteButton() const { return ui->addNoteButton; }
@@ -130,31 +136,25 @@ QPushButton* MainWindow::getDisplayNotesButton() const { return ui->displayNotes
 QPushButton* MainWindow::getEditNoteButton() const { return ui->editNoteButton; }
 QPushButton* MainWindow::getDeleteNoteButton() const { return ui->deleteNoteButton; }
 QPushButton* MainWindow::getExitButton() const { return ui->exitButton; }
-QAction* MainWindow::getSetPasswordAction() const { return ui->setPasswordAction; }
+// QAction* MainWindow::getSetPasswordAction() const { return ui->setPasswordAction; } // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
 
 // Slot: "Notiz hinzufügen"-Button
 void MainWindow::on_addNoteButton_clicked() {
-    NewNote newNoteDialog(this);
-    if (newNoteDialog.exec() == QDialog::Accepted) {
-        Note note;
-        note.title = newNoteDialog.getTitle_newnote().toStdString();
-        note.content = newNoteDialog.getContent_newnote().toStdString();
-        //notebook.addNote(note);
+    ui->errorLabel_mainwindow->clear(); // Fehlerlabel leeren
+    NewNote *newNoteDialog = new NewNote(this);
 
-        // Speichern der Notiz als HTML-Datei
-        QString appDirPath = QCoreApplication::applicationDirPath();
-        QString filename = appDirPath + "/temp/" + QString::fromStdString(note.title) + ".html";
-        QFile file(filename);
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QTextStream out(&file);
-            out << QString::fromStdString(note.content);
-            file.close();
-        }
-    }
+    // Verbindung herstellen: Wenn die Notiz gespeichert wird, setze den Text im Label
+    connect(newNoteDialog, &NewNote::noteSaved, this, [this]() {
+        ui->errorLabel_mainwindow->setText("Erfolg: Die Notiz wurde gespeichert.");
+        ui->errorLabel_mainwindow->setStyleSheet("color: green;");
+    });
+
+    newNoteDialog->exec(); // Dialog öffnen
 }
 
 // Slot: "Notizen anzeigen"-Button
 void MainWindow::on_displayNotesButton_clicked() {
+    ui->errorLabel_mainwindow->clear(); // Fehlerlabel leeren
     shownote *noteWidget_show = new shownote(this);
     noteWidget_show->show();
     getAddNoteButton()->hide();
@@ -166,6 +166,7 @@ void MainWindow::on_displayNotesButton_clicked() {
 
 // Slot: "Notiz bearbeiten"-Button
 void MainWindow::on_editNoteButton_clicked() {
+    ui->errorLabel_mainwindow->clear(); // Fehlerlabel leeren
     editnote *noteWidget_edit = new editnote(this);
     noteWidget_edit->show();
     getAddNoteButton()->hide();
@@ -177,6 +178,7 @@ void MainWindow::on_editNoteButton_clicked() {
 
 // Slot: "Notiz löschen"-Button
 void MainWindow::on_deleteNoteButton_clicked() {
+    ui->errorLabel_mainwindow->clear(); // Fehlerlabel leeren
     deletenote *noteWidget_delete = new deletenote(this);
     noteWidget_delete->show();
     getAddNoteButton()->hide();

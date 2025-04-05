@@ -48,6 +48,9 @@
      <height>381</height>
     </rect>
    </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
   </widget>
   <widget class="QPushButton" name="backButton_searchnote">
    <property name="geometry">
@@ -61,6 +64,9 @@
    <property name="text">
     <string>Zurück</string>
    </property>
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MailReplySender"/>
+   </property>
   </widget>
   <widget class="QPushButton" name="searchButton_searchnote">
    <property name="geometry">
@@ -73,6 +79,9 @@
    </property>
    <property name="text">
     <string>Suchen</string>
+   </property>
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::EditFind"/>
    </property>
   </widget>
  </widget>

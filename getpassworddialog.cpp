@@ -1,3 +1,4 @@
+/*
 #include "getpassworddialog.h"
 #include "ui_getpassworddialog.h"
 #include <QSettings>
@@ -56,3 +57,4 @@ void getPasswordDialog::on_cancelButton_getpassworddialog_clicked()
 {
     close(); // Dialog schließen
 }
+*/

@@ -20,7 +20,7 @@ public:
     explicit shownote(QWidget *parent = nullptr); // Konstruktor
     ~shownote(); // Destruktor
 
-    void loadNotePassword_shownote(); // Lädt und überprüft das Passwort
+    // void loadNotePassword_shownote(); // Auskommentiert: Lädt und überprüft das Passwort
 
     // Getter-Methoden für die Buttons und Widgets
     QLabel* getLabelShownote() const;

@@ -20,7 +20,7 @@ public:
 
 private:
     Ui::detailShownote *ui; // Benutzeroberfläche
-    bool isNotePasswordProtected_detailshownote(const QString &noteTitle); // Überprüft, ob die Notiz passwortgeschützt ist
+    // bool isNotePasswordProtected_detailshownote(const QString &noteTitle); // Auskommentiert: Überprüft, ob die Notiz passwortgeschützt ist
 };
 
 #endif // DETAILSHOWNOTE_H

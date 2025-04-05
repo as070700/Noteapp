@@ -3,6 +3,7 @@
 
 #include <QPushButton>
 #include <QAction>
+#include <QLabel>
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -23,15 +24,15 @@ public:
     QPushButton* getEditNoteButton() const;
     QPushButton* getDeleteNoteButton() const;
     QPushButton* getExitButton() const;
-    QAction* getSetPasswordAction() const;
+    // QAction* getSetPasswordAction() const; // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
 
 private slots:
     void on_addNoteButton_clicked(); // Slot für den "Notiz hinzufügen"-Button
     void on_displayNotesButton_clicked(); // Slot für den "Notizen anzeigen"-Button
     void on_editNoteButton_clicked(); // Slot für den "Notiz bearbeiten"-Button
     void on_deleteNoteButton_clicked(); // Slot für den "Notiz löschen"-Button
-    void setPassword(); // Methode zum Setzen eines Passworts
-    void resetPassword(); // Methode zum Zurücksetzen des Passworts
+    // void setPassword(); // Auskommentiert: Methode zum Setzen eines Passworts
+    // void resetPassword(); // Auskommentiert: Methode zum Zurücksetzen des Passworts
 
 private:
     void showMainMenu(); // Zeigt das Hauptmenü an

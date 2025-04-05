@@ -1,5 +1,5 @@
 #include "detailshownote.h"
-#include "getpassworddialog.h"
+// #include "getpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
 #include "ui_detailshownote.h"
 #include <QSettings>
 #include <QStandardPaths>
@@ -14,6 +14,9 @@ detailShownote::detailShownote(QWidget *parent) :
     ui(new Ui::detailShownote)
 {
     ui->setupUi(this);
+
+    //Ausblenden von den Button für den Passwortschutz
+    ui->passwordProtectionCheckBox_detailshownote->hide();
 
     // Verbindung des Zurück-Buttons mit der Schließen-Funktion
     connect(ui->backButton_detailshownote, &QPushButton::clicked, this, &QDialog::reject);
@@ -33,6 +36,7 @@ void detailShownote::setNoteContent_show(const QString &title, const QString &co
     ui->label_title_detailshownote->setText(title); // Setzt den Titel der Notiz
 
     // Überprüfen, ob die Notiz passwortgeschützt ist
+    /*
     QRegularExpression protectedRegex("<!--\\s*protected:\\s*(true|false)\\s*-->");
     QRegularExpressionMatch match = protectedRegex.match(content);
     bool isProtected = match.hasMatch() && match.captured(1) == "true";
@@ -48,6 +52,8 @@ void detailShownote::setNoteContent_show(const QString &title, const QString &co
 
     // Deaktiviert die Checkbox, damit der Benutzer sie nicht ändern kann
     ui->passwordProtectionCheckBox_detailshownote->setEnabled(false);
+    */
+    ui->content_textEdit_detailshownote->setHtml(content); // Zeigt den Inhalt ohne Passwortschutz-Logik an
 }
 
 // Lädt den Inhalt der Notiz aus einer Datei
@@ -66,6 +72,7 @@ void detailShownote::loadNoteContent_detailshownote(const QString &noteTitle, co
     file.close();
 
     // Überprüfen, ob die Notiz passwortgeschützt ist
+    /*
     QRegularExpression protectedRegex("<!--\\s*protected:\\s*true\\s*-->");
     bool isProtected = protectedRegex.match(content).hasMatch();
 
@@ -89,14 +96,17 @@ void detailShownote::loadNoteContent_detailshownote(const QString &noteTitle, co
             return; // Abbrechen, wenn der Benutzer den Dialog schließt
         }
     }
+    */
 
-// Setzt den Titel und den Inhalt der Notiz
+    // Setzt den Titel und den Inhalt der Notiz
     setNoteContent_show(noteTitle, content);
 }
 
 // Überprüft, ob die Notiz passwortgeschützt ist
+/*
 bool detailShownote::isNotePasswordProtected_detailshownote(const QString &noteTitle) {
     // Beispielhafte Logik: Passwortgeschützte Notizen haben ein bestimmtes Präfix
     return noteTitle.startsWith("[Protected]");
 }
+*/
 

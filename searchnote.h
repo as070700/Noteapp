@@ -18,6 +18,8 @@ public:
 private slots:
     void on_searchButton_searchnote_clicked(); // Slot für den Such-Button
     void on_backButton_searchnote_clicked(); // Slot für den Zurück-Button
+    void on_openButton_searchnote_clicked(); // Slot für den Öffnen-Button
+    void on_editButton_searchnote_clicked(); // Slot für den Bearbeiten-Button
 
 private:
     Ui::searchnote *ui; // Benutzeroberfläche

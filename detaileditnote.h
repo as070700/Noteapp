@@ -17,7 +17,7 @@ public:
     ~detaileditnote(); // Destruktor
 
     void setNoteContent_detaileditnote(const QString &title, const QString &content); // Setzt Titel und Inhalt der Notiz
-    // bool loadNotePassword_detaileditnote(); // Auskommentiert: Lädt und überprüft das Passwort
+    QString getNoteContent() const;
 
 signals:
     void noteSaved(); // Signal, das ausgelöst wird, wenn die Notiz gespeichert wurde

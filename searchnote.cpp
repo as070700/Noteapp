@@ -1,12 +1,14 @@
 #include "searchnote.h"
 #include "shownote.h"
+#include "detaileditnote.h"
+#include "detailshownote.h"
 #include "ui_searchnote.h"
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
-#include <QDebug>
+#include <QPointer>
 
-// Konstruktor: Initialisiert die Benutzeroberfläche und verbindet den Such-Button mit der entsprechenden Funktion
+// Konstruktor: Initialisiert die Benutzeroberfläche und verbindet die Buttons mit den entsprechenden Funktionen
 searchnote::searchnote(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::searchnote)
@@ -15,6 +17,12 @@ searchnote::searchnote(QWidget *parent)
 
     // Verbindung des Such-Buttons mit der Suchfunktion
     connect(ui->searchButton_searchnote, &QPushButton::clicked, this, &searchnote::on_searchButton_searchnote_clicked);
+
+    // Verbindung des Öffnen-Buttons mit der Öffnen-Funktion
+    connect(ui->openButton_searchnote, &QPushButton::clicked, this, &searchnote::on_openButton_searchnote_clicked);
+
+    // Verbindung des Bearbeiten-Buttons mit der Bearbeiten-Funktion
+    connect(ui->editButton_searchnote, &QPushButton::clicked, this, &searchnote::on_editButton_searchnote_clicked);
 }
 
 // Destruktor: Gibt den Speicher der Benutzeroberfläche frei
@@ -38,7 +46,6 @@ void searchnote::searchNotes(const QString &query)
     QString directoryPath = "./temp/"; // Verzeichnis mit den Notizdateien
     QDir directory(directoryPath);
     if (!directory.exists()) {
-        qDebug() << "Verzeichnis existiert nicht:" << directoryPath;
         return;
     }
 
@@ -47,7 +54,6 @@ void searchnote::searchNotes(const QString &query)
     foreach(QString filename, textFiles) {
         QFile file(directory.filePath(filename));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            qDebug() << "Konnte Datei nicht öffnen:" << filename;
             continue;
         }
 
@@ -66,6 +72,46 @@ void searchnote::searchNotes(const QString &query)
             item->setData(Qt::UserRole, content); // Dateiinhalt als zusätzliche Daten speichern
             ui->searchResultsListWidget_searchnote->addItem(item); // Suchergebnis zur Liste hinzufügen
         }
+    }
+}
+
+// Slot: Wird aufgerufen, wenn der Öffnen-Button geklickt wird
+void searchnote::on_openButton_searchnote_clicked()
+{
+    static QPointer<detailShownote> detailDialog = nullptr;
+
+    if (!detailDialog) {
+        detailDialog = new detailShownote(this);
+        connect(detailDialog, &QDialog::finished, detailDialog, &QObject::deleteLater);
+    }
+
+    QListWidgetItem *currentItem = ui->searchResultsListWidget_searchnote->currentItem();
+    if (currentItem) {
+        QString title = currentItem->text();
+        QString content = currentItem->data(Qt::UserRole).toString();
+
+        detailDialog->setNoteContent_show(title, content);
+        detailDialog->exec(); // Dialog öffnen
+    }
+}
+
+// Slot: Wird aufgerufen, wenn der Bearbeiten-Button geklickt wird
+void searchnote::on_editButton_searchnote_clicked()
+{
+    static QPointer<detaileditnote> editDialog = nullptr;
+
+    if (!editDialog) {
+        editDialog = new detaileditnote(this);
+        connect(editDialog, &QDialog::finished, editDialog, &QObject::deleteLater);
+    }
+
+    QListWidgetItem *currentItem = ui->searchResultsListWidget_searchnote->currentItem();
+    if (currentItem) {
+        QString title = currentItem->text();
+        QString content = currentItem->data(Qt::UserRole).toString();
+
+        editDialog->setNoteContent_detaileditnote(title, content);
+        editDialog->exec(); // Dialog öffnen
     }
 }
 

@@ -1,6 +1,7 @@
 #ifndef SHOWNOTE_H
 #define SHOWNOTE_H
 
+#include "searchnote.h"
 #include <QWidget>
 #include <QListWidgetItem>
 #include <QLabel>
@@ -20,8 +21,6 @@ public:
     explicit shownote(QWidget *parent = nullptr); // Konstruktor
     ~shownote(); // Destruktor
 
-    // void loadNotePassword_shownote(); // Auskommentiert: Lädt und überprüft das Passwort
-
     // Getter-Methoden für die Buttons und Widgets
     QLabel* getLabelShownote() const;
     QScrollArea* getScrollAreaShownote() const;
@@ -38,6 +37,8 @@ private slots:
 
 private:
     Ui::shownote *ui; // Benutzeroberfläche
+
+    searchnote *searchNote = nullptr; // Zeiger auf das searchnote-Objekt
 };
 
 #endif // SHOWNOTE_H

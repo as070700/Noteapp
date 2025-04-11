@@ -226,15 +226,7 @@
     </property>
     <addaction name="actionNewNote"/>
    </widget>
-   <widget class="QMenu" name="menuSetting">
-    <property name="title">
-     <string>Einstellung</string>
-    </property>
-    <addaction name="setPasswordAction"/>
-    <addaction name="resetPasswordAction"/>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuSetting"/>
   </widget>
   <action name="actionNewNote">
    <property name="icon">

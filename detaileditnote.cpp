@@ -1,7 +1,5 @@
 #include "detaileditnote.h"
-// #include "setpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
 #include "ui_detaileditnote.h"
-// #include "getpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
 #include <QFile>
 #include <QPushButton>
 #include <QTextStream>
@@ -19,9 +17,6 @@ detaileditnote::detaileditnote(QWidget *parent)
     , ui(new Ui::detaileditnote)
 {
     ui->setupUi(this);
-
-    //Ausblenden von den Button für den Passwortschutz
-    ui->passwordProtectionCheckBox_detaileditnote->hide();
 
     // Verbindungen zwischen Buttons und Funktionen herstellen
     connect(ui->saveButton_detaileditnote, &QPushButton::clicked, this, &detaileditnote::on_saveButton_detaileditnote_clicked);
@@ -44,63 +39,8 @@ void detaileditnote::setNoteContent_detaileditnote(const QString &title, const Q
     ui->title_textEdit_detaileditnote->setText(title);
     ui->title_textEdit_detaileditnote->setProperty("oldTitle", title);
 
-    // Überprüfen, ob die Notiz passwortgeschützt ist
-    /*
-    QRegularExpression protectedRegex("<!-- protected: true -->");
-    bool isProtected = protectedRegex.match(content).hasMatch();
-    ui->passwordProtectionCheckBox_detaileditnote->setChecked(isProtected);
-
-    qDebug() << "HTML-Inhalt:" << content;
-    qDebug() << "Passwortschutz erkannt:" << isProtected;
-
-    // Entfernen des Passwortschutz-Kommentars aus dem angezeigten Inhalt
-    QString cleanedContent = content;
-    cleanedContent.remove(protectedRegex);
-    ui->content_textEdit_detaileditnote->setHtml(cleanedContent);
-    */
-    ui->content_textEdit_detaileditnote->setHtml(content); // Zeigt den Inhalt ohne Passwortschutz-Logik an
+    ui->content_textEdit_detaileditnote->setHtml(content); // Zeigt den Inhalt an
 }
-
-// Lädt und überprüft das Passwort
-/*
-bool detaileditnote::loadNotePassword_detaileditnote() {
-    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
-    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
-
-    // Überprüfen, ob ein Passwort existiert
-    if (!settings.contains("passwordHash") || settings.value("passwordHash").toString().isEmpty()) {
-        QMessageBox::information(this, "Passwort setzen", "Es wurde noch kein Passwort gesetzt. Bitte setzen Sie ein neues Passwort.");
-
-        SetPasswordDialog setPasswordDialog(this);
-        if (setPasswordDialog.exec() == QDialog::Accepted) {
-            QString newPasswordHash = setPasswordDialog.getPassword_setPasswordDialog();
-            settings.setValue("passwordHash", newPasswordHash);
-            settings.sync(); // Speichern der Einstellungen
-            QMessageBox::information(this, "Passwort gesetzt", "Das Passwort wurde erfolgreich gesetzt.");
-            return true;
-        } else {
-            QMessageBox::warning(this, "Abgebrochen", "Das Setzen eines Passworts wurde abgebrochen.");
-            return false;
-        }
-    } else {
-        // Passwosrtabfrage
-        getPasswordDialog passwordDialog(this);
-        if (passwordDialog.exec() == QDialog::Accepted) {
-            QString enteredPasswordHash = passwordDialog.getPassword_getPasswordDialog();
-            QString correctPasswordHash = settings.value("passwordHash").toString();
-
-            if (enteredPasswordHash != correctPasswordHash) {
-                QMessageBox::warning(this, "Falsches Passwort", "Das eingegebene Passwort ist falsch.");
-                return false;
-            }
-        } else {
-            return false; // Abbrechen, wenn der Benutzer den Dialog schließt
-        }
-    }
-
-    return true; // Passwort korrekt
-}
-*/
 
 // Speichert den Titel und den Inhalt der Notiz
 void detaileditnote::saveNoteContent_detaileditnote() {
@@ -123,15 +63,7 @@ void detaileditnote::saveNoteContent_detaileditnote() {
 
     QTextStream out(&file);
 
-    // Speichern der Passwortschutz-Information basierend auf der Checkbox
-    /*
-    bool isProtected = ui->passwordProtectionCheckBox_detaileditnote->isChecked();
-    QString protectedComment = QString("<!-- protected: %1 -->\n").arg(isProtected ? "true" : "false");
-
-    // Füge den Kommentar an den Anfang des Inhalts hinzu
-    content = protectedComment + content;
-    */
-    //out << content;
+    out << content;
     file.close();
 }
 
@@ -185,20 +117,17 @@ void detaileditnote::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
     ui->content_textEdit_detaileditnote->mergeCurrentCharFormat(format);
 }
 
+QString detaileditnote::getNoteContent() const {
+    return ui->content_textEdit_detaileditnote->toHtml();
+}
+
 // Schließt den Dialog
 void detaileditnote::on_backButton_detaileditnote_clicked() {
     this->reject();
 }
 
-// Speichert die Notiz (inkl. Passwortabfrage, falls aktiviert)
+// Speichert die Notiz
 void detaileditnote::on_saveButton_detaileditnote_clicked() {
-    /*
-    if (ui->passwordProtectionCheckBox_detaileditnote->isChecked()) {
-        if (!loadNotePassword_detaileditnote()) {
-            return;
-        }
-    }
-    */
     saveNoteContent_detaileditnote();
 
     // Signal auslösen, wenn die Notiz erfolgreich gespeichert wurde

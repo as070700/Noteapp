@@ -31,28 +31,22 @@ void deletenote::loadNotes()
 
     // Überprüfen, ob das Verzeichnis existiert, und ggf. erstellen
     if (!directory.exists()) {
-        qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath;
         if (!directory.mkpath(directoryPath)) {
-            qDebug() << "Fehler beim Erstellen des Verzeichnisses:" << directoryPath;
-            return;
+            return; // Abbrechen, wenn das Verzeichnis nicht erstellt werden konnte
         }
     }
 
-    // Liste aller .txt-Dateien im Verzeichnis abrufen
+    // Liste aller .html-Dateien im Verzeichnis abrufen
     QStringList textFiles = directory.entryList(QStringList() << "*.html", QDir::Files);
-    if (textFiles.isEmpty()) {
-        qDebug() << "Keine Textdateien im Verzeichnis" << directoryPath;
-    }
 
     // Schleife durch alle Textdateien und Hinzufügen der Notizen zur Liste
     foreach(QString filename, textFiles) {
         QFile file(directory.filePath(filename));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            qDebug() << "Konnte Datei nicht öffnen:" << filename;
-            continue;
+            continue; // Überspringen, wenn die Datei nicht geöffnet werden kann
         }
 
-        // Entfernen der .txt-Erweiterung aus dem Dateinamen
+        // Entfernen der .html-Erweiterung aus dem Dateinamen
         QString displayName = filename;
         if (displayName.endsWith(".html")) {
             displayName.chop(5); // Entfernt die letzten 5 Zeichen

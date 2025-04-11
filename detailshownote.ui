@@ -64,22 +64,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QCheckBox" name="passwordProtectionCheckBox_detailshownote">
-   <property name="geometry">
-    <rect>
-     <x>646</x>
-     <y>15</y>
-     <width>131</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Notiz geschützt?</string>
-   </property>
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="errorLabel_detailshownote">
    <property name="geometry">
     <rect>

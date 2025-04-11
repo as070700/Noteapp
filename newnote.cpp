@@ -1,16 +1,11 @@
 #include "newnote.h"
 #include "ui_newnote.h"
-// #include "setpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
-// #include "getpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
-// #include "utils.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
 #include <QTextCharFormat>
 #include <QColorDialog>
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
 #include <QDir>
-#include <QSettings>
-#include <QStandardPaths>
 
 // Konstruktor: Initialisiert die Benutzeroberfläche und verbindet die Buttons mit den entsprechenden Slots
 NewNote::NewNote(QWidget *parent) :
@@ -18,9 +13,6 @@ NewNote::NewNote(QWidget *parent) :
     ui(new Ui::NewNote)
 {
     ui->setupUi(this);
-
-    // Ausblenden von den Button für den Passwortschutz
-    ui->passwordProtectionCheckBox_newnote->hide();
 
     // Verbindungen zwischen Buttons und Funktionen herstellen
     connect(ui->saveButton_newnote, &QPushButton::clicked, this, &NewNote::saveNote_newnote);
@@ -46,16 +38,6 @@ QString NewNote::getTitle_newnote() const {
 QString NewNote::getContent_newnote() const {
     return ui->content_lineEdit_newnote->toHtml();
 }
-
-// Speichert die Notiz mit Passwortschutz (falls aktiviert)
-/*
-void NewNote::saveNote_password_NewNote()
-{
-    getPasswordDialog passwordDialog(this);
-    connect(&passwordDialog, &getPasswordDialog::passwordCorrect_getpassworddialog, this, &NewNote::saveNote_newnote); // Verbindung herstellen
-    passwordDialog.exec();
-}
-*/
 
 // Speichert die Notiz
 void NewNote::saveNote_newnote() {
@@ -88,19 +70,8 @@ void NewNote::saveNote_newnote() {
 
     QTextStream out(&file);
 
-    // Passwortschutz-Information als Kommentar im <head>-Tag speichern
-    /*
-    bool isProtected = ui->passwordProtectionCheckBox_newnote->isChecked();
-    qDebug() << "isProtected: " << isProtected;
-
-    // Kommentar für Passwortschutz hinzufügen
-    QString protectedComment = QString("<!-- protected: %1 -->\n").arg(isProtected ? "true" : "false");
-    content.replace("<head>", QString("<head>\n%1").arg(protectedComment));
-    */
-
     // Inhalt in die Datei schreiben
     out << content;
-    qDebug() << "content: " << content;
 
     file.close();
 

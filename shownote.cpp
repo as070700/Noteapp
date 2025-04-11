@@ -30,24 +30,20 @@ shownote::shownote(QWidget *parent) :
 
     // Überprüfen, ob das Verzeichnis existiert, und ggf. erstellen
     if (!directory.exists()) {
-        qDebug() << "Verzeichnis existiert nicht. Erstelle Verzeichnis:" << directoryPath;
         if (!directory.mkpath(directoryPath)) {
-            qDebug() << "Fehler beim Erstellen des Verzeichnisses:" << directoryPath;
+            QMessageBox::critical(this, "Fehler", "Das Verzeichnis konnte nicht erstellt werden: " + directoryPath);
             return;
         }
     }
 
     // Liste aller .html-Dateien im Verzeichnis abrufen
     QStringList htmlFiles = directory.entryList(QStringList() << "*.html", QDir::Files);
-    if (htmlFiles.isEmpty()) {
-        qDebug() << "Keine HTML-Dateien im Verzeichnis" << directoryPath;
-    }
 
     // Notizen laden und in die Liste einfügen
     foreach(QString filename, htmlFiles) {
         QFile file(directory.filePath(filename));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            qDebug() << "Konnte Datei nicht öffnen:" << filename;
+            QMessageBox::warning(this, "Fehler", "Konnte Datei nicht öffnen: " + filename);
             continue;
         }
 
@@ -100,42 +96,6 @@ QPushButton* shownote::getSearchButtonShownote() const {
     return ui->searchButton_shownote;
 }
 
-/* // Lädt und überprüft das Passwort
-void shownote::loadNotePassword_shownote() {
-    QString sysDirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sys";
-    QSettings settings(sysDirPath + "/settings.ini", QSettings::IniFormat);
-
-    // Überprüfen, ob ein Passwort existiert
-    if (!settings.contains("passwordHash") || settings.value("passwordHash").toString().isEmpty()) {
-        QMessageBox::information(this, "Passwort setzen", "Es wurde noch kein Passwort gesetzt. Bitte setzen Sie ein neues Passwort.");
-
-        SetPasswordDialog setPasswordDialog(this);
-        if (setPasswordDialog.exec() == QDialog::Accepted) {
-            QString newPasswordHash = setPasswordDialog.getPassword_setPasswordDialog();
-            settings.setValue("passwordHash", newPasswordHash);
-            settings.sync(); // Speichern der Einstellungen
-            QMessageBox::information(this, "Passwort gesetzt", "Das Passwort wurde erfolgreich gesetzt.");
-        } else {
-            QMessageBox::warning(this, "Abgebrochen", "Das Setzen eines Passworts wurde abgebrochen.");
-            return;
-        }
-    } else {
-        // Passwortabfrage
-        getPasswordDialog passwordDialog(this);
-        if (passwordDialog.exec() == QDialog::Accepted) {
-            QString enteredPasswordHash = passwordDialog.getPassword_getPasswordDialog();
-            QString correctPasswordHash = settings.value("passwordHash").toString();
-
-            if (enteredPasswordHash != correctPasswordHash) {
-                QMessageBox::warning(this, "Falsches Passwort", "Das eingegebene Passwort ist falsch.");
-                return;
-            }
-        } else {
-            return; // Abbrechen, wenn der Benutzer den Dialog schließt
-        }
-    }
-} */
-
 // Slot: Zurück-Button - Zurück zur Hauptansicht
 void shownote::on_backButton_shownote_clicked() {
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
@@ -167,10 +127,17 @@ void shownote::on_openButton_shownote_clicked() {
 
 // Slot: Such-Button - Öffnet das Suchfenster
 void shownote::on_searchButton_shownote_clicked() {
-    searchnote *noteWidget_searchnote = new searchnote(this);
-    noteWidget_searchnote->show();
+    static searchnote *noteWidget_searchnote = nullptr; // Statisches Objekt, um sicherzustellen, dass es nur einmal erstellt wird
+
+    if (!noteWidget_searchnote) {
+        noteWidget_searchnote = new searchnote(this); // Erstellt das searchnote-Widget nur einmal
+        noteWidget_searchnote->show();
+    } else {
+        noteWidget_searchnote->show(); // Zeigt das Widget an, falls es bereits existiert
+    }
 
     if (noteWidget_searchnote->isVisible()) {
+        // Versteckt die Elemente des aktuellen Widgets
         getLabelShownote()->hide();
         getScrollAreaShownote()->hide();
         getScrollAreaWidgetContentsShownote()->hide();

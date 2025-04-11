@@ -1,3 +1,7 @@
+// Created by Angelika Schill.
+// Projectwork for the course "Anwendungsprogrammierung" at the University of Applied Sciences "Diploma" in Bad Sooden-Allendorf.
+// This file is part of the Noteapp project.
+
 #ifndef SHOWNOTE_H
 #define SHOWNOTE_H
 
@@ -23,6 +27,7 @@ public:
 
     // Getter-Methoden für die Buttons und Widgets
     QLabel* getLabelShownote() const;
+    QLabel* errorLabel_shownote; // Fehlerlabel
     QScrollArea* getScrollAreaShownote() const;
     QWidget* getScrollAreaWidgetContentsShownote() const;
     QListView* getListviewShownote() const;

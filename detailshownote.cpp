@@ -1,8 +1,11 @@
+// Created by Angelika Schill.
+// Projectwork for the course "Anwendungsprogrammierung" at the University of Applied Sciences "Diploma" in Bad Sooden-Allendorf.
+// This file is part of the Noteapp project.
+
 #include "detailshownote.h"
 #include "ui_detailshownote.h"
 #include <QFile>
 #include <QTextStream>
-#include <QMessageBox>
 
 // Konstruktor: Initialisiert die Benutzeroberfläche und verbindet den Zurück-Button mit der Schließen-Funktion
 detailShownote::detailShownote(QWidget *parent) :

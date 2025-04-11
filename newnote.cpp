@@ -1,10 +1,13 @@
+// Created by Angelika Schill.
+// Projectwork for the course "Anwendungsprogrammierung" at the University of Applied Sciences "Diploma" in Bad Sooden-Allendorf.
+// This file is part of the Noteapp project.
+
 #include "newnote.h"
 #include "ui_newnote.h"
 #include <QTextCharFormat>
 #include <QColorDialog>
 #include <QFile>
 #include <QTextStream>
-#include <QMessageBox>
 #include <QDir>
 
 // Konstruktor: Initialisiert die Benutzeroberfläche und verbindet die Buttons mit den entsprechenden Slots

@@ -1,7 +1,10 @@
+// Created by Angelika Schill.
+// Projectwork for the course "Anwendungsprogrammierung" at the University of Applied Sciences "Diploma" in Bad Sooden-Allendorf.
+// This file is part of the Noteapp project.
+
 #include "deletenote.h"
 #include "ui_deletenote.h"
 #include "mainwindow.h"
-#include <QMessageBox>
 #include <QDir>
 #include <QFile>
 #include <QTextStream>

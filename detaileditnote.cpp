@@ -1,9 +1,12 @@
+// Created by Angelika Schill.
+// Projectwork for the course "Anwendungsprogrammierung" at the University of Applied Sciences "Diploma" in Bad Sooden-Allendorf.
+// This file is part of the Noteapp project.
+
 #include "detaileditnote.h"
 #include "ui_detaileditnote.h"
 #include <QFile>
 #include <QPushButton>
 #include <QTextStream>
-#include <QMessageBox>
 #include <QDebug>
 #include <QTextCharFormat>
 #include <QColorDialog>

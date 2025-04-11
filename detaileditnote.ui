@@ -41,6 +41,9 @@
    <property name="cursor" stdset="0">
     <cursorShape>IBeamCursor</cursorShape>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::LayoutDirection::LeftToRight</enum>
+   </property>
   </widget>
   <widget class="QPushButton" name="saveButton_detaileditnote">
    <property name="geometry">

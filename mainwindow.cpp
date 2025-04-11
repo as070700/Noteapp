@@ -1,13 +1,15 @@
+// Created by Angelika Schill.
+// Projectwork for the course "Anwendungsprogrammierung" at the University of Applied Sciences "Diploma" in Bad Sooden-Allendorf.
+// This file is part of the Noteapp project.
+
 #include "mainwindow.h"
 #include "newnote.h"
 #include "shownote.h"
 #include "editnote.h"
 #include "deletenote.h"
 #include "ui_mainwindow.h"
-#include "note.h"
 #include "notebook.h"
 #include <QInputDialog>
-#include <QMessageBox>
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
@@ -30,7 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Überprüfen und Erstellen des temp-Verzeichnisses
     if (!QDir(tempDirPath).exists()) {
         if (!QDir().mkpath(tempDirPath)) {
-            QMessageBox::warning(this, "Fehler", "Das Verzeichnis 'temp' konnte nicht erstellt werden.");
+            ui->errorLabel_mainwindow->setText("Fehler: Das Verzeichnis 'temp' konnte nicht erstellt werden.");
+            ui->errorLabel_mainwindow->setStyleSheet("color: red;");
         }
     }
 }

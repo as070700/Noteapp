@@ -116,6 +116,19 @@
     <iconset theme="QIcon::ThemeIcon::EditFind"/>
    </property>
   </widget>
+  <widget class="QLabel" name="errorLabel_shownote">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>530</y>
+     <width>291</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

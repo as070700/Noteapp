@@ -1,12 +1,13 @@
+// Created by Angelika Schill.
+// Projectwork for the course "Anwendungsprogrammierung" at the University of Applied Sciences "Diploma" in Bad Sooden-Allendorf.
+// This file is part of the Noteapp project.
+
 #include "shownote.h"
-// #include "setpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
-// #include "getpassworddialog.h" // Auskommentiert, da es mit dem Passwortsystem zusammenhängt
 #include "ui_shownote.h"
 #include "mainwindow.h"
 #include "detailshownote.h"
 #include "searchnote.h"
 #include <QListWidgetItem>
-#include <QMessageBox>
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
@@ -31,7 +32,8 @@ shownote::shownote(QWidget *parent) :
     // Überprüfen, ob das Verzeichnis existiert, und ggf. erstellen
     if (!directory.exists()) {
         if (!directory.mkpath(directoryPath)) {
-            QMessageBox::critical(this, "Fehler", "Das Verzeichnis konnte nicht erstellt werden: " + directoryPath);
+            ui->errorLabel_shownote->setText("Fehler: Das Verzeichnis 'temp' konnte nicht erstellt werden.");
+            ui->errorLabel_shownote->setStyleSheet("color: red;");
             return;
         }
     }
@@ -43,7 +45,8 @@ shownote::shownote(QWidget *parent) :
     foreach(QString filename, htmlFiles) {
         QFile file(directory.filePath(filename));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QMessageBox::warning(this, "Fehler", "Konnte Datei nicht öffnen: " + filename);
+            ui->errorLabel_shownote->setText("Fehler: Konnte Datei nicht öffnen: " + filename);
+            ui->errorLabel_shownote->setStyleSheet("color: red;");
             continue;
         }
 
@@ -121,7 +124,8 @@ void shownote::on_openButton_shownote_clicked() {
         detailDialog->loadNoteContent_detailshownote(title, content); // Methode zum Laden der Notiz
         detailDialog->exec(); // Öffnet den Dialog
     } else {
-        QMessageBox::warning(this, "Warnung", "Bitte wählen Sie eine Notiz aus.");
+        ui->errorLabel_shownote->setText("Warnung: Bitte wählen Sie eine Notiz aus.");
+        ui->errorLabel_shownote->setStyleSheet("color: orange;");
     }
 }
 

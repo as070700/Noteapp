@@ -1,6 +1,8 @@
+// Created by Angelika Schill.
+// Projectwork for the course "Anwendungsprogrammierung" at the University of Applied Sciences "Diploma" in Bad Sooden-Allendorf.
+// This file is part of the Noteapp project.
+
 #include "notebook.h"
-#include <fstream>
-#include <sstream>
 #include <ctime>
 
 // Konstruktor: Lädt die Notizen beim Start

@@ -121,7 +121,7 @@ void shownote::on_openButton_shownote_clicked() {
         QString content = currentItem->data(Qt::UserRole).toString();
 
         detailShownote *detailDialog = new detailShownote(this);
-        detailDialog->loadNoteContent_detailshownote(title, content); // Methode zum Laden der Notiz
+        detailDialog->loadNoteContent_detailshownote(title); // Methode zum Laden der Notiz
         detailDialog->exec(); // Öffnet den Dialog
     } else {
         ui->errorLabel_shownote->setText("Warnung: Bitte wählen Sie eine Notiz aus.");

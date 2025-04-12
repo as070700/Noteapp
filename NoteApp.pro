@@ -1,5 +1,5 @@
-TEMPLATE = app
 TARGET = NoteApp
+TEMPLATE = app
 
 SOURCES += main.cpp \
            deletenote.cpp \

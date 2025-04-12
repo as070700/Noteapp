@@ -20,7 +20,7 @@ public:
     ~detailShownote(); // Destruktor
 
     void setNoteContent_show(const QString &title, const QString &content); // Setzt den Titel und den Inhalt der Notiz
-    void loadNoteContent_detailshownote(const QString &noteTitle, const QString &noteContent); // Lädt den Inhalt der Notiz
+    void loadNoteContent_detailshownote(const QString &noteTitle); // Lädt den Inhalt der Notiz
 
 private:
     Ui::detailShownote *ui; // Benutzeroberfläche

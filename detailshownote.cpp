@@ -34,7 +34,7 @@ void detailShownote::setNoteContent_show(const QString &title, const QString &co
 }
 
 // Lädt den Inhalt der Notiz aus einer Datei
-void detailShownote::loadNoteContent_detailshownote(const QString &noteTitle, const QString &noteContent) {
+void detailShownote::loadNoteContent_detailshownote(const QString &noteTitle) {
     QString filePath = "./temp/" + noteTitle + ".html"; // Pfad zur HTML-Datei
     QFile file(filePath);
 

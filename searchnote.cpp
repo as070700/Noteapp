@@ -82,6 +82,11 @@ void searchnote::searchNotes(const QString &query)
             ui->errorLabel_searchnote->setText("Erfolgreich: Es wurde der Suchbegriff im Titel oder im Text gefunden.");
             ui->errorLabel_searchnote->setStyleSheet("color: green;"); // Erfolgreiche Suche in grün anzeigen
         }
+        else
+        {
+            ui->errorLabel_searchnote->setText("Fehler: Der Suchbegriff wurde nicht gefunden.");
+            ui->errorLabel_searchnote->setStyleSheet("color: red;"); // Fehlgeschlagene Suche in rot anzeigen
+        }
     }
 }
 

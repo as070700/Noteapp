@@ -27,6 +27,8 @@ editnote::editnote(QWidget *parent) :
     // Überprüfen, ob das Verzeichnis existiert, und ggf. erstellen
     if (!directory.exists()) {
         if (!directory.mkpath(directoryPath)) {
+            ui->errorLabel_editnote->setText("Fehler: Das Verzeichnis 'temp' konnte nicht erstellt werden.");
+            ui->errorLabel_editnote->setStyleSheet("color: red;");
             return; // Abbrechen, wenn das Verzeichnis nicht erstellt werden konnte
         }
     }

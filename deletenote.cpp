@@ -35,6 +35,8 @@ void deletenote::loadNotes_deletenote()
     // Überprüfen, ob das Verzeichnis existiert, und ggf. erstellen
     if (!directory.exists()) {
         if (!directory.mkpath(directoryPath)) {
+            ui->errorLabel_deletnote->setText("Fehler: Das Verzeichnis 'temp' konnte nicht erstellt werden.");
+            ui->errorLabel_deletnote->setStyleSheet("color: red;"); // Fehlermeldung in Rot
             return; // Abbrechen, wenn das Verzeichnis nicht erstellt werden konnte
         }
     }

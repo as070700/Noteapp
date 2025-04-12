@@ -8,7 +8,7 @@
 #include "editnote.h"
 #include "deletenote.h"
 #include "ui_mainwindow.h"
-#include "notebook.h"
+// #include "old_notebook.h"
 #include <QInputDialog>
 #include <QDir>
 #include <QFile>
@@ -16,7 +16,8 @@
 #include <QStandardPaths>
 
 // Instanz von Notebook deklarieren
-Notebook notebook;
+// Diese Instanz wird nicht mehr benötigt, da die Methoden in neuen Klassen verarbeitet werden.
+// Notebook notebook;
 
 // Konstruktor: Initialisiert die Benutzeroberfläche und prüft/verarbeitet Verzeichnisse
 MainWindow::MainWindow(QWidget *parent)

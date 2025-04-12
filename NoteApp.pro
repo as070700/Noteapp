@@ -8,7 +8,7 @@ SOURCES += main.cpp \
            editnote.cpp \
            mainwindow.cpp \
            newnote.cpp \
-           notebook.cpp \
+    old_notebook.cpp \
            searchnote.cpp \
            shownote.cpp \
 
@@ -18,8 +18,8 @@ HEADERS += mainwindow.h \
            detailshownote.h \
            editnote.h \
            newnote.h \
-           notebook.h \
-           note.h \
+    old_note.h \
+    old_notebook.h \
            searchnote.h \
            shownote.h \
 

@@ -1,13 +1,16 @@
+//
 // Created by Angelika Schill.
 // Projectwork for the course "Anwendungsprogrammierung" at the University of Applied Sciences "Diploma" in Bad Sooden-Allendorf.
 // This file is part of the Noteapp project.
+// The original code adapt for Qt6 and C++20.
+// NOTE: This file is deprecated and no longer used in the project.
 
-#ifndef NOTEBOOK_H
-#define NOTEBOOK_H
+#ifndef OLD_NOTEBOOK_H
+#define OLD_NOTEBOOK_H
 
 #include <vector>
 #include <string>
-#include "note.h"
+#include "old_note.h"
 
 // Die Klasse Notebook verwaltet eine Sammlung von Notizen
 class Notebook {
@@ -20,9 +23,10 @@ public:
 
 private:
     std::vector<Note> notes; // Sammlung von Notizen
-    bool loadNotes_deletenote(); // Lädt Notizen aus einer Datei (derzeit deaktiviert)
-    bool saveNoteToFile(const Note& note); // Speichert eine Notiz in einer Datei (derzeit deaktiviert)
+    bool loadNotes(); // Lädt Notizen aus dem Ordner "temp"
+    bool saveNoteToFile(const Note& note); // Speichert eine Notiz in einer HTML-Datei
+    void ensureTempDirectoryExists(); // Erstellt den Ordner "temp", falls er nicht existiert
     std::string getCurrentTimestamp() const; // Gibt einen Zeitstempel zurück
 };
 
-#endif // NOTEBOOK_H
+#endif // OLD_NOTEBOOK_H

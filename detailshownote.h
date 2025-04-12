@@ -19,7 +19,7 @@ public:
     explicit detailShownote(QWidget *parent = nullptr); // Konstruktor
     ~detailShownote(); // Destruktor
 
-    void setNoteContent_show(const QString &title, const QString &content); // Setzt den Titel und den Inhalt der Notiz
+    void setNoteContent_detailshownote(const QString &title, const QString &content); // Setzt den Titel und den Inhalt der Notiz
     void loadNoteContent_detailshownote(const QString &noteTitle); // Lädt den Inhalt der Notiz
 
 private:

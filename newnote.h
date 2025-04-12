@@ -26,7 +26,7 @@ public:
     void saveNote_newnote(); // Speichert die Notiz
 
 signals:
-    void noteSaved(); // Signal, das ausgelöst wird, wenn die Notiz gespeichert wurde
+    void noteSaved_newnote(); // Signal, das ausgelöst wird, wenn die Notiz gespeichert wurde
 
 private slots:
     void setBold_newnote(); // Setzt den Text fett

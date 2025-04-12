@@ -6,6 +6,7 @@
 #define SEARCHNOTE_H
 
 #include <QWidget>
+#include <QLabel>
 
 namespace Ui {
 class searchnote;
@@ -18,6 +19,8 @@ class searchnote : public QWidget
 public:
     explicit searchnote(QWidget *parent = nullptr); // Konstruktor
     ~searchnote(); // Destruktor
+
+    //QLabel* errorLabel_searchnote; // Fehlerlabel
 
 private slots:
     void on_searchButton_searchnote_clicked(); // Slot für den Such-Button

@@ -7,6 +7,7 @@
 #include "detaileditnote.h"
 #include "detailshownote.h"
 #include "ui_searchnote.h"
+#include <QLabel>
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
@@ -50,7 +51,9 @@ void searchnote::searchNotes(const QString &query)
     QString directoryPath = "./temp/"; // Verzeichnis mit den Notizdateien
     QDir directory(directoryPath);
     if (!directory.exists()) {
-        return;
+        ui->errorLabel_searchnote->setText("Fehler: Das Verzeichnis 'temp' existiert nicht.");
+        ui->errorLabel_searchnote->setStyleSheet("color: red;");
+        return; // Abbrechen, wenn das Verzeichnis nicht existiert
     }
 
     // Liste aller .html-Dateien im Verzeichnis abrufen
@@ -75,6 +78,9 @@ void searchnote::searchNotes(const QString &query)
             QListWidgetItem *item = new QListWidgetItem(title); // Suchergebnis erstellen
             item->setData(Qt::UserRole, content); // Dateiinhalt als zusätzliche Daten speichern
             ui->searchResultsListWidget_searchnote->addItem(item); // Suchergebnis zur Liste hinzufügen
+            ui->errorLabel_searchnote->clear(); // Fehlerlabel leeren
+            ui->errorLabel_searchnote->setText("Erfolgreich: Es wurde der Suchbegriff im Titel oder im Text gefunden.");
+            ui->errorLabel_searchnote->setStyleSheet("color: green;"); // Erfolgreiche Suche in grün anzeigen
         }
     }
 }
@@ -94,7 +100,7 @@ void searchnote::on_openButton_searchnote_clicked()
         QString title = currentItem->text();
         QString content = currentItem->data(Qt::UserRole).toString();
 
-        detailDialog->setNoteContent_show(title, content);
+        detailDialog->setNoteContent_detailshownote(title, content);
         detailDialog->exec(); // Dialog öffnen
     }
 }
@@ -122,17 +128,20 @@ void searchnote::on_editButton_searchnote_clicked()
 // Slot: Wird aufgerufen, wenn der Zurück-Button geklickt wird
 void searchnote::on_backButton_searchnote_clicked()
 {
+    ui->errorLabel_searchnote->clear(); // Fehlerlabel leeren
+    ui->searchLineEdit_searchnote->clear(); // Suchfeld leeren
+    ui->searchResultsListWidget_searchnote->clear(); // Suchergebnisse zurücksetzen
     shownote *showNote = qobject_cast<shownote*>(parentWidget()); // Hauptfenster abrufen
     if (showNote) {
         // Zeigt die Elemente des Hauptfensters wieder an
         showNote->show();
-        showNote->getLabelShownote()->show();
-        showNote->getScrollAreaShownote()->show();
-        showNote->getScrollAreaWidgetContentsShownote()->show();
-        showNote->getListviewShownote()->show();
-        showNote->getOpenButtonShownote()->show();
-        showNote->getBackButtonShownote()->show();
-        showNote->getSearchButtonShownote()->show();
+        showNote->getLabel_Shownote()->show();
+        showNote->getScrollArea_Shownote()->show();
+        showNote->getScrollAreaWidgetContents_Shownote()->show();
+        showNote->getListview_Shownote()->show();
+        showNote->getOpenButton_Shownote()->show();
+        showNote->getBackButton_Shownote()->show();
+        showNote->getSearchButton_Shownote()->show();
     }
     this->hide(); // Versteckt das aktuelle Widget
 }

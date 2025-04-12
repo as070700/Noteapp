@@ -71,31 +71,31 @@ shownote::~shownote()
 }
 
 // Getter-Methoden für die Buttons und Widgets
-QLabel* shownote::getLabelShownote() const {
+QLabel* shownote::getLabel_Shownote() const {
     return ui->label;
 }
 
-QScrollArea* shownote::getScrollAreaShownote() const {
+QScrollArea* shownote::getScrollArea_Shownote() const {
     return ui->scrollArea;
 }
 
-QWidget* shownote::getScrollAreaWidgetContentsShownote() const {
+QWidget* shownote::getScrollAreaWidgetContents_Shownote() const {
     return ui->scrollAreaWidgetContents;
 }
 
-QListView* shownote::getListviewShownote() const {
+QListView* shownote::getListview_Shownote() const {
     return ui->listview_shownote;
 }
 
-QPushButton* shownote::getOpenButtonShownote() const {
+QPushButton* shownote::getOpenButton_Shownote() const {
     return ui->openButton_shownote;
 }
 
-QPushButton* shownote::getBackButtonShownote() const {
+QPushButton* shownote::getBackButton_Shownote() const {
     return ui->backButton_shownote;
 }
 
-QPushButton* shownote::getSearchButtonShownote() const {
+QPushButton* shownote::getSearchButton_Shownote() const {
     return ui->searchButton_shownote;
 }
 
@@ -104,11 +104,7 @@ void shownote::on_backButton_shownote_clicked() {
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
     if (mainWindow) {
         mainWindow->show();
-        mainWindow->getAddNoteButton()->show();
-        mainWindow->getDisplayNotesButton()->show();
-        mainWindow->getEditNoteButton()->show();
-        mainWindow->getDeleteNoteButton()->show();
-        mainWindow->getExitButton()->show();
+        mainWindow->showMainMenu(); // Zeigt das Hauptmenü an
     }
     this->hide(); // Versteckt das aktuelle Widget
 }
@@ -118,7 +114,6 @@ void shownote::on_openButton_shownote_clicked() {
     QListWidgetItem *currentItem = ui->listview_shownote->currentItem();
     if (currentItem) {
         QString title = currentItem->text();
-        QString content = currentItem->data(Qt::UserRole).toString();
 
         detailShownote *detailDialog = new detailShownote(this);
         detailDialog->loadNoteContent_detailshownote(title); // Methode zum Laden der Notiz
@@ -142,12 +137,12 @@ void shownote::on_searchButton_shownote_clicked() {
 
     if (noteWidget_searchnote->isVisible()) {
         // Versteckt die Elemente des aktuellen Widgets
-        getLabelShownote()->hide();
-        getScrollAreaShownote()->hide();
-        getScrollAreaWidgetContentsShownote()->hide();
-        getListviewShownote()->hide();
-        getOpenButtonShownote()->hide();
-        getBackButtonShownote()->hide();
-        getSearchButtonShownote()->hide();
+        getLabel_Shownote()->hide();
+        getScrollArea_Shownote()->hide();
+        getScrollAreaWidgetContents_Shownote()->hide();
+        getListview_Shownote()->hide();
+        getOpenButton_Shownote()->hide();
+        getBackButton_Shownote()->hide();
+        getSearchButton_Shownote()->hide();
     }
 }

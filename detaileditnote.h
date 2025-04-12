@@ -21,10 +21,10 @@ public:
     ~detaileditnote(); // Destruktor
 
     void setNoteContent_detaileditnote(const QString &title, const QString &content); // Setzt Titel und Inhalt der Notiz
-    QString getNoteContent() const;
+    QString getNoteContent_detaileditnote() const;
 
 signals:
-    void noteSaved(); // Signal, das ausgelöst wird, wenn die Notiz gespeichert wurde
+    void noteSaved_detaileditnote(); // Signal, das ausgelöst wird, wenn die Notiz gespeichert wurde
 
 private slots:
     void on_backButton_detaileditnote_clicked(); // Slot für den Zurück-Button

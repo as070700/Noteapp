@@ -26,14 +26,14 @@ public:
     ~shownote(); // Destruktor
 
     // Getter-Methoden für die Buttons und Widgets
-    QLabel* getLabelShownote() const;
-    QLabel* errorLabel_shownote; // Fehlerlabel
-    QScrollArea* getScrollAreaShownote() const;
-    QWidget* getScrollAreaWidgetContentsShownote() const;
-    QListView* getListviewShownote() const;
-    QPushButton* getOpenButtonShownote() const;
-    QPushButton* getBackButtonShownote() const;
-    QPushButton* getSearchButtonShownote() const;
+    QLabel* getLabel_Shownote() const;
+    //QLabel* errorLabel_shownote; // Fehlerlabel
+    QScrollArea* getScrollArea_Shownote() const;
+    QWidget* getScrollAreaWidgetContents_Shownote() const;
+    QListView* getListview_Shownote() const;
+    QPushButton* getOpenButton_Shownote() const;
+    QPushButton* getBackButton_Shownote() const;
+    QPushButton* getSearchButton_Shownote() const;
 
 private slots:
     void on_backButton_shownote_clicked(); // Slot für den Zurück-Button

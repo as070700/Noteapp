@@ -120,7 +120,7 @@ void detaileditnote::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
     ui->content_textEdit_detaileditnote->mergeCurrentCharFormat(format);
 }
 
-QString detaileditnote::getNoteContent() const {
+QString detaileditnote::getNoteContent_detaileditnote() const {
     return ui->content_textEdit_detaileditnote->toHtml();
 }
 
@@ -134,7 +134,7 @@ void detaileditnote::on_saveButton_detaileditnote_clicked() {
     saveNoteContent_detaileditnote();
 
     // Signal auslösen, wenn die Notiz erfolgreich gespeichert wurde
-    emit noteSaved();
+    emit noteSaved_detaileditnote();
 
     // Schließe den Dialog
     accept();

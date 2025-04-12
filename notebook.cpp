@@ -7,7 +7,7 @@
 
 // Konstruktor: Lädt die Notizen beim Start
 Notebook::Notebook() {
-    loadNotes(); // Derzeit deaktiviert, da keine Datei verwendet wird
+    loadNotes_deletenote(); // Derzeit deaktiviert, da keine Datei verwendet wird
 }
 
 // Fügt eine neue Notiz hinzu
@@ -43,7 +43,7 @@ std::vector<Note> Notebook::getNotes() const {
 }
 
 // Lädt Notizen aus einer Datei (derzeit deaktiviert)
-bool Notebook::loadNotes() {
+bool Notebook::loadNotes_deletenote() {
     // std::ifstream file("./sys/notes.txt"); // Datei mit gespeicherten Notizen
     // if (!file.is_open()) {
     //     return false; // Fehler beim Öffnen der Datei

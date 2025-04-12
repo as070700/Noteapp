@@ -79,7 +79,7 @@ void NewNote::saveNote_newnote() {
     file.close();
 
     // Signal auslösen, wenn die Notiz erfolgreich gespeichert wurde
-    emit noteSaved();
+    emit noteSaved_newnote();
 
     // Schließe den Dialog
     accept();

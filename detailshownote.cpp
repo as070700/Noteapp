@@ -28,7 +28,7 @@ detailShownote::~detailShownote()
 }
 
 // Setzt den Titel und den Inhalt der Notiz
-void detailShownote::setNoteContent_show(const QString &title, const QString &content) {
+void detailShownote::setNoteContent_detailshownote(const QString &title, const QString &content) {
     ui->label_title_detailshownote->setText(title); // Setzt den Titel der Notiz
     ui->content_textEdit_detailshownote->setHtml(content); // Zeigt den Inhalt an
 }
@@ -49,6 +49,6 @@ void detailShownote::loadNoteContent_detailshownote(const QString &noteTitle) {
     file.close();
 
     // Setzt den Titel und den Inhalt der Notiz
-    setNoteContent_show(noteTitle, content);
+    setNoteContent_detailshownote(noteTitle, content);
 }
 

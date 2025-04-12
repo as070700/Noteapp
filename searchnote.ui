@@ -116,6 +116,19 @@
     <iconset theme="QIcon::ThemeIcon::MailMessageNew"/>
    </property>
   </widget>
+  <widget class="QLabel" name="errorLabel_searchnote">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>520</y>
+     <width>591</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

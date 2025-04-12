@@ -23,11 +23,12 @@ public:
     ~MainWindow(); // Destruktor
 
     // Getter-Methoden für die Buttons
-    QPushButton* getAddNoteButton() const;
-    QPushButton* getDisplayNotesButton() const;
-    QPushButton* getEditNoteButton() const;
-    QPushButton* getDeleteNoteButton() const;
-    QPushButton* getExitButton() const;
+    QPushButton* getAddNoteButton_MainWindow() const;
+    QPushButton* getDisplayNotesButton_MainWindow() const;
+    QPushButton* getEditNoteButton_MainWindow() const;
+    QPushButton* getDeleteNoteButton_MainWindow() const;
+    QPushButton* getExitButton_MainWindow() const;
+    void showMainMenu(); // Zeigt das Hauptmenü an
 
 private slots:
     void on_addNoteButton_clicked(); // Slot für den "Notiz hinzufügen"-Button
@@ -36,7 +37,6 @@ private slots:
     void on_deleteNoteButton_clicked(); // Slot für den "Notiz löschen"-Button
 
 private:
-    void showMainMenu(); // Zeigt das Hauptmenü an
     Ui::MainWindow *ui; // Benutzeroberfläche
 };
 

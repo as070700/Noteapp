@@ -26,7 +26,7 @@ private slots:
 
 private:
     Ui::deletenote *ui; // Benutzeroberfläche
-    void loadNotes(); // Funktion zum Laden der Notizen
+    void loadNotes_deletenote(); // Funktion zum Laden der Notizen
 };
 
 #endif // DELETENOTE_H

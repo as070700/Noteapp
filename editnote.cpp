@@ -69,11 +69,7 @@ void editnote::on_backButton_editnote_clicked() {
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget());
     if (mainWindow) {
         mainWindow->show(); // Hauptfenster anzeigen
-        mainWindow->getAddNoteButton()->show(); // Buttons im Hauptfenster anzeigen
-        mainWindow->getDisplayNotesButton()->show();
-        mainWindow->getEditNoteButton()->show();
-        mainWindow->getDeleteNoteButton()->show();
-        mainWindow->getExitButton()->show();
+        mainWindow->showMainMenu(); // Zeigt das Hauptmenü an
     }
     this->hide(); // Versteckt das aktuelle Widget
 }
@@ -90,7 +86,7 @@ void editnote::on_openButton_editnote_clicked() {
         detaileditnote *detaileditDialog = new detaileditnote(this);
 
         // Verbindung herstellen: Wenn die Notiz gespeichert wird, setze den Text im Label
-        connect(detaileditDialog, &detaileditnote::noteSaved, this, [this]() {
+        connect(detaileditDialog, &detaileditnote::noteSaved_detaileditnote, this, [this]() {
             ui->errorLabel_editnote->setText("Notiz erfolgreich gespeichert.");
             ui->errorLabel_editnote->setStyleSheet("color: green;");
         });

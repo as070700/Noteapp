@@ -44,11 +44,11 @@ MainWindow::~MainWindow() {
 }
 
 // Getter-Methoden für die Buttons
-QPushButton* MainWindow::getAddNoteButton() const { return ui->addNoteButton; }
-QPushButton* MainWindow::getDisplayNotesButton() const { return ui->displayNotesButton; }
-QPushButton* MainWindow::getEditNoteButton() const { return ui->editNoteButton; }
-QPushButton* MainWindow::getDeleteNoteButton() const { return ui->deleteNoteButton; }
-QPushButton* MainWindow::getExitButton() const { return ui->exitButton; }
+QPushButton* MainWindow::getAddNoteButton_MainWindow() const { return ui->addNoteButton; }
+QPushButton* MainWindow::getDisplayNotesButton_MainWindow() const { return ui->displayNotesButton; }
+QPushButton* MainWindow::getEditNoteButton_MainWindow() const { return ui->editNoteButton; }
+QPushButton* MainWindow::getDeleteNoteButton_MainWindow() const { return ui->deleteNoteButton; }
+QPushButton* MainWindow::getExitButton_MainWindow() const { return ui->exitButton; }
 
 // Slot: "Notiz hinzufügen"-Button
 void MainWindow::on_addNoteButton_clicked() {
@@ -56,7 +56,7 @@ void MainWindow::on_addNoteButton_clicked() {
     NewNote *newNoteDialog = new NewNote(this);
 
     // Verbindung herstellen: Wenn die Notiz gespeichert wird, setze den Text im Label
-    connect(newNoteDialog, &NewNote::noteSaved, this, [this]() {
+    connect(newNoteDialog, &NewNote::noteSaved_newnote, this, [this]() {
         ui->errorLabel_mainwindow->setText("Erfolg: Die Notiz wurde gespeichert.");
         ui->errorLabel_mainwindow->setStyleSheet("color: green;");
     });
@@ -69,11 +69,11 @@ void MainWindow::on_displayNotesButton_clicked() {
     ui->errorLabel_mainwindow->clear(); // Fehlerlabel leeren
     shownote *noteWidget_show = new shownote(this);
     noteWidget_show->show();
-    getAddNoteButton()->hide();
-    getDisplayNotesButton()->hide();
-    getEditNoteButton()->hide();
-    getDeleteNoteButton()->hide();
-    getExitButton()->hide();
+    getAddNoteButton_MainWindow()->hide();
+    getDisplayNotesButton_MainWindow()->hide();
+    getEditNoteButton_MainWindow()->hide();
+    getDeleteNoteButton_MainWindow()->hide();
+    getExitButton_MainWindow()->hide();
 }
 
 // Slot: "Notiz bearbeiten"-Button
@@ -81,11 +81,11 @@ void MainWindow::on_editNoteButton_clicked() {
     ui->errorLabel_mainwindow->clear(); // Fehlerlabel leeren
     editnote *noteWidget_edit = new editnote(this);
     noteWidget_edit->show();
-    getAddNoteButton()->hide();
-    getDisplayNotesButton()->hide();
-    getEditNoteButton()->hide();
-    getDeleteNoteButton()->hide();
-    getExitButton()->hide();
+    getAddNoteButton_MainWindow()->hide();
+    getDisplayNotesButton_MainWindow()->hide();
+    getEditNoteButton_MainWindow()->hide();
+    getDeleteNoteButton_MainWindow()->hide();
+    getExitButton_MainWindow()->hide();
 }
 
 // Slot: "Notiz löschen"-Button
@@ -93,19 +93,19 @@ void MainWindow::on_deleteNoteButton_clicked() {
     ui->errorLabel_mainwindow->clear(); // Fehlerlabel leeren
     deletenote *noteWidget_delete = new deletenote(this);
     noteWidget_delete->show();
-    getAddNoteButton()->hide();
-    getDisplayNotesButton()->hide();
-    getEditNoteButton()->hide();
-    getDeleteNoteButton()->hide();
-    getExitButton()->hide();
+    getAddNoteButton_MainWindow()->hide();
+    getDisplayNotesButton_MainWindow()->hide();
+    getEditNoteButton_MainWindow()->hide();
+    getDeleteNoteButton_MainWindow()->hide();
+    getExitButton_MainWindow()->hide();
 }
 
 // Zeigt das Hauptmenü an
 void MainWindow::showMainMenu() {
     this->show();
-    getAddNoteButton()->show();
-    getDisplayNotesButton()->show();
-    getEditNoteButton()->show();
-    getDeleteNoteButton()->show();
-    getExitButton()->show();
+    getAddNoteButton_MainWindow()->show();
+    getDisplayNotesButton_MainWindow()->show();
+    getEditNoteButton_MainWindow()->show();
+    getDeleteNoteButton_MainWindow()->show();
+    getExitButton_MainWindow()->show();
 }

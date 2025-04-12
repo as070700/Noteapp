@@ -20,7 +20,7 @@ public:
 
 private:
     std::vector<Note> notes; // Sammlung von Notizen
-    bool loadNotes(); // Lädt Notizen aus einer Datei (derzeit deaktiviert)
+    bool loadNotes_deletenote(); // Lädt Notizen aus einer Datei (derzeit deaktiviert)
     bool saveNoteToFile(const Note& note); // Speichert eine Notiz in einer Datei (derzeit deaktiviert)
     std::string getCurrentTimestamp() const; // Gibt einen Zeitstempel zurück
 };

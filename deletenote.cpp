@@ -16,7 +16,7 @@ deletenote::deletenote(QWidget *parent)
     , ui(new Ui::deletenote)
 {
     ui->setupUi(this); // Initialisiert die Benutzeroberfläche
-    loadNotes(); // Lädt die Notizen aus dem Verzeichnis
+    loadNotes_deletenote(); // Lädt die Notizen aus dem Verzeichnis
     ui->listWidget_deleteNote->setSelectionMode(QAbstractItemView::MultiSelection); // Ermöglicht Mehrfachauswahl
 }
 
@@ -27,7 +27,7 @@ deletenote::~deletenote()
 }
 
 // Lädt die Notizen aus dem Verzeichnis und fügt sie zur Liste hinzu
-void deletenote::loadNotes()
+void deletenote::loadNotes_deletenote()
 {
     QString directoryPath = "./temp/"; // Verzeichnis mit den Notizdateien
     QDir directory(directoryPath);
@@ -107,11 +107,7 @@ void deletenote::on_backButton_deleteNote_clicked()
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parentWidget()); // Hauptfenster abrufen
     if (mainWindow) {
         mainWindow->show(); // Hauptfenster anzeigen
-        mainWindow->getAddNoteButton()->show(); // Buttons im Hauptfenster anzeigen
-        mainWindow->getDisplayNotesButton()->show();
-        mainWindow->getEditNoteButton()->show();
-        mainWindow->getDeleteNoteButton()->show();
-        mainWindow->getExitButton()->show();
+        mainWindow->showMainMenu(); // Hauptmenü anzeigen
     }
     this->hide(); // Aktuelles Widget ausblenden
 }
